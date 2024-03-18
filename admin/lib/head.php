@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/libs/css/style.css">
 <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
 <link rel="stylesheet" href="assets/vendor/vector-map/jqvmap.css">
-<link href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css">
 <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
 <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
@@ -31,11 +31,15 @@
 <!-- chart C3 js -->
 <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
 <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-<!-- chartjs js -->
+<!-- chartjs js-->
 <script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
 <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
-<!-- sparkline js -->
+<!-- jvactormap js-->
+<script src="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="assets/vendor/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- sparkline js-->
 <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+<script src="assets/vendor/charts/sparkline/spark-js.js"></script>
 <!-- dashboard finance js -->
 <script src="assets/libs/js/dashboard-finance.js"></script>
 <!-- main js -->
@@ -59,3 +63,4 @@
 <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
 <!-- dashboard js -->
 <script src="assets/libs/js/dashboard-influencer.js"></script>
+<script src="assets/libs/js/dashboard-sales.js"></script>
