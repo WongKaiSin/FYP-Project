@@ -54,3 +54,8 @@
 <!-- daterangepicker js -->
 <script src="../../../../cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="../../../../cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- chart js -->
+<script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
+<script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
+<!-- dashboard js -->
+<script src="assets/libs/js/dashboard-influencer.js"></script>
