@@ -3,7 +3,7 @@
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title>Yummy Bootstrap Template - Index</title>
+  <title>London Bagel Museum</title>
 
 </head>
 
@@ -24,15 +24,15 @@
     <div class="container">
       <div class="row justify-content-between gy-5">
         <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
-          <h2 data-aos="fade-up">Enjoy Your Healthy<br>Delicious Food</h2>
-          <p data-aos="fade-up" data-aos-delay="100">Sed autem laudantium dolores. Voluptatem itaque ea consequatur eveniet. Eum quas beatae cumque eum quaerat.</p>
+          <h2 data-aos="fade-up">"We want to eat a lot of really delicious and warm bagel in 365 days!"</h2>
+          <p data-aos="fade-up" data-aos-delay="100">Fresh Bagels just baked, warm and healthy homemade Soup, completely dramatic Coffee. There are friendly and witty staff who always having fun small talk. Welcome to London Bagel Museum!</p>
           <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
             <a href="#book-a-table" class="btn-book-a-table">Book a Table</a>
-            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            <a href="https://youtu.be/3ysfWf2t8Po?si=vqRvGfc0S51Adhrs" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
           </div>
         </div>
         <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
-          <img src="assets/img/hero-img.png" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300">
+          <img src="assets/img/logo.png" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300">
         </div>
       </div>
     </div>
@@ -59,17 +59,16 @@
           <div class="col-lg-5 d-flex align-items-end" data-aos="fade-up" data-aos-delay="300">
             <div class="content ps-0 ps-lg-5">
               <p class="fst-italic">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua.
+              A typical New York style bagel(A common bread-like bagel with a matte texture due to excessive fermentation) and the bagel with evenly mixed cream cheese are not our type of bagel.
               </p>
-              <ul>
-                <li><i class="bi bi-check2-all"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-                <li><i class="bi bi-check2-all"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-                <li><i class="bi bi-check2-all"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
-              </ul>
+              <p class="fst-italic">
+              We like homemade-style bagels that are a little bumpy and ugly, but full of moisture and chewy. I think the bagels we ate every day at Brick Lane in London were like that.
+              </p>
+              <p class="fst-italic">
+              We spent a lot of time testing to make such a bagel. We were disappointed and had a hard time, because we were tired of repeating recipe revisions. In order to make a bagel with a texture and taste that has never been eaten anywhere else, we repeated testing the bagel with our bakers, and we started to reach the desired result.
+              </p>
               <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+              That's how our 'London Bagel Museum' unique bagel was born! YEAHHHH!
               </p>
 
               <div class="position-relative mt-4">
