@@ -166,7 +166,7 @@
                                     <a class="nav-link" href="pages/login.html">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="pages/404-page.html">404 page</a>
+                                    <a class="nav-link" href="404-page.php">404 page</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="pages/sign-up.html">Sign up Page</a>
