@@ -22,38 +22,38 @@
                                     <div id="submenu-1-2" class="collapse submenu"  >
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="index.html">E Commerce Dashboard</a>
+                                                <a class="nav-link" href="index.php">E Commerce Dashboard</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="ecommerce-product.html">Product List</a>
+                                                <a class="nav-link" href="ecommerce-product.php">Product List</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="ecommerce-product-single.html">Product Single</a>
+                                                <a class="nav-link" href="ecommerce-product-single.php">Product Single</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="ecommerce-product-checkout.html">Product Checkout</a>
+                                                <a class="nav-link" href="ecommerce-product-checkout.php">Product Checkout</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="dashboard-finance.html">Finance</a>
+                                    <a class="nav-link" href="dashboard-finance.php">Finance</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="dashboard-sales.html">Sales</a>
+                                    <a class="nav-link" href="dashboard-sales.php">Sales</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1-1" aria-controls="submenu-1-1">Infulencer</a>
                                     <div id="submenu-1-1" class="collapse submenu"  >
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="dashboard-influencer.html">Influencer</a>
+                                                <a class="nav-link" href="dashboard-influencer.php">Influencer</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="influencer-finder.html">Influencer Finder</a>
+                                                <a class="nav-link" href="influencer-finder.php">Influencer Finder</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="influencer-profile.html">Influencer Profile</a>
+                                                <a class="nav-link" href="influencer-profile.php">Influencer Profile</a>
                                             </li>
                                         </ul>
                                     </div>
