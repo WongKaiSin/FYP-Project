@@ -8,8 +8,9 @@
       <div>
         <h4>Address</h4>
         <p>
-          A108 Adam Street <br>
-          New York, NY 535022 - US<br>
+        40, Jln KSB 11, <br>
+        Taman Kota Syahbandar, <br>
+        75200 Melaka <br>
         </p>
       </div>
 
@@ -20,8 +21,8 @@
       <div>
         <h4>Reservations</h4>
         <p>
-          <strong>Phone:</strong> +1 5589 55488 55<br>
-          <strong>Email:</strong> info@example.com<br>
+          <strong>Phone:</strong> +60 11-319 1008 <br>
+          <strong>Email:</strong> londonbagelmuseum@gmail.com<br>
         </p>
       </div>
     </div>
@@ -31,8 +32,8 @@
       <div>
         <h4>Opening Hours</h4>
         <p>
-          <strong>Mon-Sat: 11AM</strong> - 23PM<br>
-          Sunday: Closed
+          <strong>Tue-Sun: </strong> 8AM - 6PM<br>
+          Monday: Closed
         </p>
       </div>
     </div>
@@ -40,10 +41,8 @@
     <div class="col-lg-3 col-md-6 footer-links">
       <h4>Follow Us</h4>
       <div class="social-links d-flex">
-        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        <a href="https://www.facebook.com/london.bagel.museum/" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/london.bagel.museum/" class="instagram"><i class="bi bi-instagram"></i></a>
       </div>
     </div>
 
@@ -52,7 +51,7 @@
 
 <div class="container">
   <div class="copyright">
-    &copy; Copyright <strong><span>Yummy</span></strong>. All Rights Reserved
+    &copy; Copyright <strong><span>London Bagel Museum</span></strong> All Rights Reserved
   </div>
   <div class="credits">
     <!-- All the links in the footer should remain intact. -->

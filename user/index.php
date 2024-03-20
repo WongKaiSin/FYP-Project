@@ -90,10 +90,12 @@
 
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
             <div class="why-box">
-              <h3>Why Choose Yummy?</h3>
+              <h3>Why London Among So Many Cities?</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+              I think my experience traveling in London is the biggest reason why the bagel shop is named after London. 
+              When I walked around London, visited the National Portrait Gallery, or looked around the British Museum, I ate bagels. 
+              These experiences are not special, but strangely, they became the most memorable scenes. Actually, the bagel I ate every time was more memorable than the artwork. 
+              For these reasons, when naming the bagel shop, of course, "London" came to mind first.
               </p>
               <div class="text-center">
                 <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
@@ -107,7 +109,7 @@
               <div class="col-xl-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-clipboard-data"></i>
-                  <h4>Corporis voluptates officia eiusmod</h4>
+                  <h4>Reservation</h4>
                   <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
                 </div>
               </div><!-- End Icon Box -->
@@ -115,7 +117,7 @@
               <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-gem"></i>
-                  <h4>Ullamco laboris ladore pan</h4>
+                  <h4>Delivery</h4>
                   <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
                 </div>
               </div><!-- End Icon Box -->
@@ -123,7 +125,7 @@
               <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-inboxes"></i>
-                  <h4>Labore consequatur incidid dolore</h4>
+                  <h4>Pick-Up</h4>
                   <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
                 </div>
               </div><!-- End Icon Box -->
@@ -180,32 +182,32 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>Our Menu</h2>
-          <p>Check Our <span>Yummy Menu</span></p>
+          <h2>London Bagel Museum Menu</h2>
+          <p>Check Our <span>Recommendation</span></p>
         </div>
 
         <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
 
           <li class="nav-item">
             <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-              <h4>Starters</h4>
+              <h4>Bagels</h4>
             </a>
           </li><!-- End tab nav item -->
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-              <h4>Breakfast</h4>
+              <h4>Soup</h4>
             </a><!-- End tab nav item -->
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
-              <h4>Lunch</h4>
+              <h4>Drinks</h4>
             </a>
           </li><!-- End tab nav item -->
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
-              <h4>Dinner</h4>
+              <h4>Topping</h4>
             </a>
           </li><!-- End tab nav item -->
 
@@ -216,8 +218,8 @@
           <div class="tab-pane fade active show" id="menu-starters">
 
             <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Starters</h3>
+              <p>Recommendation</p>
+              <h3>Bagels</h3>
             </div>
 
             <div class="row gy-5">
@@ -294,8 +296,8 @@
           <div class="tab-pane fade" id="menu-breakfast">
 
             <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Breakfast</h3>
+              <p>Recommendation</p>
+              <h3>Soup</h3>
             </div>
 
             <div class="row gy-5">
@@ -372,8 +374,8 @@
           <div class="tab-pane fade" id="menu-lunch">
 
             <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Lunch</h3>
+              <p>Recommendation</p>
+              <h3>Drinks</h3>
             </div>
 
             <div class="row gy-5">
@@ -450,8 +452,8 @@
           <div class="tab-pane fade" id="menu-dinner">
 
             <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Dinner</h3>
+              <p>Recommendation</p>
+              <h3>Topping</h3>
             </div>
 
             <div class="row gy-5">
@@ -535,8 +537,8 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>Testimonials</h2>
-          <p>What Are They <span>Saying About Us</span></p>
+          <h2>Tips</h2>
+          <p>How to eat <span>the most delicious bagel in the world</span></p>
         </div>
 
         <div class="slides-1 swiper" data-aos="fade-up" data-aos-delay="100">
@@ -549,14 +551,11 @@
                     <div class="testimonial-content">
                       <p>
                         <i class="bi bi-quote quote-icon-left"></i>
-                        Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                        Just eat a really freshly baked hot Bagel.
                         <i class="bi bi-quote quote-icon-right"></i>
                       </p>
-                      <h3>Saul Goodman</h3>
-                      <h4>Ceo &amp; Founder</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
+                      <h3>Recommended by</h3>
+                      <h4>London Bagel Museum</h4>
                     </div>
                   </div>
                   <div class="col-lg-2 text-center">
@@ -573,14 +572,11 @@
                     <div class="testimonial-content">
                       <p>
                         <i class="bi bi-quote quote-icon-left"></i>
-                        Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                        Spread butter and jam on a Plain Bagel(You can sprinkle with salt if you like)
                         <i class="bi bi-quote quote-icon-right"></i>
                       </p>
-                      <h3>Sara Wilsson</h3>
-                      <h4>Designer</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
+                      <h3>Recommended by</h3>
+                      <h4>London Bagel Museum</h4>
                     </div>
                   </div>
                   <div class="col-lg-2 text-center">
@@ -597,14 +593,11 @@
                     <div class="testimonial-content">
                       <p>
                         <i class="bi bi-quote quote-icon-left"></i>
-                        Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                        Dip Potato Bagels in tomato soup.
                         <i class="bi bi-quote quote-icon-right"></i>
                       </p>
-                      <h3>Jena Karlis</h3>
-                      <h4>Store Owner</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
+                      <h3>Recommended by</h3>
+                      <h4>London Bagel Museum</h4>
                     </div>
                   </div>
                   <div class="col-lg-2 text-center">
@@ -621,14 +614,32 @@
                     <div class="testimonial-content">
                       <p>
                         <i class="bi bi-quote quote-icon-left"></i>
-                        Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+                        Place a slice of cheddar cheese on top of toasted Spinach Cheese Bagel.
                         <i class="bi bi-quote quote-icon-right"></i>
                       </p>
-                      <h3>John Larson</h3>
-                      <h4>Entrepreneur</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
+                      <h3>Recommended by</h3>
+                      <h4>London Bagel Museum</h4>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 text-center">
+                    <img src="assets/img/testimonials/testimonials-4.jpg" class="img-fluid testimonial-img" alt="">
+                  </div>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="row gy-4 justify-content-center">
+                  <div class="col-lg-6">
+                    <div class="testimonial-content">
+                      <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Topped with a lot of cream cheese and raspberry jam on a Sesame Bagel.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                      </p>
+                      <h3>Recommended by</h3>
+                      <h4>London Bagel Museum</h4>
                     </div>
                   </div>
                   <div class="col-lg-2 text-center">
@@ -866,7 +877,7 @@
               <i class="icon bi bi-map flex-shrink-0"></i>
               <div>
                 <h3>Our Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                <p>40, Jln KSB 11, Taman Kota Syahbandar, 75200 Melaka </p>
               </div>
             </div>
           </div><!-- End Info Item -->
@@ -876,7 +887,7 @@
               <i class="icon bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>contact@example.com</p>
+                <p>londonbagelmuseum@gmail.com</p>
               </div>
             </div>
           </div><!-- End Info Item -->
@@ -886,7 +897,7 @@
               <i class="icon bi bi-telephone flex-shrink-0"></i>
               <div>
                 <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
+                <p>+60 11-319 1008</p>
               </div>
             </div>
           </div><!-- End Info Item -->
@@ -896,8 +907,8 @@
               <i class="icon bi bi-share flex-shrink-0"></i>
               <div>
                 <h3>Opening Hours</h3>
-                <div><strong>Mon-Sat:</strong> 11AM - 23PM;
-                  <strong>Sunday:</strong> Closed
+                <div><strong>Tue-Sun:</strong> 8AM - 6PM;
+                  <strong>Monday:</strong> Closed
                 </div>
               </div>
             </div>
