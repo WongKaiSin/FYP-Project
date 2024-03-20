@@ -163,7 +163,7 @@
                                     <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="login.php">Login</a>
+                                <a class="nav-link" href="login.php">Login</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="404-page.php">404 page</a>
