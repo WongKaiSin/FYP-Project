@@ -1,5 +1,5 @@
 <?php
-include("connect.php");
+include("lib/db.php");
 session_start();
 
 // Check if the login form is submitted
