@@ -1,7 +1,7 @@
 <?php
 $dbName = 'bagel';
 $dbServer = 'localhost';
-$dbUser = '';
+$dbUser = 'root';
 $dbPass = '';
 
 $db_conn = mysqli_connect($dbServer, $dbUser, $dbPass, $dbName) or die("Connection not available.");
