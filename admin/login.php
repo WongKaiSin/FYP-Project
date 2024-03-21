@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"])) {
     $sql = "SELECT * FROM admin WHERE adUser = ? AND adPass = ?";
     
     // Prepare and execute the SQL statement
-    $stmt = $connection->prepare($sql);
+    $stmt = $db_conn->prepare($sql);
     $stmt->bind_param("ss", $adUser, $adPass);
     $stmt->execute();
     
@@ -23,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"])) {
         $row = $result->fetch_assoc();
         
         // Set session variables
-        $_SESSION["STAFF_ID"] = $row["STAFF_ID"];
-        $_SESSION["STAFF_NAME"] = $row["STAFF_NAME"];
+        $_SESSION["adUser"] = $row["adUser"];
+        $_SESSION["adName"] = $row["adName"];
         // Add more session variables as needed
         ?>  	
                 
@@ -93,8 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"])) {
                 </form>
             </div>
             <div class="card-footer bg-white p-0  ">
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Create An Account</a></div>
                 <div class="card-footer-item card-footer-item-bordered">
                     <a href="#" class="footer-link">Forgot Password</a>
                 </div>
