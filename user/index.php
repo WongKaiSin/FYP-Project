@@ -197,7 +197,8 @@
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
               <h4>Soup</h4>
-            </a><!-- End tab nav item -->
+            </a>
+          </li><!-- End tab nav item -->
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
