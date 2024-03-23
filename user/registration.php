@@ -71,8 +71,8 @@
             <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
               <div class="row gy-4">
               <div class="textarea">
-              <label for="username"><b>Username</b></label>
-                  <input type="text" name="username" class="form-control" id="username" placeholder="Please Enter Your Username" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              <label for="email"><b>Email</b></label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
                   <div class="validate"></div>
               </div>
 
@@ -87,9 +87,9 @@
 
             </form>
             </div>
-            </div><!-- End Reservation Form -->
+            </div><!-- End Form -->
             </div>
-          </div><!-- End Starter Menu Content -->
+          </div><!-- End Login Content -->
 
           <div class="tab-pane fade" id="menu-breakfast">
 
@@ -99,59 +99,45 @@
             </div>
 
             <div class="row gy-5">
-            <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200"></div>
+            <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
 
             <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-            <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+            <form action="forms/signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
               <div class="row gy-4">
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              <div class="textarea">
+              <label for="email"><b>Email</b></label>
+              <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
                   <div class="validate"></div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+              </div>
+
+              <div class="textarea">
+              <label for="password"><b>Password</b></label>
+                  <input type="text" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                   <div class="validate"></div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" name="date" class="form-control" id="date" placeholder="Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="time" id="time" placeholder="Time" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <input type="number" class="form-control" name="people" id="people" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
-                  <div class="validate"></div>
-                </div>
               </div>
               
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
-                <div class="validate"></div>
+
+              <div class="textarea">
+              <label for="name"><b>Name</b></label>
+              <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                  <div class="validate"></div>
+              </div>
+
+              <div class="textarea">
+              <label for="phone"><b>Phone Number</b></label>
+              <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                  <div class="validate"></div>
+              </div>
+
               </div>
               
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+              <div class="text-center"><button type="submit" name="signupbtn">Sign Up</button></div>
               </div>
-              
-              <div class="text-center"><button type="submit">Book a Table</button></div>
 
             </form>
-            </div><!-- End Reservation Form -->
+            </div><!-- End Form -->
             </div>
-          </div><!-- End Breakfast Menu Content -->
+          </div><!-- End Sign Up Content -->
 
         </div><!-- End tab content -->
         </div>
