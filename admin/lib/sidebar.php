@@ -169,7 +169,7 @@
                                     <a class="nav-link" href="404-page.php">404 page</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="sign-up.php">Add new admin</a>
+                                    <a class="nav-link" href="admin-add.php">Add new admin</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="pages/forgot-password.html">Forgot Password</a>
