@@ -1,49 +1,83 @@
 <?php
 session_start();
 
-// initializing variables
-$MemberEmail = "";
-$errors = array(); 
+class UserRegistration {
+    private $db_conn;
+    private $errors;
 
-// connect to the database
-include("../lib/db.php");
-
-// REGISTER USER
-if (isset($_POST['signupbtn'])) {
-  // receive all input values from the form
-  $MemberEmail = mysqli_real_escape_string($db_conn, $_POST['MemberEmail']);
-  $MemberPass = mysqli_real_escape_string($db_conn, $_POST['MemberPass']);
-  $MemberName = mysqli_real_escape_string($db_conn, $_POST['MemberName']);
-  $MemberPhone = mysqli_real_escape_string($db_conn, $_POST['MemberPhone']);
-
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $errors array
-  if (empty($MemberEmail)) { array_push($errors, "Email is required"); }
-  if (empty($MemberPass)) { array_push($errors, "Password is required"); }
-  if (empty($MemberName)) { array_push($errors, "Name is required"); }
-  if (empty($MemberPhone)) { array_push($errors, "Phone Number is required"); }
-
-  // first check the database to make sure 
-  // a user does not already exist with the same username and/or email
-  $user_check_query = "SELECT * FROM member WHERE MemberEmail='$MemberEmail';
-  $result = mysqli_query($db_conn, $user_check_query);
-  $member = mysqli_fetch_assoc($result);
-  
-  if ($member) { // if user exists
-    if ($member['MemberEmail'] === $MemberEmail) {
-      array_push($errors, "This account already exists");
+    public function __construct($db_conn) {
+        $this->db_conn = $db_conn;
+        $this->errors = array();
     }
-  }
 
-  // Finally, register user if there are no errors in the form
-  if (count($errors) == 0) {
-        $MemberPass = md5($MemberPass); // encrypt the password before saving in the database
+    public function registerUser($MemberEmail, $MemberPass, $MemberName, $MemberPhone) {
+        // Form validation
+        $this->validateForm($MemberEmail, $MemberPass, $MemberName, $MemberPhone);
 
-        $query = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone) 
-                          VALUES('$MemberEmail', '$MemberPass', '$MemberName', '$MemberPhone')";
-        mysqli_query($db_conn, $query);
-        $_SESSION['MemberEmail'] = $MemberEmail;
-        $_SESSION['success'] = "You are now logged in";
-        header('location: index.php');
-  }
+        // Check if user already exists
+        if ($this->isUserExists($MemberEmail)) {
+          // Add error message to the $errors array
+          array_push($this->errors, "This account already exists");
+      
+          // JavaScript alert for account existence
+          echo '<script type="text/javascript">alert("This account already exists");</script>';
+      }
+
+        // Register user if there are no errors
+        if (empty($this->errors)) {
+          $MemberPass = md5($MemberPass); // Encrypt the password before saving in the database
+          $query = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone) 
+                    VALUES('$MemberEmail', '$MemberPass', '$MemberName', '$MemberPhone')";
+          mysqli_query($this->db_conn, $query);
+          $_SESSION['MemberEmail'] = $MemberEmail;
+          $_SESSION['success'] = "You are now logged in";
+      
+          // JavaScript alert for successful registration
+          echo '<script type="text/javascript">alert("LOGIN SUCCESSFUL");</script>';
+      
+          header('location: ../registration.php');
+          exit;
+      }
+    }
+
+    private function validateForm($MemberEmail, $MemberPass, $MemberName, $MemberPhone) {
+        if (empty($MemberEmail)) { array_push($this->errors, "Email is required"); }
+        if (empty($MemberPass)) { array_push($this->errors, "Password is required"); }
+        if (empty($MemberName)) { array_push($this->errors, "Name is required"); }
+        if (empty($MemberPhone)) { array_push($this->errors, "Phone Number is required"); }
+    }
+
+    private function isUserExists($MemberEmail) {
+        $user_check_query = "SELECT * FROM member WHERE MemberEmail='$MemberEmail'";
+        $result = mysqli_query($this->db_conn, $user_check_query);
+        $member = mysqli_fetch_assoc($result);
+        return ($member) ? true : false;
+    }
+
+    public function getErrors() {
+        return $this->errors;
+    }
 }
+
+// Usage
+include("../lib/db.php"); // Assuming db.php contains database connection details
+
+$userRegistration = new UserRegistration($db_conn);
+
+// Check if the form is submitted
+if (isset($_POST['signupbtn'])) {
+    $MemberEmail = $_POST['MemberEmail'];
+    $MemberPass = $_POST['MemberPass'];
+    $MemberName = $_POST['MemberName'];
+    $MemberPhone = $_POST['MemberPhone'];
+
+    // Register the user
+    $userRegistration->registerUser($MemberEmail, $MemberPass, $MemberName, $MemberPhone);
+
+    // Get errors from UserRegistration object
+    $errors = $userRegistration->getErrors();
+
+    // Include errors.php to display any errors
+    include("errors.php");
+}
+?>
