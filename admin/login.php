@@ -1,59 +1,12 @@
 <?php
-include("lib/db.php");
 session_start();
+require("lib/db.php");
+require("lib/function.php");
+$msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
 
-// Check if the login form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"])) {
-    $adUser = $_POST['adUser'];
-    $adPass = $_POST['adPass'];
-
-    // Prepare the SQL statement to fetch the user from the database
-    $sql = "SELECT * FROM admin WHERE adUser = ? AND adPass = ?";
-    
-    // Prepare and execute the SQL statement
-    $stmt = $db_conn->prepare($sql);
-    $stmt->bind_param("ss", $adUser, $adPass);
-    $stmt->execute();
-    
-    // Retrieve the result
-    $result = $stmt->get_result();
-    
-    // Check if the user exists
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        
-        // Set session variables
-        $_SESSION["adUser"] = $row["adUser"];
-        $_SESSION["adName"] = $row["adName"];
-        // Add more session variables as needed
-        ?>  	
-                
-            
-                    <script type="text/javascript">
-                        alert("<?php echo ' LOGIN SUCCESSFUL' ?>");
-                    </script>
-                
-                <?php
-        // Redirect to the home page or desired location
-        header("Location: index.php");
-        exit();
-    } 
-    else {
-        $login_error = "Invalid user ID or password.";
-        ?>  	
-                
-            
-                    <script type="text/javascript">
-                        alert("<?php echo ' WRONG PASSWORD OR USERNAME' ?>");
-                    </script>
-                
-                <?php
-    }
-}
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- 
 <head>
     <?php include("lib/head.php"); ?>
     <style>
@@ -80,14 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"])) {
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><a href="../index.php"><img class="logo-img" src="assets/images/logo.jpg" alt="logo" height=155px weight=35px></a><span class="splash-description">Please enter your information.</span></div>
+            <div class="card-header text-center"><a href="../index.php"><img class="logo-img" src="assets/images/logo.jpg" alt="logo" height=155px weight=35px></a><span class="splash-description">Please sign in.</span></div>
             <div class="card-body">
-                <form method="POST" action="">
+                <form method="POST" action="login_p.php">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Username">
+                        <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Enter Email">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="adPass" id="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" name="adPass" id="password" type="password" placeholder="Enter Password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg btn-block" name="loginbtn">Sign in</button>
                 </form>
