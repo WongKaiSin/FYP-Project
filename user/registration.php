@@ -68,24 +68,23 @@
             <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
 
             <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-            <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
-              <div class="row gy-4">
-              <div class="textarea">
-              <label for="email"><b>Email</b></label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-                  <div class="validate"></div>
-              </div>
+            <form action="forms/signup.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
+        <div class="textarea">
+            <label for="email"><b>Email</b></label>
+            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
+            <div class="validate"></div>
+        </div>
 
-              <div class="textarea">
-              <label for="password"><b>Password</b></label>
-                  <input type="text" name="password" class="form-control" id="password" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-              </div>
-              </div>
-              
-              <div class="text-center"><button type="submit">Login</button></div>
-
-            </form>
+        <div class="textarea">
+            <label for="password"><b>Password</b></label>
+            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="validate"></div>
+        </div>
+    </div>
+    
+    <div class="text-center"><button type="submit" name="loginbtn">Login</button></div>
+</form>
             </div>
             </div><!-- End Form -->
             </div>
