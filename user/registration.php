@@ -3,7 +3,7 @@
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title>[Template] Sample Inner Page</title>
+  <title>Customer Registration | London Bagel Museum</title>
 
 </head>
 
@@ -26,10 +26,10 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Sample Inner Page</h2>
+          <h2>Customer Registration</h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li>Sample Inner Page</li>
+            <li>Customer Registration</li>
           </ol>
         </div>
 
@@ -68,24 +68,23 @@
             <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
 
             <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-            <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
-              <div class="row gy-4">
-              <div class="textarea">
-              <label for="email"><b>Email</b></label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-                  <div class="validate"></div>
-              </div>
+            <form action="forms/signup.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
+        <div class="textarea">
+            <label for="email"><b>Email</b></label>
+            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
+            <div class="validate"></div>
+        </div>
 
-              <div class="textarea">
-              <label for="password"><b>Password</b></label>
-                  <input type="text" name="password" class="form-control" id="password" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-              </div>
-              </div>
-              
-              <div class="text-center"><button type="submit">Login</button></div>
-
-            </form>
+        <div class="textarea">
+            <label for="password"><b>Password</b></label>
+            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="validate"></div>
+        </div>
+    </div>
+    
+    <div class="text-center"><button type="submit" name="loginbtn">Login</button></div>
+</form>
             </div>
             </div><!-- End Form -->
             </div>
@@ -103,37 +102,32 @@
 
             <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
             <form action="forms/signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
-              <div class="row gy-4">
-              <div class="textarea">
-              <label for="email"><b>Email</b></label>
-              <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-                  <div class="validate"></div>
-              </div>
+                <div class="row gy-4">
+                    <div class="textarea">
+                        <label for="MemberEmail"><b>Email</b></label>
+                        <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" required>
+                        <div class="validate"></div>
+                    </div>
 
-              <div class="textarea">
-              <label for="password"><b>Password</b></label>
-                  <input type="text" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-              </div>
-              
+                    <div class="textarea">
+                        <label for="MemberPass"><b>Password</b></label>
+                        <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" required>
+                        <div class="validate"></div>
+                    </div>
 
-              <div class="textarea">
-              <label for="name"><b>Name</b></label>
-              <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-              </div>
+                    <div class="textarea">
+                        <label for="MemberName"><b>Name</b></label>
+                        <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
+                        <div class="validate"></div>
+                    </div>
 
-              <div class="textarea">
-              <label for="phone"><b>Phone Number</b></label>
-              <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-              </div>
-
-              </div>
-              
-              <div class="text-center"><button type="submit" name="signupbtn">Sign Up</button></div>
-              </div>
-
+                    <div class="textarea">
+                        <label for="MemberPhone"><b>Phone Number</b></label>
+                        <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
+                        <div class="validate"></div>
+                    </div>
+                </div>
+                <div class="text-center"><button type="submit" name="signupbtn">Sign Up</button></div>
             </form>
             </div><!-- End Form -->
             </div>
