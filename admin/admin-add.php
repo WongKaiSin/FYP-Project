@@ -1,11 +1,67 @@
+<?php
+include("lib/db.php");
+session_start();
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
+    // Retrieve form data
+    $adUser = $_POST["adUser"];
+    $adName = $_POST["adName"];
+    $adEmail = $_POST["adEmail"];
+    $adTel = $_POST["adTel"];
+    $adPass = $_POST["adPass"];
+    $adType = $_POST["inputAdminType"];
+    $adAdd = $_POST["adAdd"];
+    $adCountry = $_POST["adCountry"];
+    $adState = $_POST["adState"];
+    $adCity = $_POST["adCity"];
+    $adPostcode = $_POST["adPostcode"];
+
+    // Insert data into the database
+    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode) 
+            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode')";
+ if ($db_conn->query($sql) === TRUE) {
+    // Set success message
+    $success_message = "New record created successfully";
+    
+    // Redirect after submission
+    echo '<script type="text/javascript">
+                alert("'.$adName.' saved");
+                window.location.href = "admin-add.php";
+          </script>';
+    exit();
+} else {
+    
+    $error_message = "Error: " . $sql . "<br>" . $db_conn->error;
+}
+
+// Close the database connection
+$db_conn->close();
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
 
 <head>
     <?php include("lib/head.php"); ?>
     <title>Add Admin</title>
-</head>
+    <script>
+    function checkPassword() {
+        var password = document.getElementById("adPass").value;
+        var confirm_password = document.getElementById("confirm_password").value;
 
+        if (password !== confirm_password) {
+            alert("Passwords do not match!");
+            return false;
+        }
+        return true;
+    }
+</script>
+</head>
+<style>
+ 
+</style>
 <body>
     <!-- ============================================================== -->
     <!-- main wrapper -->
@@ -28,14 +84,13 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Blank Pageheader </h2>
-                            <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                            <h2 class="pageheader-title">Add New Admin</h2>
+
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Pages</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Blank Pageheader</li>
+                                        <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="admin-add.php" class="breadcrumb-link">Add New Admin</a></li>
                                     </ol>
                                 </nav>
                             </div>
@@ -46,46 +101,87 @@
                 <!-- end pageheader -->
                 <!-- ============================================================== -->
                 <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <h3 class="text-center">Content goes here!</h3>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                            <div class="text-md-right footer-links d-none d-sm-block">
-                                <a href="javascript: void(0);">About</a>
-                                <a href="javascript: void(0);">Support</a>
-                                <a href="javascript: void(0);">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="section-block" id="basicform">
+            <p>Fill in the information below to add a new administrator...</p>
         </div>
-        <!-- ============================================================== -->
-        <!-- end main wrapper -->
-        <!-- ============================================================== -->
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="admin-add.php" onsubmit="return checkPassword();">
+                    <div class="form-group">
+                        <label for="inputText3" class="col-form-label" >Admin Username</label>
+                        <input id="inputText3" type="text" class="form-control" name="adUser" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputText3" class="col-form-label" >Admin Name</label>
+                        <input id="inputText3" type="text" class="form-control" name="adName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" >Email address</label>
+                        <input id="inputEmail" type="email" placeholder="name@example.com" class="form-control" name="adEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputText3" class="col-form-label" >Phone number</label>
+                        <input id="inputText3" type="text" class="form-control" name="adTel" placeholder="xxx-xxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input id="adPass" type="password" class="form-control" name="adPass" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Confirm Password</label>
+                        <input id="confirm_password" type="password" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inputAdminType">Admin Type</label>
+                        <select id="inputAdminType" class="form-control" required>
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Superadmin</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" >Address</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="adAdd" required></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                        <label for="inputCounty" >Country</label>
+                        <input id="inputCounty" type="text" class="form-control" name="adCountry" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputState" >State</label>
+                        <input id="inputState" type="text" class="form-control" name="adState" required>
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="inputCity">City</label>
+                            <input id="inputCity" type="text" class="form-control" name="adCity" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPostcode">Postcode</label>
+                            <input id="inputPostcode" type="text" class="form-control" name="adPostcode" required>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="form-group">
+                        <label for="profilePicture">Profile Picture</label>
+                        <input type="file" class="form-control-file" id="profilePicture" name="adLogo">
+                    </div>
+                    <input type="submit" name="savebtn" value="Save" class="btn-primary" style="margin-top:20px; padding: 5px 15px ;">
+                    <input type="reset" name="registerbtn" value="Cancel" class="btn-danger" style="margin-top:20px; margin-left:10px; padding: 5px 10px ;">
+                </form>
+            </div>
+        </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <script src="../assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="../assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-    <script src="../assets/libs/js/main-js.js"></script>
+</div>
+
+
 </body>
  
 </html>
