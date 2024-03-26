@@ -8,10 +8,15 @@ class UserAuth {
         $this->db_conn = $db_conn;
     }
 
-    public function registerUser($MemberEmail, $MemberPass, $MemberName, $MemberPhone) {
-        $errors = $this->validateForm($MemberEmail, $MemberPass, $MemberName, $MemberPhone);
+    public function registerUser($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone) {
+        $errors = $this->validateForm($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone);
 
         if (!empty($errors)) {
+            return $errors;
+        }
+
+        if ($MemberPass != $CfmPass) {
+            array_push($errors, "The two passwords do not match");
             return $errors;
         }
 
@@ -65,11 +70,13 @@ class UserAuth {
         return $errors;
     }
 
-    private function validateForm($MemberEmail, $MemberPass, $MemberName, $MemberPhone) {
+    private function validateForm($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone) {
         $errors = [];
 
         if (empty($MemberEmail)) { $errors[] = "Email is required"; }
         if (empty($MemberPass)) { $errors[] = "Password is required"; }
+        if (empty($CfmPass)) { $errors[] = "Please confirm your password"; }
+        if ($MemberPass != $CfmPass) { $errors[] = "The two passwords do not match"; }
         if (empty($MemberName)) { $errors[] = "Name is required"; }
         if (empty($MemberPhone)) { $errors[] = "Phone Number is required"; }
 
@@ -92,7 +99,7 @@ include("../lib/db.php"); // Assuming db.php contains database connection detail
 $userAuth = new UserAuth($db_conn);
 
 if (isset($_POST['signupbtn'])) {
-    $errors = $userAuth->registerUser($_POST['MemberEmail'], $_POST['MemberPass'], $_POST['MemberName'], $_POST['MemberPhone']);
+    $errors = $userAuth->registerUser($_POST['MemberEmail'], $_POST['MemberPass'], $_POST['CfmPass'], $_POST['MemberName'], $_POST['MemberPhone']);
 
     if (!empty($errors)) {
         foreach ($errors as $error) {
