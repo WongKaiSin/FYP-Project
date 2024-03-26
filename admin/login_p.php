@@ -21,12 +21,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
     // Check if the user exists
     if($login_num == 1)
     {
-        // $row = $login_query->fetch_array();
         $row = $login_query->fetch_assoc();
+
         // Set session variables
+        $_SESSION['AdminLogged'] = true;
         $_SESSION["adUser"] = $row["adUser"];
         $_SESSION["adName"] = $row["adName"];
-        // Add more session variables as needed
+        $_SESSION["adType"] = $row["adType"];
+        $_SESSION["adMenu"] = $row["adMenu"];
+        $_SESSION["adLogo"] = $row["adLogo"];
         ?> 
             <script type="text/javascript">
                 alert("<?php echo ' LOGIN SUCCESSFUL' ?>");
