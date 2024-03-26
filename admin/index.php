@@ -1,3 +1,4 @@
+<?php include("lib/validation.php"); ?>
 <!doctype html>
 <html lang="en">
 
