@@ -57,87 +57,110 @@
 
         <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
 
-          <div class="tab-pane fade active show" id="menu-starters">
-
-            <div class="tab-header text-center">
-              <p>Already Have An Account?</p>
-              <h3>Login</h3>
-            </div>
-
-            <div class="row gy-5">
-            <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
-
-            <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-            <form action="forms/signup.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-4">
-        <div class="textarea">
-            <label for="email"><b>Email</b></label>
-            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-            <div class="validate"></div>
-        </div>
-
-        <div class="textarea">
-            <label for="password"><b>Password</b></label>
-            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-            <div class="validate"></div>
-        </div>
+        <div class="tab-pane fade active show" id="menu-starters">
+    <div class="tab-header text-center">
+        <p>Already Have An Account?</p>
+        <h3 style="color: #ec2727;">Login</h3>
     </div>
-    
-    <div class="text-center"><button type="submit" name="loginbtn">Login</button></div>
-</form>
-            </div>
-            </div><!-- End Form -->
-            </div>
-          </div><!-- End Login Content -->
 
-          <div class="tab-pane fade" id="menu-breakfast">
-
-            <div class="tab-header text-center">
-              <p>New Customer? Please Create An Account</p>
-              <h3>Sign Up</h3>
-            </div>
-
-            <div class="row gy-5">
+    <div class="row gy-5">
+        <div class="col-lg-6">
             <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
-
-            <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-            <form action="forms/signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
+                <!-- Image here -->
+            </div>
+        </div>
+        
+        <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
+            <form action="forms/signup.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row gy-4">
-                    <div class="textarea">
-                        <label for="MemberEmail"><b>Email</b></label>
-                        <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" required>
-                        <div class="validate"></div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MemberEmail"><b>Email</b></label>
+                            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
+                            <div class="validate"></div>
+                        </div>
                     </div>
 
-                    <div class="textarea">
-                        <label for="MemberPass"><b>Password</b></label>
-                        <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" required>
-                        <div class="validate"></div>
-                    </div>
-
-                    <div class="textarea">
-                        <label for="MemberPass"><b>Confirm Password</b></label>
-                        <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter the Confirmation Password" required>
-                        <div class="validate"></div>
-                    </div>
-
-                    <div class="textarea">
-                        <label for="MemberName"><b>Name</b></label>
-                        <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
-                        <div class="validate"></div>
-                    </div>
-
-                    <div class="textarea">
-                        <label for="MemberPhone"><b>Phone Number</b></label>
-                        <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
-                        <div class="validate"></div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MemberPass"><b>Password</b></label>
+                            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
+                            <div class="validate"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-center"><button type="submit" name="signupbtn">Sign Up</button></div>
+
+                <div class="text-center">
+                    <button type="submit" name="loginbtn" class="btn btn-primary">Login</button>
+                </div>
             </form>
-            </div><!-- End Form -->
+        </div><!-- End Form -->
+    </div><!-- End Login Content -->
+</div>
+
+<div class="tab-pane fade" id="menu-breakfast">
+    <div class="tab-header text-center">
+        <p>New Customer? Please Create An Account</p>
+        <h3 style="color: #ec2727;">Sign Up</h3>
+    </div>
+
+    <div class="row gy-5">
+        <div class="col-lg-6">
+            <div class="login-img" style="background-image: url(assets/img/login1.jpg);" data-aos="zoom-out" data-aos-delay="200">
+                <!-- Image here -->
             </div>
-          </div><!-- End Sign Up Content -->
+        </div>
+
+        <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
+            <form action="forms/signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
+                <div class="row gy-4">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="MemberEmail"><b>Email</b></label>
+                            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" required>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="MemberPass"><b>Password</b></label>
+                            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" required>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CfmPass"><b>Confirm Password</b></label>
+                            <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter the Confirmation Password" required>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="MemberName"><b>Name</b></label>
+                            <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="MemberPhone"><b>Phone Number</b></label>
+                            <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" name="signupbtn" class="btn btn-primary">Sign Up</button>
+                </div>
+            </form>
+        </div><!-- End Form -->
+    </div><!-- End Sign Up Content -->
+</div>
 
         </div><!-- End tab content -->
         </div>

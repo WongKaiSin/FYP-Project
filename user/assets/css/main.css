@@ -1638,118 +1638,108 @@ section {
 # Registration Section
 --------------------------------------------------------------*/
 .registration .login-img {
-  min-height: 800px;
-  background-size: auto;
-  background-position: center;
+  height: 400px; /* Adjust the height as needed */
+  background-image: url(assets/img/login.jpg);
+  background-size: cover; /* Scale the image to cover the entire container */
+  background-position: center; /* Center the image within the container */
+  position: relative;
+  overflow: hidden; /* Hide any overflow */
+  border-radius: 8px; /* Add a border radius for a softer look */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add a subtle shadow for depth */
 }
 
-.registration .reservation-form-bg {
-  background: rgba(55, 55, 63, 0.04);
-}
-
-.registration .signup-form, .login-form {
+.registration .login-img::before {
+  content: ""; /* Create a pseudo-element to overlay on top of the image */
   position: absolute;
-  right: 10%;
-  margin-top: 40%;
-  padding: 16px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Optional: Add more styles for text or other elements on top of the image */
+.registration .login-img h2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 32px;
+}
+
+/* Styling for Signup Form */
+.registration .signup-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
   background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 575px) {
-  .registration.signup-form, .login-form {
-    padding: 20px;
-  }
+.registration .signup-form h3,
+.registration .signup-form h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
-.registration .signup-form h3, .login-form h3 {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.registration .signup-form h4, .login-form h4 {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 20px 0 0 0;
-}
-
-.registration .signup-form p, .login-form p {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.registration .signup-form .error-message, .login-form .error-message{
-  display: none;
-  color: #fff;
-  background: #df1529;
-  text-align: left;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-.registration .signup-form .sent-message, .login-form .sent-message{
-  display: none;
-  color: #fff;
-  background: #059652;
+.registration .signup-form .error-message,
+.registration .signup-form .sent-message {
+  display: block;
+  color: white;
   text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 5px;
 }
 
-.registration .signup-form .loading, .login-form .loading {
+.registration .signup-form .error-message {
+  background-color: #df1529;
+}
+
+.registration .signup-form .sent-message {
+  background-color: #059652;
+}
+
+.registration .signup-form .loading {
   display: none;
-  background: #fff;
   text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
 }
 
-.registration .signup-form .loading:before, .login-form .loading:before {
+.registration .signup-form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
   width: 24px;
   height: 24px;
-  margin: 0 10px -6px 0;
+  margin-right: 10px;
   border: 3px solid #059652;
   border-top-color: #fff;
   animation: animate-loading 1s linear infinite;
 }
 
-
-.registration .signup-form input, 
-.registration .signup-form textarea,
-.registration .login-form input, 
-.registration .login-form textarea{
-  border-radius: 0;
-  box-shadow: none;
+.registration .signup-form input,
+.registration .signup-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 14px;
-  border-radius: 0;
-  
+  transition: border-color 0.3s ease;
 }
 
 .registration .signup-form input:focus,
-.registration .signup-form textarea:focus,
-.registration .login-form  input:focus,
-.registration .login-form  textarea:focus {
-  border-color: var(--color-primary);
+.registration .signup-form textarea:focus {
+  outline: none;
+  border-color: #059652;
 }
 
-.registration .signup-form input, .login-form  input {
-  padding: 12px 15px;
-}
-
-.registration.signup-form textarea, .login-form textarea {
-  padding: 12px 15px;
-}
-
-.registration .signup-form button[type=submit], 
-.login-form button[type=submit]{
+.registration .signup-form button[type=submit] {
   background: var(--color-primary);
   border: 0;
   padding: 14px 60px;
@@ -1758,16 +1748,99 @@ section {
   border-radius: 50px;
 }
 
-.registration .signup-form button[type=submit]:hover, 
-.login-form button[type=submit]:hover {
+.registration .signup-form button[type=submit]:hover {
   background: #ec2727;
 }
 
+/* Styling for Login Form */
+.registration .login-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registration .login-form h3,
+.registration .login-form h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.registration .login-form .error-message,
+.registration .login-form .sent-message {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 5px;
+}
+
+.registration .login-form .error-message {
+  background-color: #df1529;
+}
+
+.registration .login-form .sent-message {
+  background-color: #059652;
+}
+
+.registration .login-form .loading {
+  display: none;
+  text-align: center;
+}
+
+.registration .login-form .loading:before {
+  content: "";
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  border: 3px solid #059652;
+  border-top-color: #fff;
+  animation: animate-loading 1s linear infinite;
+}
+
+.registration .login-form input,
+.registration .login-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.registration .login-form input:focus,
+.registration .login-form textarea:focus {
+  outline: none;
+  border-color: #059652;
+}
+
+.registration .login-form button[type=submit] {
+  background: var(--color-primary);
+  border: 0;
+  padding: 14px 60px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.registration .login-form button[type=submit]:hover {
+  background: #ec2727;
+}
+
+/* Keyframe Animation for Loading */
 @keyframes animate-loading {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }

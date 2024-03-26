@@ -805,12 +805,19 @@
               <div class="price align-self-start">Twice</div>
             </div><!-- End Event item -->
 
-            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/events-3.jpg)">
-              <h3>Birthday Parties</h3>
-              <div class="price align-self-start">$499</div>
-              <p class="description">
-                Laborum aperiam atque omnis minus omnis est qui assumenda quos. Quis id sit quibusdam. Esse quisquam ducimus officia ipsum ut quibusdam maxime. Non enim perspiciatis.
-              </p>
+            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/celebrity/celebrity3.jpg)">
+              <h3>Choi Hyun-Wook</h3>
+              <div class="price align-self-start">Actor</div>
+            </div><!-- End Event item -->
+
+            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/celebrity/celebrity4.jpg)">
+              <h3>Gaeul</h3>
+              <div class="price align-self-start">IVE</div>
+            </div><!-- End Event item -->
+
+            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/celebrity/celebrity5.jpg)">
+              <h3>Chanyeol</h3>
+              <div class="price align-self-start">Exo</div>
             </div><!-- End Event item -->
 
           </div>
