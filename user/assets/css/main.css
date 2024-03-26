@@ -1647,7 +1647,7 @@ section {
   background: rgba(55, 55, 63, 0.04);
 }
 
-.registration .php-email-form {
+.registration .signup-form, .login-form {
   position: absolute;
   right: 10%;
   margin-top: 40%;
@@ -1656,19 +1656,19 @@ section {
 }
 
 @media (max-width: 575px) {
-  .registration.php-email-form {
+  .registration.signup-form, .login-form {
     padding: 20px;
   }
 }
 
-.registration .php-email-form h3 {
+.registration .signup-form h3, .login-form h3 {
   font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.registration .php-email-form h4 {
+.registration .signup-form h4, .login-form h4 {
   font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1676,13 +1676,12 @@ section {
   margin: 20px 0 0 0;
 }
 
-.registration .php-email-form p {
+.registration .signup-form p, .login-form p {
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-
-.registration .php-email-form .error-message {
+.registration .signup-form .error-message, .login-form .error-message{
   display: none;
   color: #fff;
   background: #df1529;
@@ -1692,7 +1691,7 @@ section {
   font-weight: 600;
 }
 
-.registration .php-email-form .sent-message {
+.registration .signup-form .sent-message, .login-form .sent-message{
   display: none;
   color: #fff;
   background: #059652;
@@ -1702,7 +1701,7 @@ section {
   font-weight: 600;
 }
 
-.registration .php-email-form .loading {
+.registration .signup-form .loading, .login-form .loading {
   display: none;
   background: #fff;
   text-align: center;
@@ -1710,115 +1709,7 @@ section {
   margin-bottom: 24px;
 }
 
-.registration .php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid #059652;
-  border-top-color: #fff;
-  animation: animate-loading 1s linear infinite;
-}
-
-.registration .php-email-form input,
-.registration .php-email-form textarea {
-  border-radius: 0;
-  box-shadow: none;
-  font-size: 14px;
-  border-radius: 0;
-}
-
-.registration .php-email-form input:focus,
-.registration .php-email-form textarea:focus {
-  border-color: var(--color-primary);
-}
-
-.registration .php-email-form input {
-  padding: 12px 15px;
-}
-
-.registration.php-email-form textarea {
-  padding: 12px 15px;
-}
-
-.registration .php-email-form button[type=submit] {
-  background: var(--color-primary);
-  border: 0;
-  padding: 14px 60px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 50px;
-}
-
-.registration .php-email-form button[type=submit]:hover {
-  background: #ec2727;
-}
-
-.registration .signup-form {
-  position: absolute;
-  right: 10%;
-  margin-top: 40%;
-  padding: 16px;
-  background-color: white;
-}
-
-@media (max-width: 575px) {
-  .registration.signup-form {
-    padding: 20px;
-  }
-}
-
-.registration .signup-form h3 {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.registration .signup-form h4 {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 20px 0 0 0;
-}
-
-.registration .signup-form p {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.registration .signup-form .error-message {
-  display: none;
-  color: #fff;
-  background: #df1529;
-  text-align: left;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-.registration .signup-form .sent-message {
-  display: none;
-  color: #fff;
-  background: #059652;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-.registration .signup-form .loading {
-  display: none;
-  background: #fff;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-}
-
-.registration .signup-form .loading:before {
+.registration .signup-form .loading:before, .login-form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -1831,8 +1722,10 @@ section {
 }
 
 
-.registration .signup-form input,
-.registration .signup-form textarea {
+.registration .signup-form input, 
+.registration .signup-form textarea,
+.registration .login-form input, 
+.registration .login-form textarea{
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
@@ -1841,19 +1734,22 @@ section {
 }
 
 .registration .signup-form input:focus,
-.registration .signup-form textarea:focus {
+.registration .signup-form textarea:focus,
+.registration .login-form  input:focus,
+.registration .login-form  textarea:focus {
   border-color: var(--color-primary);
 }
 
-.registration .signup-form input {
+.registration .signup-form input, .login-form  input {
   padding: 12px 15px;
 }
 
-.registration.signup-form textarea {
+.registration.signup-form textarea, .login-form textarea {
   padding: 12px 15px;
 }
 
-.registration .signup-form button[type=submit] {
+.registration .signup-form button[type=submit], 
+.login-form button[type=submit]{
   background: var(--color-primary);
   border: 0;
   padding: 14px 60px;
@@ -1862,7 +1758,8 @@ section {
   border-radius: 50px;
 }
 
-.registration .signup-form button[type=submit]:hover {
+.registration .signup-form button[type=submit]:hover, 
+.login-form button[type=submit]:hover {
   background: #ec2727;
 }
 

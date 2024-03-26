@@ -116,6 +116,12 @@
                     </div>
 
                     <div class="textarea">
+                        <label for="MemberPass"><b>Confirm Password</b></label>
+                        <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter the Confirmation Password" required>
+                        <div class="validate"></div>
+                    </div>
+
+                    <div class="textarea">
                         <label for="MemberName"><b>Name</b></label>
                         <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
                         <div class="validate"></div>
