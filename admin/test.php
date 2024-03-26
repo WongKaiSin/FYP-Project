@@ -9,5 +9,7 @@ $pass = "kai"; // Change to a valid password
 
 $done = $func->PassSign($email, $pass);
 
-var_dump($done);
+echo "Email: ". $email."<br>";
+echo "Pass: ".$pass."<br>";
+echo "Hashed password: ".$done;
 ?>
