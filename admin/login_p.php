@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         <?php
         // Redirect to the home page or desired location
         header("Location: index.php");
-        exit();
+        exit;
     } 
     else 
     {
@@ -47,6 +47,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
                 alert("<?php echo ' WRONG PASSWORD OR USERNAME' ?>");
             </script>
         <?php
+        header("Location: login.php");
+        exit;
     }
 }
 
