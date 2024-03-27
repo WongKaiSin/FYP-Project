@@ -25,10 +25,11 @@ class UserAuth {
         }
 
         $hashedPassword = password_hash($MemberPass, PASSWORD_DEFAULT); // Use bcrypt for password hashing
-        $query = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone) 
-                    VALUES(?, ?, ?, ?)";
+        $query = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone, MemberType) 
+                    VALUES(?, ?, ?, ?, ?)";
         $stmt = $this->db_conn->prepare($query);
-        $stmt->bind_param("ssss", $MemberEmail, $hashedPassword, $MemberName, $MemberPhone);
+        $memberType = 'email'; // Set the member type to 'email'
+        $stmt->bind_param("sssss", $MemberEmail, $hashedPassword, $MemberName, $MemberPhone, $memberType);
         
         if ($stmt->execute()) {
             $_SESSION['MemberEmail'] = $MemberEmail;

@@ -208,7 +208,7 @@
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
-              <h4>Topping</h4>
+              <h4>Cream Cheese</h4>
             </a>
           </li><!-- End tab nav item -->
 
@@ -226,68 +226,68 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
+                <a href="assets/img/menu/bagel/spring_onion_pretzel.jpg" class="glightbox"><img src="assets/img/menu/bagel/spring_onion_pretzel.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Spring Onion Pretzel Bagel</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $5.95
+                  RM 8.50
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
+                <a href="assets/img/menu/bagel/potato_cheese.jpg" class="glightbox"><img src="assets/img/menu/bagel/potato_cheese.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Potato Cheese Bagel</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $14.95
+                  RM 5.50
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
+                <a href="assets/img/menu/bagel/butter_salt_pretzel.jpg" class="glightbox"><img src="assets/img/menu/bagel/butter_salt_pretzel.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Butter Salt Pretzel Bagel</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $8.95
+                  RM 5.90
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
+                <a href="assets/img/menu/bagel/brick_lane.jpg" class="glightbox"><img src="assets/img/menu/bagel/brick_lane.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Brick Lane Sandwich</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $12.95
+                  RM 6.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
+                <a href="assets/img/menu/bagel/jambong_butter.jpg" class="glightbox"><img src="assets/img/menu/bagel/jambong_butter.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Jambong Butter Sandwich</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $12.95
+                  RM 8.50
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
+                <a href="assets/img/menu/bagel/bacon_potato.jpg" class="glightbox"><img src="assets/img/menu/bagel/bacon_potato.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Bacon Potato Sandwich</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $9.95
+                  RM 14.80
                 </p>
               </div><!-- Menu Item -->
 
@@ -304,68 +304,24 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
+                <a href="assets/img/menu/soup/tomato.jpg" class="glightbox"><img src="assets/img/menu/soup/tomato.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Tomato Rose Soup</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $5.95
+                  RM 10.50
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
+                <a href="assets/img/menu/soup/mushroom.jpg" class="glightbox"><img src="assets/img/menu/soup/mushroom.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Mushroom Truffle</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $14.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $8.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $9.95
+                  RM 12.80
                 </p>
               </div><!-- Menu Item -->
 
@@ -454,74 +410,74 @@
 
             <div class="tab-header text-center">
               <p>Recommendation</p>
-              <h3>Topping</h3>
+              <h3>Cream Cheese</h3>
             </div>
 
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
+                <a href="assets/img/menu/cream/basil_pesto.jpg" class="glightbox"><img src="assets/img/menu/cream/basil_pesto.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Basil Pesto Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $5.95
+                  RM 3.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
+                <a href="assets/img/menu/cream/chives_garlic.jpg" class="glightbox"><img src="assets/img/menu/cream/chives_garlic.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Chives Garlic Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $14.95
+                  RM 3.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
+                <a href="assets/img/menu/cream/lemon_curd.jpg" class="glightbox"><img src="assets/img/menu/cream/lemon_curd.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Lemon Curd Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $8.95
+                  RM 3.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
+                <a href="assets/img/menu/cream/maple_pecan.jpg" class="glightbox"><img src="assets/img/menu/cream/maple_pecan.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Maple Pecan Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $12.95
+                  RM 3.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
+                <a href="assets/img/menu/cream/raspberry.jpg" class="glightbox"><img src="assets/img/menu/cream/raspberry.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Raspberry Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $12.95
+                  RM 3.80
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
+                <a href="assets/img/menu/cream/salmon_capers.jpg" class="glightbox"><img src="assets/img/menu/cream/salmon_capers.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>Salmon Capers Cream Cheese</h4>
                 <p class="ingredients">
                   Lorem, deren, trataro, filede, nerada
                 </p>
                 <p class="price">
-                  $9.95
+                  RM 4.30
                 </p>
               </div><!-- Menu Item -->
 
