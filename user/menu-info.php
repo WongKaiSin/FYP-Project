@@ -1,10 +1,35 @@
+<?php
+require_once("lib/db.php");
+if(isset($_GET["ProUrl"]))
+  $ProUrl = $_GET["ProUrl"];
+
+if($ProUrl>0)
+{
+  $pro_query = $db_conn->query("SELECT * FROM product WHERE `ProUrl`='$ProUrl'");
+	$pro_num = mysqli_num_rows($pro_query);
+
+  if($pro_num>0)
+  {
+    $row = $pro_query->fetch_assoc();
+
+    $ProID = $row["ProID"];
+    $ProName = $row["ProName"];
+    $ProPrice = $row["ProPrice"];
+    $ProDesc = $row["ProDesc"];
+    $Ingre = $row["Ingredient"];
+    $store = $row["Storage"];
+    $life = $row["ShelfLife"];
+    $cat_query = $db_conn->query("SELECT `CatName` FROM product_cat WHERE `ProID`='".$ProID."'")
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title>Food Name</title>
-
+  <title><?php echo $ProName  // food name?> - LBM</title>
 </head>
 
 <body>

@@ -12,14 +12,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
     $adPass = $function->PassSign($adUser, $_POST['adPass']);
 
     // Prepare the SQL statement with prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM admin WHERE adUser = '".$adUser."' AND adPass = '".$adPass."' AND adStatus='1'";
+    $sql = "SELECT * FROM admin WHERE adUser = ? AND adPass = ? AND adStatus='1'";
 
     // Get and count the data
-    $login_query = $db_conn->query($sql);
-    $login_num = mysqli_num_rows($login_query);
+    // $login_query = $db_conn->query($sql);
+    // $login_num = mysqli_num_rows($login_query);
     
+    // Prepare the statement
+    $stmt = $db_conn->prepare($sql);
+
+    // Bind parameters
+    $stmt->bind_param("ss", $adUser, $adPass);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Store the result
+    $login_query = $stmt->get_result();
+
     // Check if the user exists
-    if($login_num == 1)
+    if($login_query->num_rows == 1)
     {
         $row = $login_query->fetch_assoc();
 
@@ -50,6 +62,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         header("Location: login.php");
         exit;
     }
+
+    // Close the statement
+    $stmt->close();
 }
 
 ?>

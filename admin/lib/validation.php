@@ -23,7 +23,7 @@ if(!isset($_SESSION['AdminLogged']) || $_SESSION['AdminLogged'] !== true)
 $AdminID = $_SESSION['adID'];
 $AdminUser = $_SESSION['adUser'];
 $AdminName = $_SESSION['adName'];
-$AdminLogo = $_SESSION['AdLogo'];
+// $AdminLogo = $_SESSION['AdLogo'];
 $AdminType = $_SESSION['adType'];
 $AdminArrMenu = $_SESSION['adMenu'];
 $AdminMenu = !empty($AdminArrMenu) ? explode(", ", $AdminArrMenu) : "";	 // will be array
