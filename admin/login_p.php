@@ -13,10 +13,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
 
     // Prepare the SQL statement with prepared statements to prevent SQL injection
     $sql = "SELECT * FROM admin WHERE adUser = ? AND adPass = ? AND adStatus='1'";
-
-    // Get and count the data
-    // $login_query = $db_conn->query($sql);
-    // $login_num = mysqli_num_rows($login_query);
     
     // Prepare the statement
     $stmt = $db_conn->prepare($sql);
