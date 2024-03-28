@@ -5,10 +5,22 @@ if(isset($_GET["ProUrl"]))
 
 if($ProUrl>0)
 {
-  $pro_query = $db_conn->query("SELECT * FROM product WHERE `ProUrl`='$ProUrl'");
-	$pro_num = mysqli_num_rows($pro_query);
+  // $pro_query = $db_conn->query("SELECT * FROM product WHERE `ProUrl`='$ProUrl'");
+	// $pro_num = mysqli_num_rows($pro_query);
 
-  if($pro_num>0)
+  // Prepare the SQL statement with prepared statements to prevent SQL injection
+  $stmt = $db_conn->prepare("SELECT * FROM product WHERE ProUrl = ?");
+  
+  // Bind the parameter
+  $stmt->bind_param("s", $ProUrl);
+  
+  // Execute the statement
+  $stmt->execute();
+  
+  // Store the result
+  $pro_query = $stmt->get_result();
+
+  if($pro_query->num_rows > 0)
   {
     $row = $pro_query->fetch_assoc();
 
@@ -19,7 +31,23 @@ if($ProUrl>0)
     $Ingre = $row["Ingredient"];
     $store = $row["Storage"];
     $life = $row["ShelfLife"];
-    $cat_query = $db_conn->query("SELECT `CatName` FROM product_cat WHERE `ProID`='".$ProID."'")
+
+    // $cat_query = $db_conn->query("SELECT `CatName` FROM product_cat WHERE `ProID`='".$ProID."'");
+    
+     // Prepare the SQL statement for category query
+    $stmt_cat = $db_conn->prepare("SELECT CatName FROM product_cat WHERE ProID = ?");
+    
+    // Bind the parameter
+    $stmt_cat->bind_param("i", $ProID);
+    
+    // Execute the statement
+    $stmt_cat->execute();
+    
+    // Store the result
+    $cat_query = $stmt_cat->get_result();
+    
+    $cat_row = $cat_query->fetch_assoc();
+    $CatName = $cat_row["CatName"];
   }
 }
 ?>
