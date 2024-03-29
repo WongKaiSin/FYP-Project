@@ -5,9 +5,6 @@ if(isset($_GET["ProUrl"]))
 
 if($ProUrl>0)
 {
-  // $pro_query = $db_conn->query("SELECT * FROM product WHERE `ProUrl`='$ProUrl'");
-	// $pro_num = mysqli_num_rows($pro_query);
-
   // Prepare the SQL statement with prepared statements to prevent SQL injection
   $stmt = $db_conn->prepare("SELECT * FROM product WHERE ProUrl = ?");
   
@@ -31,23 +28,25 @@ if($ProUrl>0)
     $Ingre = $row["Ingredient"];
     $store = $row["Storage"];
     $life = $row["ShelfLife"];
-
-    // $cat_query = $db_conn->query("SELECT `CatName` FROM product_cat WHERE `ProID`='".$ProID."'");
     
      // Prepare the SQL statement for category query
     $stmt_cat = $db_conn->prepare("SELECT CatName FROM product_cat WHERE ProID = ?");
-    
-    // Bind the parameter
     $stmt_cat->bind_param("i", $ProID);
-    
-    // Execute the statement
     $stmt_cat->execute();
-    
-    // Store the result
     $cat_query = $stmt_cat->get_result();
-    
+
     $cat_row = $cat_query->fetch_assoc();
     $CatName = $cat_row["CatName"];
+
+    // Prepare the SQL statement for category query
+    $stmt_img = $db_conn->prepare("SELECT `ImageName`, `ImageExt` FROM product_image WHERE ProID = ?");
+    $stmt_img->bind_param("i", $ProID);
+    $stmt_img->execute();
+    $img_query = $stmt_img->get_result();
+
+    $img_row = $img_query->fetch_assoc();
+    $ImgName = $img_row["ImageName"];
+    $ImgExt = $img_row["ImageExt"];
   }
 }
 ?>
@@ -61,7 +60,6 @@ if($ProUrl>0)
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
@@ -77,25 +75,25 @@ if($ProUrl>0)
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs">
       <div class="container">
-
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Sample Inner Page</h2>
+          <h2><?php echo $ProName?></h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li>Sample Inner Page</li>
+            <li><a href="menu.php?cat=<?php echo urlencode($CatName);?>"> <?php echo $CatName?></a></li>
           </ol>
         </div>
-
       </div>
     </div><!-- End Breadcrumbs -->
 
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
-
+        <div class="row mt-30">
+          <div class="col product-gallery large-6">
         <p>
           You can duplicate this sample page and create any number of inner pages you like!
         </p>
-
+          </div>
+        </div>
       </div>
     </section>
 
