@@ -1895,3 +1895,26 @@ section {
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
+
+.sidebar h1
+{
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	color: #132a49;
+}
+
+.sidebar h1:after
+{
+	position: relative;
+	display: inline-block;
+	background-color: rgba(0,0,0,0.1);
+	content: "";
+	height: 3px;
+	display: block;
+	margin: 8px 0px 10px 0px;
+	width: 100%;
+	max-width: 30px;
+}
+
