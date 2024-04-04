@@ -17,7 +17,9 @@ echo $_SERVER['DOCUMENT_ROOT']."/FYP-Project/<br>";
 
 echo "Email: ". $email."<br>";
 echo "Pass: ".$pass."<br>";
-echo "Hashed password: ".$done;
+echo "Hashed password: ".$done."<br>";
+
+header("Location: ../user/upload/product/1.jpeg");
 ?>
 
-<script>location="<?$_SERVER['DOCUMENT_ROOT']."/FYP-Project/"?>"</script>
+<!-- <script>location="<?echo $_SERVER['DOCUMENT_ROOT']."/FYP-Project/upload/product/1.jpeg" ?>"</script> -->
