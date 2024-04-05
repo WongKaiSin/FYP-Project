@@ -157,7 +157,7 @@
                         <div id="submenu-6" class="collapse submenu"  >
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="pages/blank-page.html">Blank Page</a>
+                                    <a class="nav-link" href="view_user.php">User Page</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>

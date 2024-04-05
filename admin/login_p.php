@@ -49,12 +49,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
     } 
     else 
     {
-        $login_error = "Invalid user ID or password.";
-        ?>  	
-            <script type="text/javascript">
-                alert("<?php echo ' WRONG PASSWORD OR USERNAME' ?>");
-            </script>
-        <?php
+        $login_error = "Invalid user email or password.";
+        $_SESSION['login_error'] = $login_error; 
+        
+
         header("Location: login.php");
         exit;
     }

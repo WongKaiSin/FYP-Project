@@ -4,7 +4,15 @@ require("lib/db.php");
 require("lib/function.php");
 $msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
 
+if(isset($_SESSION['login_error'])) {
+    echo '<script type="text/javascript">alert("' . $_SESSION['login_error'] . '");</script>';
+    unset($_SESSION['login_error']); // Clear the session variable
+}
+
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
