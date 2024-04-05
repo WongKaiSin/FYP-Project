@@ -38,11 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         $_SESSION["adType"] = $row["adType"];
         $_SESSION["adMenu"] = $row["adMenu"];
         $_SESSION["adLogo"] = $row["adLogo"];
-        ?> 
-            <script type="text/javascript">
-                alert("<?php echo ' LOGIN SUCCESSFUL' ?>");
-            </script>
-        <?php
+
         // Redirect to the home page or desired location
         header("Location: index.php");
         exit;
@@ -52,7 +48,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         $login_error = "Invalid user email or password.";
         $_SESSION['login_error'] = $login_error; 
         
-
         header("Location: login.php");
         exit;
     }

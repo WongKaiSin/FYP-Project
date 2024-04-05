@@ -88,10 +88,10 @@ if($ProUrl>0)
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
         <div class="row mt-30">
-          <div class="col product-gallery large-6">
+          <div class="col product-gallery col-lg-6">
             <div class="row">
-              <div class="col medium-12 small-12 product-images">
-                <img src="".<?php "../user/upload/product/".$ImgName.".".$ImgExt; ?> >
+              <div class="col col-md-12 col-sm-12 product-images">
+                <img src="http://localhost:80/FYP-Project/user/upload/product/<?php echo $ImgName.".".$ImgExt; ?>" >
               </div>
             </div>
             <p>
