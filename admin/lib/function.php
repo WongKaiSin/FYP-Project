@@ -18,6 +18,18 @@ class Functions
 		return $result;
 	}
     
+    function displayMsg($type, $msg='')
+    {
+        global $db_conn;
+        
+        if(!empty($msg))
+        {
+            $msg_text = $msg;
+        
+            if(!empty($msg_text))
+                echo "<div class=\"response-msg ".$type."\"><span>".ucwords($type)." Message</span><br>".$msg_text."</div>";
+        }
+    }
 
 }
 ?>

@@ -44,11 +44,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         exit;
     } 
     else 
-    {
-        $login_error = "Invalid user email or password.";
-        $_SESSION['login_error'] = $login_error; 
-        
-        header("Location: login.php");
+    {   
+        header("Location: login.php?msg=1");
         exit;
     }
 

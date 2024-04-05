@@ -6962,3 +6962,20 @@ Media Query
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width:320px) {}
+
+
+
+/*---------------------- Response Messages ----------------------------*/
+.response-msg {
+	padding:6px 10px 10px 45px;
+	font-size:0.96em;
+	margin:0 0 10px;
+}
+
+.response-msg span {
+	display:block;
+	font-weight:bold;
+	padding:0 0 4px;
+}
+
+/*** END Response Messages ***/

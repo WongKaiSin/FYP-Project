@@ -2,16 +2,9 @@
 session_start();
 require("lib/db.php");
 require("lib/function.php");
+$func = new Functions;
 $msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
-
-if(isset($_SESSION['login_error'])) {
-    echo '<script type="text/javascript">alert("' . $_SESSION['login_error'] . '");</script>';
-    unset($_SESSION['login_error']); // Clear the session variable
-}
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +36,13 @@ if(isset($_SESSION['login_error'])) {
         <div class="card ">
             <div class="card-header text-center"><a href="../index.php"><img class="logo-img" src="assets/images/logo.jpg" alt="logo" height=155px weight=35px></a><span class="splash-description">Please sign in.</span></div>
             <div class="card-body">
+                <?php
+                if($msg == 1)
+                {
+                    $disp_msg = "You have enter wrong username or password."; $type = "error";
+                    echo $func->displayMsg($type, $disp_msg);
+                }
+                ?>
                 <form method="POST" action="login_p.php">
                     <div class="form-group">
                         <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Enter Email">
