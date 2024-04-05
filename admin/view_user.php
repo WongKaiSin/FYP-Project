@@ -19,6 +19,15 @@ function confirmation(){
 	return answer;
 }
 </script>
+<?php
+if (isset($_REQUEST["del"])) 
+{
+	$MemberID = $_REQUEST["MemberID"]; 
+	mysqli_query($db_conn, "DELETE FROM member WHERE MemberID = $MemberID");
+	header("Location: view_user.php");
+}
+
+?>
 <body>
     <!-- ============================================================== -->
     <!-- main wrapper -->
@@ -120,12 +129,3 @@ function confirmation(){
                     <!-- end data table  -->
                     <!-- ============================================================== -->
                     
-                    <?php
-if (isset($_REQUEST["del"])) 
-{
-	$MemberID = $_REQUEST["MemberID"]; 
-	mysqli_query($db_conn, "DELETE FROM member WHERE MemberID = $MemberID");
-	
-}
-
-?>
