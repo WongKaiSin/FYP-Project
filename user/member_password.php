@@ -3,16 +3,14 @@ session_start();
 
 // Initialize variables to avoid "Undefined variable" errors
 $MemberEmail = ""; // Initialize $MemberEmail
-$MemberName = ""; // Initialize $MemberName
-$MemberPhone = ""; // Initialize $MemberPhone
+$MemberPass = ""; // Initialize $MemberPass
 
 // Check if user is logged in and retrieve their profile information
 if (isset($_SESSION['MemberEmail'])) {
     // Assuming you have a method to fetch user profile information from the database
     // Replace the placeholders with actual code to retrieve the user's information
     $MemberEmail = $_SESSION['MemberEmail']; // Example: $MemberEmail = getUserEmail($_SESSION['MemberEmail']);
-    $MemberName = ""; // Example: $MemberName = getUserName($_SESSION['MemberEmail']);
-    $MemberPhone = ""; // Example: $MemberPhone = getUserPhone($_SESSION['MemberEmail']);
+    $MemberPass = ""; // Example: $MemberPass = getUserPass($_SESSION['MemberEmail']);
 }
 ?>
 
@@ -20,7 +18,7 @@ if (isset($_SESSION['MemberEmail'])) {
 <html lang="en">
 <head>
   <?php include("lib/head.php"); ?>
-  <title>Profile | London Bagel Museum</title>
+  <title>Change Password | London Bagel Museum</title>
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -59,8 +57,8 @@ if (isset($_SESSION['MemberEmail'])) {
             <div class="container" data-aos="fade-up">
                 <h3><span>Change Password</span></h3>
                 
-                <form name="Form1" method="post" action="forms/update_password.php" enctype="multipart/form-data">
-                    <label>Email Address</label>
+                <form class="UpPass" method="post" action="forms/update_password.php" enctype="multipart/form-data">
+                    <label><b>Email Address</b></label>
                     <p class="mb-20"><?php echo $MemberEmail; ?></p>
                     
                     <label for="MemberPass"><b>Password</b></label>

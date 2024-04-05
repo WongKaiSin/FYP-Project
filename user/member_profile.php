@@ -59,15 +59,16 @@ if (isset($_SESSION['MemberEmail'])) {
             <div class="container" data-aos="fade-up">
                 <h3><span>Profile</span></h3>
                 
-                <form name="Form1" method="post" action="forms/update_profile.php" enctype="multipart/form-data">
-                    <label>Email Address</label>
+                <form class="UpProfile" method="post" action="forms/update_profile.php" enctype="multipart/form-data">
+                    <label><b>Email Address</b></label>
                     <p class="mb-20"><?php echo $MemberEmail; ?></p>
+
+                    <label><b>Name</b></label>
+                    <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
                     
-                    <label>Name</label>
-                    <input type="text" name="MemberName" value="<?php echo $MemberName; ?>" required>
+                    <label><b>Contact No.</b></label>
+                    <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
                     
-                    <label>Contact No.</label>
-                    <input type="text" name="MemberContact" value="<?php echo $MemberPhone; ?>" required>
 
                     <div class="text-center">
                         <input type="submit" name="BtnUpdateProfile" value="Update" class="button primary lowercase mt-20">

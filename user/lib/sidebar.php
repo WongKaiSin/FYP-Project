@@ -13,3 +13,11 @@
 					  <li><a href="$SiteUrl/my-confirmed-orders">Order History</a></li>
 				  </ul>
 			  </aside>
+
+<aside id="sidebar" class="sidebar">
+				<form method="post" action="">
+        		<button type="submit" name="logout">Logout</button>
+    			</form>
+			  </aside>
+
+			  

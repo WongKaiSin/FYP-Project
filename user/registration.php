@@ -60,7 +60,7 @@
         <div class="tab-pane fade active show" id="menu-starters">
     <div class="tab-header text-center">
         <p>Already Have An Account?</p>
-        <h3 style="color: #ec2727;">Login</h3>
+        <h3>Login</h3>
     </div>
 
     <div class="row gy-5">

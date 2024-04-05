@@ -15,7 +15,7 @@ include("../lib/db.php"); // Assuming this includes your actual database connect
 if (isset($_POST['BtnUpdateProfile'])) {
     // Prepare data for insertion
     $memberName = $_POST["MemberName"];
-    $memberPhone = $_POST["MemberContact"];
+    $memberPhone = $_POST["MemberPhone"];
     $memberEmail = $_SESSION["MemberEmail"];
 
     // Update user's profile in the database
