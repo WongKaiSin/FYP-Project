@@ -135,10 +135,9 @@ $db_conn->close();
                     
                     <div class="form-group">
                         <label for="inputAdminType">Admin Type</label>
-                        <select id="inputAdminType" class="form-control" required>
+                        <select id="inputAdminType" class="form-control" name="inputAdminType" required>
                             <option value="admin">Admin</option>
                             <option value="superadmin">Superadmin</option>
-                            
                         </select>
                     </div>
 
