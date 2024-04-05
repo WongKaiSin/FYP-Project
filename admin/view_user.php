@@ -85,6 +85,7 @@ if (isset($_REQUEST["del"]))
                                                 <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Phone</th>
                                                 <th>Type</th>
                                                 <th>Login Time</th>
                                                 <th></th>
@@ -105,6 +106,7 @@ if (isset($_REQUEST["del"]))
                                             <td><?php echo $row["MemberID"]; ?></td>
                                                 <td><?php echo $row["MemberName"]; ?></td>
                                                 <td><?php echo $row["MemberEmail"]; ?></td>
+                                                <td><?php echo $row["MemberPhone"]; ?></td>
                                                 <td><?php echo $row["MemberType"]; ?></td>
                                                 <td><?php echo $row["MemberLoginTime"]; ?></td>
                                                 <td>
