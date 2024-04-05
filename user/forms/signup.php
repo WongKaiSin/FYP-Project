@@ -1,14 +1,24 @@
 <?php
 session_start();
+include("../lib/db.php");
 
-class UserAuth {
+// $sql = "SELECT....";
+// $stmt = $db_conn->prepare($sql);
+// $stmt->bind_param("ss", $adUser, $adPass);
+// $stmt->execute();
+
+// $login_query = $stmt->get_result();
+
+class UserAuth 
+{
     private $db_conn;
 
     public function __construct($db_conn) {
         $this->db_conn = $db_conn;
     }
 
-    public function registerUser($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone) {
+    public function registerUser($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone) 
+    {
         $errors = $this->validateForm($MemberEmail, $MemberPass, $CfmPass, $MemberName, $MemberPhone);
 
         if (!empty($errors)) {

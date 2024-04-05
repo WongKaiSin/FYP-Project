@@ -89,9 +89,14 @@ if($ProUrl>0)
       <div class="container" data-aos="fade-up">
         <div class="row mt-30">
           <div class="col product-gallery large-6">
-        <p>
-          You can duplicate this sample page and create any number of inner pages you like!
-        </p>
+            <div class="row">
+              <div class="col medium-12 small-12 product-images">
+                <img src="".<?php "../user/upload/product/".$ImgName.".".$ImgExt; ?> >
+              </div>
+            </div>
+            <p>
+              You can duplicate this sample page and create any number of inner pages you like!
+            </p>
           </div>
         </div>
       </div>

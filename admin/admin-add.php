@@ -1,6 +1,10 @@
 <?php
-include("lib/db.php");
 session_start();
+
+include("lib/db.php");
+include("lib/function.php");
+
+$func = new Functions;
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     // Retrieve form data
@@ -8,7 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adName = $_POST["adName"];
     $adEmail = $_POST["adEmail"];
     $adTel = $_POST["adTel"];
-    $adPass = $_POST["adPass"];
+    $adPass = $func->PassSign($adEmail, $_POST["adPass"]);
     $adType = $_POST["inputAdminType"];
     $adAdd = $_POST["adAdd"];
     $adCountry = $_POST["adCountry"];

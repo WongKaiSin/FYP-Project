@@ -4,7 +4,7 @@ session_start();
 // Check if user is logged in
 if (!isset($_SESSION['MemberEmail'])) {
     // Redirect to login page or handle unauthorized access
-    header("Location: registration.php");
+    header("Location: ../registration.php");
     exit();
 }
 
@@ -12,7 +12,7 @@ if (!isset($_SESSION['MemberEmail'])) {
 include("../lib/db.php"); // Assuming this includes your actual database connection script
 
 // Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['BtnUpdateProfile'])) {
     // Prepare data for insertion
     $memberName = $_POST["MemberName"];
     $memberPhone = $_POST["MemberContact"];
