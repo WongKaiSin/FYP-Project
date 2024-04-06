@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +74,7 @@
         </div>
         
         <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-            <form action="forms/signup.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
+            <form action="forms/login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row gy-4">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -174,5 +177,13 @@
 
   <div id="preloader"></div>
 
+  <?php
+    if (isset($_SESSION['alert'])) {
+        echo "<script>alert('{$_SESSION['alert']}');</script>";
+        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
+    }
+  ?>
+
 </body>
 </html>
+
