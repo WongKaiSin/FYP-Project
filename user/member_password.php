@@ -85,5 +85,12 @@ if (isset($_SESSION['MemberEmail'])) {
 
   <div id="preloader"></div>
 
+  <?php
+    if (isset($_SESSION['alert'])) {
+        echo "<script>alert('{$_SESSION['alert']}');</script>";
+        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
+    }
+  ?>
+
 </body>
 </html>

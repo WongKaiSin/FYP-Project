@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("../lib/db.php");
 
 // Check if user is logged in
 if (!isset($_SESSION['MemberEmail'])) {
@@ -8,15 +9,12 @@ if (!isset($_SESSION['MemberEmail'])) {
     exit();
 }
 
-// Include database connection
-include("../lib/db.php"); // Assuming this includes your actual database connection script
-
 // Check if form is submitted
 if (isset($_POST['BtnUpdateProfile'])) {
     // Prepare data for insertion
-    $memberName = $_POST["MemberName"];
-    $memberPhone = $_POST["MemberPhone"];
-    $memberEmail = $_SESSION["MemberEmail"];
+    $MemberName = $_POST["MemberName"];
+    $MemberPhone = $_POST["MemberPhone"];
+    $MemberEmail = $_SESSION["MemberEmail"];
 
     // Update user's profile in the database
     $sql = "UPDATE member SET MemberName = ?, MemberPhone = ? WHERE MemberEmail = ?";
@@ -24,30 +22,47 @@ if (isset($_POST['BtnUpdateProfile'])) {
 
     // Check if the prepare() call succeeded
     if ($stmt === false) {
-        $_SESSION["error_message"] = "Error preparing statement: " . $db_conn->error;
+        $_SESSION["alert"] = "Error preparing statement: " . $db_conn->error;
         header("Location: ../member_profile.php");
         exit();
     }
 
     // Bind parameters and execute statement
-    $stmt->bind_param("sss", $memberName, $memberPhone, $memberEmail);
+    $stmt->bind_param("sss", $MemberName, $MemberPhone, $MemberEmail);
     $result = $stmt->execute();
 
-    // Check if the execution succeeded
-    if ($result === false) {
-        $_SESSION["error_message"] = "Error updating profile: " . $stmt->error;
-    } else {
-        $_SESSION["success_message"] = "Profile updated successfully.";
-    }
+    if ($result) {
+        // Get the current timestamp
+        $MemberReset = date('Y-m-d H:i:s');
 
-    // Close statement
-    $stmt->close();
+        // Update the MemberReset in the database
+        $updateSql = "UPDATE member SET MemberReset = ? WHERE MemberEmail = ?";
+        $updateStmt = $db_conn->prepare($updateSql);
+
+        if ($updateStmt === false) {
+            $_SESSION["alert"] = "Error preparing update statement: " . $db_conn->error;
+            header("Location: ../member_profile.php");
+            exit();
+        }
+
+        // Bind parameters and execute update statement
+        $updateStmt->bind_param("ss", $MemberReset, $MemberEmail);
+        $updateResult = $updateStmt->execute();
+
+        if ($updateResult) {
+            $_SESSION['alert'] = 'Profile updated successfully.';
+            header('Location: ../member_profile.php');
+            exit(); // Exit after redirection
+        } else {
+            $_SESSION['alert'] = 'Error updating profile';
+            header("Location: ../member_profile.php");
+            exit();
+        }
+    } else {
+        $_SESSION['alert'] = 'Error updating profile';
+        header("Location: ../member_profile.php");
+        exit();
+    }
 }
 
-// Close database connection
-$db_conn->close();
-
-// Redirect back to profile page
-header("Location: ../member_profile.php");
-exit();
 ?>
