@@ -3,8 +3,8 @@
     <li><a href="index.php#home">Home</a></li>
     <li><a href="index.php#about">About</a></li>
     <li><a href="index.php#menu">Recommendation</a></li>
-    <li><a href="index.php#events">Events</a></li>
-    <li><a href="index.php#chefs">Chefs</a></li>
+    <li><a href="menu.php">Menu</a></li>
+    <li><a href="index.php#chefs">Booking</a></li>
     <li><a href="index.php#gallery">Gallery</a></li>
     <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
     <ul>

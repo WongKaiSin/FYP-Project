@@ -2031,6 +2031,152 @@ section {
   background: #ec2727;
 }
 
+/* Style for the product lists */
+@media (min-width: 1280px) {
+  .product_list {
+    padding: 0;
+  }
+
+  .product_list ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+  }
+
+  .product_list li {
+    position: relative;
+  }
+
+  .product_list > ul > li {
+    white-space: nowrap;
+    padding: 10px 0 10px 28px;
+  }
+
+  .product_list a,
+  .product_list a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px;
+    font-family: var(--font-secondary);
+    font-size: 16px;
+    font-weight: 600;
+    color: #7f7f90;
+    white-space: nowrap;
+    transition: 0.3s;
+    position: relative;
+  }
+
+  .product_list a i,
+  .product_list a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+  }
+
+  .product_list > ul > li > a:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -6px;
+    left: 0;
+    background-color: var(--color-primary);
+    visibility: hidden;
+    width: 0px;
+    transition: all 0.3s ease-in-out 0s;
+  }
+
+  .product_list a:hover:before,
+  .product_list li:hover > a:before,
+  .product_list .active:before {
+    visibility: visible;
+    width: 100%;
+  }
+
+  .product_list a:hover,
+  .product_list .active,
+  .product_list .active:focus,
+  .product_list li:hover > a {
+    color: #000;
+  }
+
+  .product_list .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 28px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+    border-radius: 4px;
+  }
+
+  .product_list .dropdown ul li {
+    min-width: 200px;
+  }
+
+  .product_list .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    font-weight: 600;
+  }
+
+  .product_list .dropdown ul a i {
+    font-size: 12px;
+  }
+
+  .product_list .dropdown ul a:hover,
+  .product_list .dropdown ul .active:hover,
+  .product_list .dropdown ul li:hover > a {
+    color: var(--color-primary);
+  }
+
+  .product_list .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+
+  .product_list .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+  }
+
+  .product_list .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1366px) {
+  .product_list .dropdown .dropdown ul {
+    left: -90%;
+  }
+
+  .product_list .dropdown .dropdown:hover > ul {
+    left: -100%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .mobile-nav-show,
+  .mobile-nav-hide {
+    display: none;
+  }
+}
+
 
 
 
