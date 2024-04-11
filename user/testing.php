@@ -1,104 +1,63 @@
 <?php
 include("lib/db.php");
 
-// Fetch distinct categories
-$categoryQuery = "SELECT DISTINCT category FROM product";
-$categoryResult = mysqli_query($conn, $categoryQuery);
+// Assuming $db_conn is your database connection object
+
+// Check if a category is selected
+if(isset($_GET['CatID'])) {
+    $category = $_GET['CatID'];
+    // Prepare the SQL statement with a parameterized query to prevent SQL injection
+    $stmt = $db_conn->prepare("SELECT product_cat.ProName, product.ProPrice 
+                               FROM product_cat 
+                               JOIN product ON product_cat.ProID = product.ProID 
+                               WHERE product_cat.CatID = ?");
+    $stmt->bind_param("s", $category); // "s" indicates a string parameter
+    $stmt->execute();
+    $pro_query = $stmt->get_result();
+} else {
+    // If no category is selected, fetch all products
+    $stmt = $db_conn->prepare("SELECT product_cat.ProName, product.ProPrice 
+                               FROM product_cat 
+                               JOIN product ON product_cat.ProID = product.ProID");
+    $stmt->execute();
+    $pro_query = $stmt->get_result();
+}
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <?php include("lib/head.php"); ?>
-  <title>Menu | London Bagel Museum</title>
+    <title>Menu</title>
 </head>
-
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-      <?php 
-        include("lib/logo.php");
-        include("lib/topmenu.php");
-      ?>
-    </div>
-  </header><!-- End Header -->
+<h1>Menu</h1>
 
-  <main id="main">
+<form method="get" action="">
+    <label for="CatID">Select a category:</label>
+    <select name="CatID" id="CatID">
+        <option value="">All</option> <!-- Option to show all categories -->
+        <option value="1">Drinks</option>
+        <option value="2">Food</option>
+        <!-- Add more options as needed with corresponding category IDs -->
+    </select>
+    <input type="submit" value="Filter">
+</form>
 
-    <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs">
-      <div class="container">
+<?php
 
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Menu</h2>
-          <ol>
-            <li><a href="index.php">Home</a></li>
-            <li>Menu</li>
-          </ol>
-        </div>
+if ($pro_query->num_rows > 0) {
+    // Output data of each row
+    while($row = $pro_query->fetch_assoc()) {
+        echo "<p>" . $row["ProName"] . "</p>";
+        echo "<p>" . $row["ProPrice"] . "</p>";
+    }
+} else {
+    echo "0 results";
+}
 
-      </div>
-    </div><!-- End Breadcrumbs -->
-
-    <section class="sample-page">
-      <div class="container" data-aos="fade-up">
-
-        <!-- Sidebar -->
-        <div class="col-lg-3">
-          <?php 
-            // Iterate over each category
-            while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-              $category = $categoryRow['category'];
-              echo "<aside id='product_list_$category' class='product_list'>";
-              echo "<ul class='menu'>";
-              echo "<li class='dropdown'>";
-              echo "<a href='#'>$category<i class='bi bi-chevron-down dropdown-indicator'></i></a>";
-              echo "<ul class='dropdown-menu'>";
-              
-              // Fetch products for the current category
-              $productQuery = "SELECT * FROM product WHERE category = '$category'";
-              $productResult = mysqli_query($conn, $productQuery);
-              
-              // Display products for the current category
-              if (mysqli_num_rows($productResult) > 0) {
-                while ($productRow = mysqli_fetch_assoc($productResult)) {
-                  echo "<li><a href='#'>" . $productRow['product_name'] . "</a></li>";
-                }
-              } else {
-                echo "<li>No products found in the '$category' category.</li>";
-              }
-
-              echo "</ul>";
-              echo "</li>";
-              echo "</ul>";
-              echo "</aside>";
-            }
-          ?>
-        </div>
-        <!-- Main Content -->
-
-        <p>
-          You can duplicate this sample page and create any number of inner pages you like!
-        </p>
-
-      </div>
-    </section>
-
-  </main><!-- End #main -->
-  <?php include("lib/footer.php"); ?>
-
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <div id="preloader"></div>
+?>
 
 </body>
 </html>
-
-<?php
-// Close the database connection
-mysqli_close($conn);
-?>
