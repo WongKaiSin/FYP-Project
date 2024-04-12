@@ -4,26 +4,9 @@
     <li><a href="index.php#about">About</a></li>
     <li><a href="index.php#menu">Recommendation</a></li>
     <li><a href="menu.php">Menu</a></li>
-    <li><a href="index.php#chefs">Booking</a></li>
+    <li><a href="booking.php">Reservations</a></li>
     <li><a href="index.php#gallery">Gallery</a></li>
-    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-    <ul>
-        <li><a href="#">Drop Down 1</a></li>
-        <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-        <ul>
-            <li><a href="#">Deep Drop Down 1</a></li>
-            <li><a href="#">Deep Drop Down 2</a></li>
-            <li><a href="#">Deep Drop Down 3</a></li>
-            <li><a href="#">Deep Drop Down 4</a></li>
-            <li><a href="#">Deep Drop Down 5</a></li>
-        </ul>
-        </li>
-        <li><a href="#">Drop Down 2</a></li>
-        <li><a href="#">Drop Down 3</a></li>
-        <li><a href="#">Drop Down 4</a></li>
-    </ul>
-    </li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="index.php#contact">Contact</a></li>
 </ul>
 </nav><!-- .navbar -->
 <a href="member_profile.php" class="user-icon-link">

@@ -29,35 +29,58 @@ if(isset($_GET['CatID'])) {
 <html>
 <head>
     <title>Menu</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        aside {
+            width: 20%; /* Adjust width as needed */
+            padding: 20px;
+        }
+        .product-display {
+            width: 80%; /* Adjust width as needed */
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .product-item {
+            width: calc(25% - 20px); /* Adjust width and margin as needed for 4 items per row */
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Menu</h1>
 
-<form method="get" action="">
-    <label for="CatID">Select a category:</label>
-    <select name="CatID" id="CatID">
-        <option value="">All</option> <!-- Option to show all categories -->
-        <option value="1">Drinks</option>
-        <option value="2">Food</option>
-        <!-- Add more options as needed with corresponding category IDs -->
-    </select>
-    <input type="submit" value="Filter">
-</form>
+<div class="container">
+    <aside>
+        <ul>
+        <li><a href="?">All Products</a></li> <!-- Added link for All Products -->
+            <li><a href="?CatID=1">Drinks</a></li>
+            <li><a href="?CatID=2">Food</a></li>
+            <!-- Add more options as needed with corresponding category IDs -->
+        </ul>
+    </aside>
 
-<?php
-
-if ($pro_query->num_rows > 0) {
-    // Output data of each row
-    while($row = $pro_query->fetch_assoc()) {
-        echo "<p>" . $row["ProName"] . "</p>";
-        echo "<p>" . $row["ProPrice"] . "</p>";
-    }
-} else {
-    echo "0 results";
-}
-
-?>
+    <div class="product-display">
+        <?php
+        if ($pro_query->num_rows > 0) {
+            // Output data of each row
+            while($row = $pro_query->fetch_assoc()) {
+                echo '<div class="product-item">';
+                echo "<p>" . $row["ProName"] . "</p>";
+                echo "<p>" . $row["ProPrice"] . "</p>";
+                echo '</div>';
+            }
+        } else {
+            echo "0 results";
+        }
+        ?>
+    </div>
+</div>
 
 </body>
 </html>
