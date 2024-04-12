@@ -160,17 +160,23 @@
                                     <a class="nav-link" href="view_user.php">User Page</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
+                                    <a class="nav-link" href="admin-add.php">Add new admin</a>
                                 </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="404-page.php">404 page</a>
+                                <a class="nav-link" href="product-view.php">Product Page</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="admin-add.php">Add new admin</a>
+                                    <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
                                 </li>
+                                
+                           
+                                <li class="nav-item">
+                                    <a class="nav-link" href="404-page.php">404 page</a>
+                                </li>
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="pages/forgot-password.html">Forgot Password</a>
                                 </li>
