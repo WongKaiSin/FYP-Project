@@ -9,34 +9,26 @@ include("lib/db.php");
 <html lang="en">
 
 <head>
-  
     <title>View Product List</title>
 </head>
-
+<style>
+        .add-category-btn {
+            float: right;
+            margin-bottom: 10px;
+        }
+    </style>
 <body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
         <?php 
             include("lib/navbar.php");
             include("lib/sidebar.php");
         ?>
-
-
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
         <div class="dashboard-wrapper">
             <div class="container-fluid dashboard-content">
-                <!-- ============================================================== -->
-                <!-- pageheader -->
-                <!-- ============================================================== -->
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
                             <h2 class="pageheader-title">View Product List</h2>
-
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -48,24 +40,20 @@ include("lib/db.php");
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- end pageheader -->
-                <!-- ============================================================== -->
-                
-                <h3>Drinks</h3>
-                <!-- grid column -->
-                <div class="row">
-                    <?php
+                <?php
+                    // Fetch and display category names
                     mysqli_select_db($db_conn,"bagel");
-                    $result = mysqli_query($db_conn, "SELECT * FROM product");	
-                    $count = mysqli_num_rows($result);
-                    $i = 0;
-                    while($row = mysqli_fetch_assoc($result))
-                    {
-                        if($i % 3 == 0) {
-                            echo '</div><div class="row">';
-                        }
-                    ?>
+                    $categoryResult = mysqli_query($db_conn, "SELECT * FROM category");
+                    while($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                        echo '<h3>' . $categoryRow["catName"] . '</h3>';
+                        // Add Product button
+                        echo '<a href="add-product.php?category_id=' . $categoryRow["catID"] . '" class="btn btn-success">Add Product</a>';
+                        // Fetch and display products for each category
+                        mysqli_select_db($db_conn,"bagel");
+                        $productResult = mysqli_query($db_conn, "SELECT * FROM product_cat WHERE CatID = " . $categoryRow["catID"]);
+                        echo '<div class="row">';
+                        while($productRow = mysqli_fetch_assoc($productResult)) {
+                ?>
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                         <!-- .card -->
                         <div class="card card-figure">
@@ -73,6 +61,7 @@ include("lib/db.php");
                             <figure class="figure">
                                 <!-- .figure-img -->
                                 <div class="figure-img">
+                                    <!-- Replace the src attribute with the actual image source -->
                                     <img class="img-fluid" src="assets/images/card-img.jpg" alt="Card image cap">
                                     <div class="figure-action">
                                         <a href="#" class="btn btn-block btn-sm btn-primary">Description</a>
@@ -81,7 +70,7 @@ include("lib/db.php");
                                 <!-- /.figure-img -->
                                 <!-- .figure-caption -->
                                 <figcaption class="figure-caption">
-                                    <p class="text-muted mb-0"><?php echo $row["ProName"]; ?></p>
+                                    <p class="text-muted mb-0"><?php echo $productRow["ProName"]; ?></p>
                                 </figcaption>
                                 <!-- /.figure-caption -->
                             </figure>
@@ -89,12 +78,13 @@ include("lib/db.php");
                         </div>
                         <!-- /.card -->
                     </div>
-                    <?php
-                        $i++;
+                    
+                <?php
+                        }
+                        echo '</div>'; // Close the row after displaying all products in this category
                     }
-                    ?>
-                </div>
-                <!-- /grid column -->
+                ?>
+               </br></br></br> <a href="add-category.php" class="btn btn-secondary  add-category-btn">Add Category</a></br></br>
             </div>
         </div>
     </div>
