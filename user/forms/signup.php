@@ -19,12 +19,9 @@ if (isset($_POST["signupbtn"])) {
         exit();
     } else {
         // Proceed with database operations if passwords match
-        $sql = "SELECT * FROM member WHERE MemberEmail = ?";
-        $stmt = $db_conn->prepare($sql);
-        $stmt->bind_param("s", $MemberEmail);
-        $stmt->execute();
-        $result = $stmt->get_result(); 
-        $count = mysqli_num_rows($result);
+        $sql = "SELECT * FROM member WHERE MemberEmail = '$MemberEmail'";
+        $query = $db_conn->query($sql);
+        $count = mysqli_num_rows($query);
 
         if ($count != 0) {
             $_SESSION['alert'] = 'This account already exists';
@@ -32,13 +29,11 @@ if (isset($_POST["signupbtn"])) {
             exit();
         } else {
             $MemberJoined = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone, MemberType, isUp, MemberJoined) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $db_conn->prepare($sql);
-            $stmt->bind_param("sssssss", $MemberEmail, $MemberPass, $MemberName, $MemberPhone, $MemberType, $isUp, $MemberJoined); // Corrected method
             $MemberType = 'email';
             $isUp = '1';
-            $stmt->execute();
+            $sql = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone, MemberType, isUp, MemberJoined) 
+                VALUES ('$MemberEmail', '$MemberPass', '$MemberName', '$MemberPhone', '$MemberType', '$isUp', '$MemberJoined')";
+            $query = $db_conn->query($sql);
             $_SESSION['alert'] = 'Record saved successfully!';
             header("Location: ../registration.php");
             exit();

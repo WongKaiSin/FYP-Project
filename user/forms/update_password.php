@@ -27,40 +27,18 @@ if (isset($_POST['BtnUpdatePass'])) {
         exit();
     } else {
         // Update user's profile in the database
-        $sql = "UPDATE member SET MemberPass = ? WHERE MemberEmail = ? AND isUp='1'";
-        $stmt = $db_conn->prepare($sql);
+        $sql = "UPDATE member SET MemberPass = '$MemberPass' WHERE MemberEmail = '$MemberEmail' AND isUp='1'";
+        $query = $db_conn->query($sql);
 
-        // Check if the prepare() call succeeded
-        if ($stmt === false) {
-            $_SESSION["alert"] = "Error preparing statement: " . $db_conn->error;
-            header("Location: ../member_password.php");
-            exit();
-        }
-
-        // Bind parameters and execute statement
-        $stmt->bind_param("ss", $MemberPass, $MemberEmail);
-        $result = $stmt->execute();
-
-        // Check if the update was successful
-        if ($result) {
+        if ($query) {
             // Get the current timestamp
             $MemberReset = date('Y-m-d H:i:s');
 
             // Update the MemberReset in the database
-            $updateSql = "UPDATE member SET MemberReset = ? WHERE MemberEmail = ?";
-            $updateStmt = $db_conn->prepare($updateSql);
+            $updateSql = "UPDATE member SET MemberReset = '$MemberReset' WHERE MemberEmail = '$MemberEmail'";
+            $updateQuery = $db_conn->query($updateSql);
 
-            if ($updateStmt === false) {
-                $_SESSION["alert"] = "Error preparing update statement: " . $db_conn->error;
-                header("Location: ../member_password.php");
-                exit();
-            }
-
-            // Bind parameters and execute update statement
-            $updateStmt->bind_param("ss", $MemberReset, $MemberEmail);
-            $updateResult = $updateStmt->execute();
-
-            if ($updateResult) {
+            if ($updateQuery) {
                 $_SESSION['alert'] = 'Password updated successfully';
                 header('Location: ../member_password.php');
                 exit(); // Exit after redirection
