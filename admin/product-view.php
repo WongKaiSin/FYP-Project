@@ -33,7 +33,7 @@ include("lib/db.php");
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="product-view.php" class="breadcrumb-link">View Product List</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">View Product List</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -43,16 +43,17 @@ include("lib/db.php");
                 <?php
                     // Fetch and display category names
                     mysqli_select_db($db_conn,"bagel");
-                    $categoryResult = mysqli_query($db_conn, "SELECT * FROM category");
-                    while($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                    $categoryResult = $db_conn->query("SELECT * FROM category");
+                    while($categoryRow = $categoryResult->fetch_assoc()) {
                         echo '<h3>' . $categoryRow["catName"] . '</h3>';
                         // Add Product button
-                        echo '<a href="add-product.php?category_id=' . $categoryRow["catID"] . '" class="btn btn-success">Add Product</a>';
+                        echo '<a href="product-add.php?catID='.$categoryRow["catID"] .'"class="btn btn-success">Add Product</a>';
                         // Fetch and display products for each category
                         mysqli_select_db($db_conn,"bagel");
-                        $productResult = mysqli_query($db_conn, "SELECT * FROM product_cat WHERE CatID = " . $categoryRow["catID"]);
+                        $productResult = $db_conn->query("SELECT * FROM product_cat WHERE CatID = " . $categoryRow["catID"]);
                         echo '<div class="row">';
-                        while($productRow = mysqli_fetch_assoc($productResult)) {
+                        while($productRow = $productResult->fetch_assoc()) {
+                            $ProID = $productRow["ProID"];
                 ?>
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                         <!-- .card -->
@@ -64,7 +65,7 @@ include("lib/db.php");
                                     <!-- Replace the src attribute with the actual image source -->
                                     <img class="img-fluid" src="assets/images/card-img.jpg" alt="Card image cap">
                                     <div class="figure-action">
-                                        <a href="#" class="btn btn-block btn-sm btn-primary">Description</a>
+                                    <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="btn btn-block btn-sm btn-primary">Description</a>
                                     </div>
                                 </div>
                                 <!-- /.figure-img -->
@@ -84,7 +85,7 @@ include("lib/db.php");
                         echo '</div>'; // Close the row after displaying all products in this category
                     }
                 ?>
-               </br></br></br> <a href="add-category.php" class="btn btn-secondary  add-category-btn">Add Category</a></br></br>
+               </br></br></br> <a href="product-category-add.php" class="btn btn-secondary  add-category-btn">Add Category</a></br></br>
             </div>
         </div>
     </div>

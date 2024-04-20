@@ -94,7 +94,7 @@ $db_conn->close();
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="admin-add.php" class="breadcrumb-link">Add New Admin</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Add New Admin</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -176,8 +176,8 @@ $db_conn->close();
                         <label for="profilePicture">Profile Picture</label>
                         <input type="file" class="form-control-file" id="profilePicture" name="adLogo">
                     </div>
-                    <input type="submit" name="savebtn" value="Save" class="btn-primary" style="margin-top:20px; padding: 5px 15px ;">
-                    <input type="reset" name="registerbtn" value="Cancel" class="btn-danger" style="margin-top:20px; margin-left:10px; padding: 5px 10px ;">
+                    <button type="submit"  name="savebtn" class="btn btn-primary">Add Admin</button>
+                    <button type="reset"  name="registerbtn" class="btn btn-danger">Cancel</button>
                 </form>
             </div>
         </div>

@@ -20,24 +20,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         if($responseData->success)
         {
             // Prepare the SQL statement with prepared statements to prevent SQL injection
-            $sql = "SELECT * FROM admin WHERE adUser = ? AND adPass = ? AND adStatus='1'";
-            
-            // Prepare the statement
-            $stmt = $db_conn->prepare($sql);
+            $sql = "SELECT * FROM admin WHERE adUser = '$adUser' AND adPass = '$adPass' AND adStatus='1'";
 
-            // Bind parameters
-            $stmt->bind_param("ss", $adUser, $adPass);
-
-            // Execute the statement
-            $stmt->execute();
-
-            // Store the result
-            $login_query = $stmt->get_result();
+            // Execute the query
+            $query = $db_conn->query($sql);
 
             // Check if the user exists
-            if($login_query->num_rows == 1)
-            {
-                $row = $login_query->fetch_assoc();
+            if ($query && $query->num_rows == 1) {
+                $row = $query->fetch_assoc();
 
                 // Set session variables
                 $_SESSION['AdminLogged'] = true;
@@ -57,8 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
                 exit;
             }
 
-            // Close the statement
-            $stmt->close();
+            
         }
     }
 }

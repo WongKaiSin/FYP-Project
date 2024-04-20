@@ -23,8 +23,14 @@ function confirmation(){
 if (isset($_REQUEST["del"])) 
 {
 	$MemberID = $_REQUEST["MemberID"]; 
-	mysqli_query($db_conn, "DELETE FROM member WHERE MemberID = $MemberID");
-	header("Location: view_user.php");
+	$sql = "DELETE FROM member WHERE MemberID = $MemberID";
+    $query = $db_conn->query($sql);
+	if ($query) {
+        header("Location: view_user.php");
+        exit();
+    } else {
+        echo "Error deleting record: " . $db_conn->error;
+    }
 }
 
 ?>
@@ -56,7 +62,7 @@ if (isset($_REQUEST["del"]))
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="view_user.php" class="breadcrumb-link">View User List</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">View User List</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -94,13 +100,12 @@ if (isset($_REQUEST["del"]))
                                         </thead>
                                         <tbody>
                                         <?php
-                                            mysqli_select_db($db_conn,"bagel");
-                                            $result = mysqli_query($db_conn, "SELECT * FROM member");	
-                                            $count = mysqli_num_rows($result);
-                                            while($row = mysqli_fetch_assoc($result))
-                                            {
-                                            
-                                            ?>			
+                                            mysqli_select_db($db_conn, "bagel");
+                                            $sql = "SELECT * FROM member";
+                                            $query = $db_conn->query($sql);
+                                            if ($query) {
+                                                while ($row = $query->fetch_assoc()) {
+                                            ?>		
 
                                             <tr>
                                             <td><?php echo $row["MemberID"]; ?></td>
@@ -116,9 +121,10 @@ if (isset($_REQUEST["del"]))
                                                 </td>
                                             </tr>
                                             <?php
-                                            
+                                                }
+                                            } else {
+                                                echo "Error fetching records: " . $db_conn->error;
                                             }
-                                            
                                             ?>
                                         
                                             </tbody>
