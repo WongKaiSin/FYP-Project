@@ -23,6 +23,10 @@
 <!-- Template Main CSS File -->
 <link href="assets/css/main.css" rel="stylesheet">
 
+<!-- Custom CSS File -->
+<link href="assets/css/custom.css" rel="stylesheet">
+
+
 <!-- =======================================================
 * Template Name: Yummy
 * Updated: Jan 30 2024 with Bootstrap v5.3.2
@@ -41,3 +45,4 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
+<script src="assets/js/script.js"></script>

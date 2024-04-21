@@ -1,53 +1,96 @@
 <?php
 require_once("lib/db.php");
+$SiteUrl = "http://localhost:80/FYP-Project";
+
 if(isset($_GET["ProUrl"]))
   $ProUrl = $_GET["ProUrl"];
 
-if($ProUrl>0)
+$pro_sql = "SELECT * FROM product WHERE `ProUrl` = '".$ProUrl."'";
+$pro_query = $db_conn ->query($pro_sql);
+
+if($pro_query->num_rows > 0)
 {
-  // Prepare the SQL statement with prepared statements to prevent SQL injection
-  $stmt = $db_conn->prepare("SELECT * FROM product WHERE ProUrl = ?");
-  
-  // Bind the parameter
-  $stmt->bind_param("s", $ProUrl);
-  
-  // Execute the statement
-  $stmt->execute();
-  
-  // Store the result
-  $pro_query = $stmt->get_result();
+  $row = $pro_query->fetch_assoc();
 
-  if($pro_query->num_rows > 0)
+  $ProID = $row["ProID"];
+  $ProName = $row["ProName"];
+  $ProPrice = $row["ProPrice"];
+  $ProDesc = $row["ProDesc"];
+  $Ingre = $row["Ingredient"];
+  $store = $row["Storage"];
+  $life = $row["ShelfLife"];
+
+  // Category
+  $cat_sql = "SELECT CatName FROM product_cat WHERE ProID = ".$ProID."";
+  $cat_query = $db_conn ->query($cat_sql);
+
+  $cat_row = $cat_query->fetch_assoc();
+  $CatName = $cat_row["CatName"];
+  // End Category
+
+  // For Image
+  $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = ".$ProID."";
+  $img_query = $db_conn ->query($img_sql);
+
+  $img_row = $img_query->fetch_assoc();
+  if($img_row === NULL)
+    $img_num = 0;
+  else 
+      $img_num = count($img_row);
+
+  if($img_num > 0)
   {
-    $row = $pro_query->fetch_assoc();
+    if($img_num > 1)
+    {
+      $img_lay ="<div class='product-sliders'>";
 
-    $ProID = $row["ProID"];
-    $ProName = $row["ProName"];
-    $ProPrice = $row["ProPrice"];
-    $ProDesc = $row["ProDesc"];
-    $Ingre = $row["Ingredient"];
-    $store = $row["Storage"];
-    $life = $row["ShelfLife"];
-    
-     // Prepare the SQL statement for category query
-    $stmt_cat = $db_conn->prepare("SELECT CatName FROM product_cat WHERE ProID = ?");
-    $stmt_cat->bind_param("i", $ProID);
-    $stmt_cat->execute();
-    $cat_query = $stmt_cat->get_result();
+      while($img_row = $img_query->fetch_assoc())
+      {
+        $ImageName = $img_row["ImageName"];
+        $ImageExt = $img_row["ImageExt"];
 
-    $cat_row = $cat_query->fetch_assoc();
-    $CatName = $cat_row["CatName"];
+        $img_lay .="<div class='sliders-cell'>
+                      <a href='$SiteUrl/upload/product/$ImageName.$ImageExt' data-fancybox='products' data-title='Enlarge'>
+                        <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+                      </a>
+                    </div>";
+      }
+      $img_lay .="</div>
+                  <div class='product-sliders-thumb'>";
 
-    // Prepare the SQL statement for category query
-    $stmt_img = $db_conn->prepare("SELECT `ImageName`, `ImageExt` FROM product_image WHERE ProID = ?");
-    $stmt_img->bind_param("i", $ProID);
-    $stmt_img->execute();
-    $img_query = $stmt_img->get_result();
+      // Reset the query to fetch images again
+      $img_query->data_seek(0);
 
-    $img_row = $img_query->fetch_assoc();
-    $ImgName = $img_row["ImageName"];
-    $ImgExt = $img_row["ImageExt"];
+      while($img_row = $img_query->fetch_assoc())
+      {
+        $ImageName = $img_row["ImageName"];
+        $ImageExt = $img_row["ImageExt"];
+
+        $img_lay .="<div class='col-lg-2 col-sm-3 col-4'>
+                      <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+                    </div>";
+      }
+      $img_lay .="</div>";
+    }
+    else
+    {
+      while($img_row = $img_query->fetch_assoc())
+      {
+        $ImageName = $img_row["ImageName"];
+        $ImageExt = $img_row["ImageExt"];
+
+        $img_lay .= " <a href='$SiteUrl/upload/product/$ImageName.$ImageExt' data-fancybox='products' data-title='Enlarge'>
+                        <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+                      </a>";
+      }
+    }
   }
+  else
+  {
+    $img_lay .="<img src='$SiteUrl/user/assets/img/no-image.png'>";
+  }
+  $img_lay .="</div>";
+  // End Image
 }
 ?>
 
@@ -56,7 +99,7 @@ if($ProUrl>0)
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title><?php echo $ProName  // food name?> - LBM</title>
+  <title><?=$ProName // food name?> - LBM</title>
 </head>
 
 <body>
@@ -76,29 +119,57 @@ if($ProUrl>0)
     <div class="breadcrumbs">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h2><?php echo $ProName?></h2>
+          <h2><?=$ProName?></h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li><a href="menu.php?cat=<?php echo urlencode($CatName);?>"> <?php echo $CatName?></a></li>
+            <li><a href="menu.php?cat=<?php echo urlencode($CatName);?>"></a></li>
           </ol>
         </div>
       </div>
-    </div><!-- End Breadcrumbs -->
+    </div>
+    <!-- End Breadcrumbs -->
 
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
-        <div class="row mt-30">
+      <div class="row product-info-row" style="margin-bottom:10px">
+			  <div class="col-md-6">
+				  <div class="product-info-image-box">
+            <?php echo $img_lay; ?>
+          </div>
+          <div class="product-info-desc d-sm-block d-none">
+            <div class="accor-box">
+                <h4 class="toggle-arrow enable">Descriptions</h4>
+                <div class="accor-content toggle-result">
+                    <?php
+                      echo (!empty($ProDesc) ? $ProDesc : "");
+                      echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
+                      echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
+                      echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
+                    ?>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+				  <div class="product-info-side">
+					  <aside>
+              <h3><?=$ProName?></h3>
+            </aside>
+          </div>
+        </div>
+      </div>
+        <!-- <div class="row mt-30">
           <div class="col product-gallery col-lg-6">
             <div class="row">
               <div class="col col-md-12 col-sm-12 product-images">
-                <img src="http://localhost:80/FYP-Project/user/upload/product/<?php echo $ImgName.".".$ImgExt; ?>" >
+                <img src="http://localhost:80/FYP-Project/user/upload/product/<?php // echo $ImgName.".".$ImgExt; ?>" >
               </div>
             </div>
             <p>
               You can duplicate this sample page and create any number of inner pages you like!
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
 
