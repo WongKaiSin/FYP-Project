@@ -10,13 +10,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     // Retrieve form data
    
     $currentDateTime = date("Y-m-d H:i:s");
-
-    $catAddPerson = $_POST["catAddPerson"];
+    $adUser = $_SESSION['adUser'];
     $catName = $_POST["catName"];
 
     // Insert data into the database
     $sql = "INSERT INTO category (catAddPerson, catName, catAddDate) 
-            VALUES ('$catAddPerson', '$catName', '$currentDateTime')";
+            VALUES ('$adUser', '$catName', '$currentDateTime')";
 
 if ($db_conn->query($sql) === TRUE) {
     // Set success message
@@ -78,10 +77,6 @@ $db_conn->close();
                             <div class="card-body">
                         <!-- Add your form for adding a new product here -->
                             <form action="product-category-add.php" method="POST">
-                            <div class="form-group">
-                            <label for="inputText3" class="col-form-label" >Admin Name</label>
-                            <input id="inputText3" type="text" class="form-control" name="catAddPerson" required>
-                            </div>
                             <div class="form-group">
                             <label for="inputText3" class="col-form-label" >Category Name</label>
                             <input id="inputText3" type="text" class="form-control" name="catName" required>

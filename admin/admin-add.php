@@ -19,10 +19,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adState = $_POST["adState"];
     $adCity = $_POST["adCity"];
     $adPostcode = $_POST["adPostcode"];
+    $currentDateTime = date("Y-m-d H:i:s");
 
     // Insert data into the database
-    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode) 
-            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode')";
+    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode,adStatus,AdminAddDate) 
+            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode','1','$currentDateTime')";
  if ($db_conn->query($sql) === TRUE) {
     // Set success message
     $success_message = "New record created successfully";
@@ -140,8 +141,8 @@ $db_conn->close();
                     <div class="form-group">
                         <label for="inputAdminType">Admin Type</label>
                         <select id="inputAdminType" class="form-control" name="inputAdminType" required>
-                            <option value="admin">Admin</option>
-                            <option value="superadmin">Superadmin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="SuperAdmin">SuperAdmin</option>
                         </select>
                     </div>
 

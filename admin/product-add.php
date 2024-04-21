@@ -47,10 +47,6 @@ $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
                         <form action="product-add_p.php?catID=<?php echo $catID; ?>" method="POST">
                             <input type="hidden" name="catID" value="<?php echo $catID; ?>">
                             <div class="form-group">
-                            <label for="inputText3" class="col-form-label" >Admin Name</label>
-                            <input id="inputText3" type="text" class="form-control" name="ProAddPerson" required>
-                            </div>
-                            <div class="form-group">
                             <label for="inputText3" class="col-form-label" >Product Name</label>
                             <input id="inputText3" type="text" class="form-control" name="ProName" required>
                             </div>

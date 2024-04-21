@@ -21,12 +21,11 @@ if ($result && $result->num_rows > 0) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currentDateTime = date("Y-m-d H:i:s");
-
+    $adUser = $_SESSION['adUser'];
     $newName = $_POST['newName'];
     $newPrice = $_POST['newPrice'];
     $newCost = $_POST['newCost'];
     $newDesc = $_POST['newDesc'];
-    $AdName = $_POST['AdName'];
     $newStorage = $_POST["newStorage"];
     $newShelfLife = $_POST["newShelfLife"];
     $newIngredient = $_POST["newIngredient"];
@@ -48,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     ProCost='$newCost', 
                                     ProDesc='$newDesc', 
                                     ProModifyDate='$currentDateTime', 
-                                    ProModifyPerson='$AdName', 
+                                    ProModifyPerson='$adUser', 
                                     Ingredient='$newIngredient',
                                     Storage='$newStorage', 
                                     ShelfLife='$newShelfLife'
@@ -82,9 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <title>Edit Product - <?php echo $product['ProName']; ?></title>
-    <!-- Include CSS stylesheets -->
-    <!-- Include any additional CSS stylesheets for styling -->
+    <title><?php echo $product['ProName']; ?> - Edit Product</title>
+    
 </head>
 
 <body>
@@ -98,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Edit Product - <?php echo $product['ProName']; ?></h2>
+                            <h2 class="pageheader-title"><?php echo $product['ProName']; ?> - Edit Product</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -113,13 +111,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="section-block" id="basicform">
+                            <p>Edit the information below to edit the product...</p>
+                    </div> 
                         <div class="card">
                             <div class="card-body">
                                 <form method="post">
-                                    <div class="form-group">
-                                        <label for="newName">Modify Person Name:</label>
-                                        <input type="text" class="form-control" id="AdName" name="AdName">
-                                    </div>
                                     <div class="form-group">
                                         <label for="newName">Product Name:</label>
                                         <input type="text" class="form-control" id="newName" name="newName" value="<?php echo $product['ProName']; ?>">

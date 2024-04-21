@@ -12,12 +12,42 @@ include("lib/db.php");
   
     <title>View User List</title>
 </head>
+<style>
+
+    .top-search-bar {
+
+        float: right;
+        padding: 10px;
+}
+</style>
 <script type="text/javascript">
 
 function confirmation(){
-	answer = confirm("Do you want to delete this staff?");
+	answer = confirm("Do you want to delete this user?");
 	return answer;
 }
+
+function search() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById('myInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById("example");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Change index to match the column containing name
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
 </script>
 <?php
 if (isset($_REQUEST["del"])) 
@@ -74,16 +104,12 @@ if (isset($_REQUEST["del"]))
                 <!-- ============================================================== -->
 
                 <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- data table  -->
-                    <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">User List</h5>
-                                <p>The list displays user information.</p>
-                            </div>
                             <div class="card-body">
+                                <div id="custom-search" class="top-search-bar">
+                                <input type="text" class="form-control" id="myInput" onkeyup="search()" placeholder="Search..">
+                                </div>
                                 <div class="table-responsive">
                                     <table id="example" class="table table-striped table-bordered second" style="width:100%">
                                         <thead>
@@ -95,45 +121,46 @@ if (isset($_REQUEST["del"]))
                                                 <th>Type</th>
                                                 <th>Login Time</th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
+                                            <?php
                                             mysqli_select_db($db_conn, "bagel");
                                             $sql = "SELECT * FROM member";
                                             $query = $db_conn->query($sql);
                                             if ($query) {
                                                 while ($row = $query->fetch_assoc()) {
-                                            ?>		
-
-                                            <tr>
-                                            <td><?php echo $row["MemberID"]; ?></td>
-                                                <td><?php echo $row["MemberName"]; ?></td>
-                                                <td><?php echo $row["MemberEmail"]; ?></td>
-                                                <td><?php echo $row["MemberPhone"]; ?></td>
-                                                <td><?php echo $row["MemberType"]; ?></td>
-                                                <td><?php echo $row["MemberLoginTime"]; ?></td>
-                                                <td>
-                                                    <span style="font-style: italic; text-decoration: underline;">
-                                                        <a href="view_user.php?del=1&MemberID=<?php echo $row['MemberID']; ?>" onclick="return confirmation();">Delete</a>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            ?>
+                                                    <tr>
+                                                        <td><?php echo $row["MemberID"]; ?></td>
+                                                        <td><?php echo $row["MemberName"]; ?></td>
+                                                        <td><?php echo $row["MemberEmail"]; ?></td>
+                                                        <td><?php echo $row["MemberPhone"]; ?></td>
+                                                        <td><?php echo $row["MemberType"]; ?></td>
+                                                        <td><?php echo $row["MemberLoginTime"]; ?></td>
+                                                        <td>
+                                                            <span style="font-style: italic; text-decoration: underline;">
+                                                                <a href="view_user.php?del=1&MemberID=<?php echo $row['MemberID']; ?>" onclick="return confirmation();">Delete</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
                                             <?php
                                                 }
                                             } else {
                                                 echo "Error fetching records: " . $db_conn->error;
                                             }
                                             ?>
-                                        
-                                            </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- end data table  -->
-                    <!-- ============================================================== -->
-                    
+                </div>
+                <!-- End User List -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

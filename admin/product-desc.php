@@ -126,6 +126,10 @@ if (isset($_REQUEST["del"]))
                                                             <th>Add Person</th>
                                                             <td><?php echo $product['ProAddPerson']; ?></td>
                                                         </tr>
+                                                        <tr>
+                                                            <th>Last Modify</th>
+                                                            <td><?php echo $product['ProModifyPerson']; ?> <?php echo $product['ProModifyDate']; ?></td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                     </div>
