@@ -19,10 +19,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adState = $_POST["adState"];
     $adCity = $_POST["adCity"];
     $adPostcode = $_POST["adPostcode"];
+    $currentDateTime = date("Y-m-d H:i:s");
 
     // Insert data into the database
-    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode) 
-            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode')";
+    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode,adStatus,AdminAddDate) 
+            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode','1','$currentDateTime')";
  if ($db_conn->query($sql) === TRUE) {
     // Set success message
     $success_message = "New record created successfully";
@@ -94,7 +95,7 @@ $db_conn->close();
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="admin-add.php" class="breadcrumb-link">Add New Admin</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Add New Admin</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -140,8 +141,8 @@ $db_conn->close();
                     <div class="form-group">
                         <label for="inputAdminType">Admin Type</label>
                         <select id="inputAdminType" class="form-control" name="inputAdminType" required>
-                            <option value="admin">Admin</option>
-                            <option value="superadmin">Superadmin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="SuperAdmin">SuperAdmin</option>
                         </select>
                     </div>
 
@@ -176,8 +177,8 @@ $db_conn->close();
                         <label for="profilePicture">Profile Picture</label>
                         <input type="file" class="form-control-file" id="profilePicture" name="adLogo">
                     </div>
-                    <input type="submit" name="savebtn" value="Save" class="btn-primary" style="margin-top:20px; padding: 5px 15px ;">
-                    <input type="reset" name="registerbtn" value="Cancel" class="btn-danger" style="margin-top:20px; margin-left:10px; padding: 5px 10px ;">
+                    <button type="submit"  name="savebtn" class="btn btn-primary">Add Admin</button>
+                    <button type="reset"  name="registerbtn" class="btn btn-danger">Cancel</button>
                 </form>
             </div>
         </div>

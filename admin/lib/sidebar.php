@@ -160,6 +160,9 @@
                                     <a class="nav-link" href="view_user.php">User Page</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="admin-view.php">view admin Page</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="admin-add.php">Add new admin</a>
                                 </li>
                                 <li class="nav-item">

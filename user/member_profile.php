@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['MemberEmail'])) {
+  // Redirect to login page or handle unauthorized access
+  header("Location: registration.php");
+  exit();
+}
 
 // Initialize variables to avoid "Undefined variable" errors
 $MemberEmail = ""; // Initialize $MemberEmail
