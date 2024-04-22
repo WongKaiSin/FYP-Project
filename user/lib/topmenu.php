@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar">
 <ul>
-    <li><a href="index.php#home">Home</a></li>
+    <li><a href="index.php#hero">Home</a></li>
     <li><a href="index.php#about">About</a></li>
     <li><a href="index.php#menu">Recommendation</a></li>
     <li><a href="menu.php">Menu</a></li>

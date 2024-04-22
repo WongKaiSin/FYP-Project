@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -944,27 +947,28 @@
         </div>
 
         <form action="forms/contact.php" method="post" role="form" class="php-email-form p-3 p-md-4">
-          <div class="row">
-            <div class="col-xl-6 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-            </div>
-            <div class="col-xl-6 form-group">
-              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-          </div>
-          <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-          </div>
-          <div class="my-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your message has been sent. Thank you!</div>
-          </div>
-          <div class="text-center"><button type="submit">Send Message</button></div>
-        </form><!--End Contact Form -->
+  <div class="row">
+    <div class="col-xl-6 form-group">
+      <input type="text" name="Name" class="form-control" id="Name" placeholder="Your Name" required>
+    </div>
+    <div class="col-xl-6 form-group">
+      <input type="email" class="form-control" name="Email" id="Email" placeholder="Your Email" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="Subject" id="Subject" placeholder="Subject" required>
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" name="Message" rows="5" placeholder="Message" required></textarea>
+  </div>
+  <div class="my-3">
+    <div class="loading">Loading</div>
+    <div class="error-message"></div>
+    <div class="sent-message">Your message has been sent. Thank you!</div>
+  </div>
+  <div class="text-center"><button type="submit" name="BtnContact">Send Message</button></div>
+</form>
+
 
       </div>
     </section><!-- End Contact Section -->
@@ -975,6 +979,13 @@
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <div id="preloader"></div>
+
+  <?php
+    if (isset($_SESSION['alert'])) {
+        echo "<script>alert('{$_SESSION['alert']}');</script>";
+        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
+    }
+  ?>
 
 </body>
 </html>
