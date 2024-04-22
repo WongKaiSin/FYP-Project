@@ -31,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     // Redirect after submission
     echo '<script type="text/javascript">
                 alert("'.$adName.' saved");
-                window.location.href = "admin-add.php";
+                window.location.href = "admin-view.php";
           </script>';
     exit();
 } else {

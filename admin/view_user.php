@@ -19,6 +19,15 @@ include("lib/db.php");
         float: right;
         padding: 10px;
 }
+
+.card-header{
+        position:sticky;
+    }
+
+    .card-body {
+    height: 400px; 
+    overflow-y: auto; 
+}
 </style>
 <script type="text/javascript">
 
@@ -106,10 +115,12 @@ if (isset($_REQUEST["del"]))
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
+                        <div class="card-header">
+                            <div id="custom-search" class="top-search-bar">
+                                    <input type="text" class="form-control" id="myInput" onkeyup="search()" placeholder="Search..">
+                            </div>
+                        </div>
                             <div class="card-body">
-                                <div id="custom-search" class="top-search-bar">
-                                <input type="text" class="form-control" id="myInput" onkeyup="search()" placeholder="Search..">
-                                </div>
                                 <div class="table-responsive">
                                     <table id="example" class="table table-striped table-bordered second" style="width:100%">
                                         <thead>

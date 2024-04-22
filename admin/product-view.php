@@ -36,23 +36,91 @@ if (isset($_GET["del"])) {
 
 
 ?>
+<script type="text/javascript">
+    // Function to filter products based on selected category
+function filterProducts() {
+    var selectedCategory = ''; // Variable to store selected category ID
+    var radios = document.querySelectorAll('.category-filter:checked');
+    
+    // Get selected category ID
+    if (radios.length > 0) {
+        selectedCategory = radios[0].getAttribute('data-catid');
+    }
+
+    // Show/hide products based on selected category
+    var products = document.querySelectorAll('.product-item');
+    products.forEach(function(product) {
+        var categories = product.getAttribute('data-categories').split(','); // Get categories of the product
+        var shouldShow = selectedCategory === '' || categories.includes(selectedCategory);
+        product.style.display = shouldShow ? 'block' : 'none'; // Show or hide the product
+    });
+}
+
+// Attach event listener to category radio buttons
+document.addEventListener('DOMContentLoaded', function() {
+    var radios = document.querySelectorAll('.category-filter');
+    radios.forEach(function(radio) {
+        radio.addEventListener('change', filterProducts);
+    });
+});
+
+// Function to reset filter and show all products
+function resetFilter() {
+    // Clear selection of radio buttons
+    var radios = document.querySelectorAll('.category-filter');
+    radios.forEach(function(radio) {
+        radio.checked = false;
+    });
+
+    // Show all products
+    var products = document.querySelectorAll('.product-item');
+    products.forEach(function(product) {
+        product.style.display = 'block';
+    });
+}
+
+// Attach event listener to reset filter button
+document.addEventListener('DOMContentLoaded', function() {
+    var resetFilterBtn = document.getElementById('resetFilterBtn');
+    resetFilterBtn.addEventListener('click', function() {
+        resetFilter();
+    });
+});
+
+</script>
+
 <!doctype html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Product List</title>
+    <style>
+        .product-list-container {
+            width: 70%;
+            float: left;
+        }
+
+        /* CSS for filter sidebar */
+        .filter-sidebar {
+            width: 20%;
+            float: right;
+            position: fixed; /* Fix the sidebar position */
+            right: 30px; /* Align the sidebar to the right */
+           
+        }
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
 <script type="text/javascript">
     function confirmation() {
         return confirm("Do you want to delete this category?");
     }
 </script>
-<head>
-    <title>View Product List</title>
-</head>
-<style>
-        .add-category-btn {
-            float: right;
-            margin-bottom: 10px;
-        }
-        
-    </style>
 <body>
     <div class="dashboard-main-wrapper">
         <?php 
@@ -76,59 +144,85 @@ if (isset($_GET["del"])) {
                         </div>
                     </div>
                 </div>
-                <?php
-                    // Fetch and display category names
-                    mysqli_select_db($db_conn,"bagel");
-                    $categoryResult = $db_conn->query("SELECT * FROM category");
-                    while($categoryRow = $categoryResult->fetch_assoc()) {
+                <div class="clearfix">
+                    <div class="product-list-container">
+                        <?php
+                            // Fetch and display category names
+                            mysqli_select_db($db_conn,"bagel");
+                            $categoryResult = $db_conn->query("SELECT * FROM category");
+                            while($categoryRow = $categoryResult->fetch_assoc()) {
 
-                        $catID = $categoryRow["catID"];
-                        
-                        //delete category
-                        echo '<h3>' . $categoryRow["catName"] . 
-                        '<a href="product-category-edit.php?catID='.$catID.'"   style="color: #1e90ff; padding-left: 10px;"><i class="m-r-10 mdi mdi-lead-pencil"></i></a>|
-                        <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="color: red;padding-left: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a></h3>';
-                        // Add Product button
-                        echo '<a href="product-add.php?catID='.$catID .'"class="btn btn-success">Add Product</a>';
-                        
-                        // Fetch and display products for each category
-                        mysqli_select_db($db_conn,"bagel");
-                        $productResult = $db_conn->query("SELECT * FROM product_cat WHERE CatID = " . $catID);
-                        echo '<div class="row">';
-                        while($productRow = $productResult->fetch_assoc()) {
-                            $ProID = $productRow["ProID"];
-                ?>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                        <!-- .card -->
-                        <div class="card card-figure">
-                            <!-- .card-figure -->
-                            <figure class="figure">
-                                <!-- .figure-img -->
-                                <div class="figure-img">
-                                    <!-- Replace the src attribute with the actual image source -->
-                                    <img class="img-fluid" src="assets/images/card-img.jpg" alt="Card image cap">
-                                    <div class="figure-action">
-                                    <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="btn btn-block btn-sm btn-primary">Description</a>
-                                    </div>
+                                $catID = $categoryRow["catID"];
+                                
+                                //add delete edit button
+                                echo '<h3>' . $categoryRow["catName"] . 
+                                '<a href="product-add.php?catID='.$catID .'"   style="color: #00ab41; padding-left: 10px;"><i class="m-r-10 mdi mdi-plus-circle-outline"></i></a>|
+                                <a href="product-category-edit.php?catID='.$catID.'"   style="color: #8080ff; padding: 0px;"><i class="m-r-10 mdi mdi-lead-pencil"></i></a>|
+                                <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="color: red;padding: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a></h3>';
+                                
+                                
+                                
+                                // Fetch and display products for each category
+                                mysqli_select_db($db_conn,"bagel");
+                                $productResult = $db_conn->query("SELECT * FROM product_cat WHERE CatID = " . $catID);
+                                echo '<div class="row">';
+                                while($productRow = $productResult->fetch_assoc()) {
+                                    $ProID = $productRow["ProID"];
+                        ?>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 product-item" data-categories="<?php echo $catID ?>">
+                                <!-- .card -->
+                                <div class="card card-figure">
+                                    <!-- .card-figure -->
+                                    <figure class="figure">
+                                        <!-- .figure-img -->
+                                        <div class="figure-img">
+                                            <!-- Replace the src attribute with the actual image source -->
+                                            <img class="img-fluid" src="../upload/product/1.jpeg" alt="Card image cap">
+                                            <div class="figure-action">
+                                            <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="btn btn-block btn-sm btn-primary">Description</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.figure-img -->
+                                        <!-- .figure-caption -->
+                                        <figcaption class="figure-caption">
+                                            <p class="text-muted mb-0"><?php echo $productRow["ProName"]; ?></p>
+                                        </figcaption>
+                                        <!-- /.figure-caption -->
+                                    </figure>
+                                    <!-- /.card-figure -->
                                 </div>
-                                <!-- /.figure-img -->
-                                <!-- .figure-caption -->
-                                <figcaption class="figure-caption">
-                                    <p class="text-muted mb-0"><?php echo $productRow["ProName"]; ?></p>
-                                </figcaption>
-                                <!-- /.figure-caption -->
-                            </figure>
-                            <!-- /.card-figure -->
-                        </div>
-                        <!-- /.card -->
+                                <!-- /.card -->
+                            </div>
+                        <?php
+                                }
+                                echo '</div>'; // Close the row after displaying all products in this category
+                            }
+                        ?>
                     </div>
-                    
-                <?php
-                        }
-                        echo '</div>'; // Close the row after displaying all products in this category
-                    }
-                ?>
-               </br></br></br> <a href="product-category-add.php" class="btn btn-secondary  add-category-btn">Add Category</a></br></br>
+                    <div class="filter-sidebar">
+                            <div class="product-sidebar">
+                                <div class="product-sidebar-widget">
+                                    <h4 class="product-sidebar-widget-title">Category</h4>
+                                    <?php
+                                    // Fetch and display category names
+                                    mysqli_select_db($db_conn,"bagel");
+                                    $categoryResult = $db_conn->query("SELECT * FROM category");
+                                    while($categoryRow = $categoryResult->fetch_assoc()) {
+                                        $catID = $categoryRow["catID"];
+                                        echo '<div class="custom-control custom-radio">';
+                                        echo '<input type="radio" class="custom-control-input category-filter" name="category" id="cat-'.$catID.'" data-catid="'.$catID.'">';
+                                        echo '<label class="custom-control-label" for="cat-'.$catID.'">'.$categoryRow["catName"].'</label>';
+                                        echo '</div>';
+  
+                                    }
+                                ?>
+                                <div class="product-sidebar-widget">
+                                    <a href="product-category-add.php" class="btn btn-outline-light">Add Category</a>
+                                    <button class="btn btn-outline-light" id="resetFilterBtn">Reset</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

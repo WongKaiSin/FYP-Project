@@ -61,6 +61,16 @@ if (isset($_GET["del"])) {
             float: right;
             margin-bottom: 10px;
         }
+    
+    .card-header{
+        position:sticky;
+    }
+
+    .card-body {
+    height: 400px; 
+    overflow-y: auto; 
+}
+
 </style>
 <script type="text/javascript">
 
@@ -142,12 +152,13 @@ function addAdmin(){
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <div id="custom-search" class="top-search-bar">
+                        <div class="card-header">
+                            <div id="custom-search" class="top-search-bar">
                                     <input type="text" class="form-control" id="myInput" onkeyup="search()" placeholder="Search..">
-                                </div>
-                                <br><br><br>
-
+                            </div>
+                            <button onclick="addAdmin()" class="btn btn-primary add-btn">Add Admin</button>
+                        </div>
+                            <div class="card-body">
                                 <?php
                                 mysqli_select_db($db_conn, "bagel");
                                 $sql = "SELECT * FROM admin";
@@ -217,7 +228,7 @@ function addAdmin(){
                                     echo "Error fetching records: " . $db_conn->error;
                                 }
                                 ?>
-                                <button onclick="addAdmin()" class="btn btn-primary add-btn">Add Admin</button>
+                                
                             </div>
                             
                         </div>
