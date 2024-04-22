@@ -12,7 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adName = $_POST["adName"];
     $adEmail = $_POST["adEmail"];
     $adTel = $_POST["adTel"];
-    $adPass = $func->PassSign($adEmail, $_POST["adPass"]);
+    $adPass = $func->PassSign($adUser, $_POST["adPass"]);
     $adType = $_POST["inputAdminType"];
     $adAdd = $_POST["adAdd"];
     $adCountry = $_POST["adCountry"];
