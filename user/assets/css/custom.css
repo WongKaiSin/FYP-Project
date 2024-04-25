@@ -1,6 +1,99 @@
 /***** PRODUCT DETAIL PAGE *****/
+/*-----Image Sliders-----*/
+/* Hide the images by default */
+img
+{
+	vertical-align: middle;
+}
+
+.mySlides
+{
+	display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor
+{
+	cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev, .next
+{
+	cursor: pointer;
+	position: absolute;
+	top: 40%;
+	width: auto;
+	padding: 16px;
+	margin-top: -50px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next
+{
+	right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover
+{
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext
+{
+	color: #f2f2f2;
+	font-size: 12px;
+	padding: 8px 12px;
+	position: absolute;
+	top: 0;
+}
+
+/* Container for image text */
+.caption-container
+{
+	text-align: center;
+	background-color: #222;
+	padding: 2px 16px;
+	color: white;
+}
+
+.row:after
+{
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Six columns side by side */
+.column
+{
+	float: left;
+	width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo 
+{
+	opacity: 0.6;
+}
+
+.active, .demo:hover 
+{
+	opacity: 1;
+}
+/*-----END Image Sliders-----*/
+
 /* images */
-.product-info-image-box
+/* .product-info-image-box
 {
 	position:relative;
 	margin-bottom:40px;
@@ -74,11 +167,11 @@
 .product-sliders-thumb .flickity-prev-next-button.next
 {
 	right:-35px;
-}
+} */
 /* END images */
 
 /* wishlist */
-.product-info-image-box .product-save
+/* .product-info-image-box .product-save
 {
 	z-index:99;
 	top:20px;
@@ -95,7 +188,7 @@
 .product-sliders:hover + .product-save a, .product-info-image-box .product-save a:hover
 {
     opacity: 1;
-}
+} */
 /* END wishlist */
 
 /* description */
@@ -108,7 +201,7 @@
 .product-info-desc + .product-info-desc
 {
 	margin-top: 0px; /*originally 40px*/
-	/*border-bottom: 1px solid #ddd;*/
+	border-bottom: 1px solid #ddd;
 }
 
 .product-info-desc .accor-box
@@ -124,7 +217,7 @@
 	background: transparent;
 	padding: 10px 20px 10px 20px;  /*original 10px 20px 10px 40px*/
 	border-top:1px solid #ddd;
-	border-bottom: none; /*originally border-bottom:1px solid #ddd;*/
+	border-bottom: none; /*originally border-bottom:1px solid #ddd; */
 }
 
 .product-info-desc .accor-box > h4.active
@@ -207,7 +300,7 @@ a.icon-save img
 /* END basic */
 
 /* tag */
-.product-info-tag
+/* .product-info-tag
 {
 	list-style: none;
 	padding: 0px;
@@ -226,11 +319,11 @@ a.icon-save img
 {
 	color: #000;
     font-weight: bold;
-}
+} */
 /* END tag */
 
 /* attribute */
-.product-info-attribute-box
+/* .product-info-attribute-box
 {
 	margin-top:20px;
 }
@@ -273,19 +366,19 @@ a.icon-save img
 .product-info-attribute-box ul li:hover
 {
 	background:#eee;
-}
+} */
 /* END attribute */
 
-.product-info-delivery-closed
+/* .product-info-delivery-closed
 {
     margin-bottom: 5px;
     font-size: 14px;
     color: red;
     font-weight: bold;
-}
+} */
 
 /* button, stock */
-.product-info-quantity-box
+/* .product-info-quantity-box
 {
 	display: flex;
 	width: 100%;
@@ -333,11 +426,11 @@ a.icon-save img
 	text-align:center;
     font-family: "Quicksand";
     font-size: 16px;
-    line-height: 1.3;
+    line-height: 1.3; */
 	/* -webkit-appearance:none; */
-}
+/* } */
 
-.product-info-quantity-box input:focus
+/* .product-info-quantity-box input:focus
 {
     box-shadow: none;
 }
@@ -384,10 +477,10 @@ a.icon-save img
 .product-info-button button.btn-out-of-stock > i
 {
 	margin-top:-5px;
-}
+} */
 /* END price, button, stock */
 /* END side */
-.product-info-row
+/* .product-info-row
 {
 	margin-bottom: 30px;
     margin-top: 10px;
@@ -397,7 +490,7 @@ a.icon-save img
 {
     font-weight: bold
 }
-
+ */
 
 /***** END PRODUCT DETAIL PAGE *****/
 
@@ -455,7 +548,7 @@ a.icon-save img
 .accor-box .accor-content.active
 {
 	display:block;
-}
+} 
 /***** END ACCORDION *****/
 
 /*** TOGGLE ***/
@@ -502,7 +595,7 @@ a.icon-save img
 .accor-content.toggle-result > p > b, .accor-content.toggle-result > p > strong {
     color:#ff5f1f;
 }
-/*** END TOGGLE ***/
+/*** END TOGGLE **
 
 /*** SIDEBAR ***/
 .sidebar .toggle-arrow.enable::after

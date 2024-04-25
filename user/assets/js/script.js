@@ -1,48 +1,34 @@
-$(document).ready(function() {
-// slider
-if ($(".product-sliders").length) {
-    $('.product-sliders').flickity({
-        cellAlign: "left",
-        imagesLoaded: true,
-        wrapAround: true,
-        pageDots: false,
-        adaptiveHeight: true
-    });
+// Image Slider
+let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
 }
 
-if ($(".product-sliders-thumb").length) {
-    $('.product-sliders-thumb').flickity({
-        cellAlign: "left",
-        imagesLoaded: true,
-        asNavFor: ".product-sliders",
-        pageDots: false,
-        contain: true,
-        groupCells: true,
-    });
-}
-// END slider
-
-// Special
-if ($("[data-fancybox]").length) {
-    $('[data-fancybox]').fancybox({
-        onInit: function(instance) {
-            instance.$refs.toolbar.find('.fancybox-zoom').on('click', function() {
-                if (instance.isScaledDown()) {
-                    instance.scaleToActual();
-                } else {
-                    instance.scaleToFit();
-                }
-            });
-        }
-    });
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
 }
 
-if ($(".selectpicker").length) {
-    $('.selectpicker').select2();
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  if (slides.length > 0 && dots.length > 0) {
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
 }
-
-if ($("[data-title]").length) {
-    $('[data-title]').tooltip();
-}
-// END Special
-});
+// END Image Slider

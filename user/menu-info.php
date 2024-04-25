@@ -42,33 +42,46 @@ if($pro_query->num_rows > 0)
   {
     if($img_num > 1)
     {
-      $img_lay ="<div class='product-sliders'>";
-
+      $img_lay ="<div class='cont'>";
+      $i=0;
       while($img_row = $img_query->fetch_assoc())
       {
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
-        $img_lay .="<div class='sliders-cell'>
-                      <a href='$SiteUrl/upload/product/$ImageName.$ImageExt' data-fancybox='products' data-title='Enlarge'>
-                        <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
-                      </a>
+        $img_lay .="<div class='mySlides'>
+                      <div class='numbertext'>".($i+1)." / $img_num</div>
+                        <a href='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+                          <img src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%'>
+                        </a>
                     </div>";
+        $i++;
       }
-      $img_lay .="</div>
-                  <div class='product-sliders-thumb'>";
+      $img_lay .="  <!-- Next and previous buttons -->
+                    <a class='prev' onclick='plusSlides(-1)'>&#10094;</a>
+                    <a class='next' onclick='plusSlides(1)'>&#10095;</a>
+                  
+                    <!-- Image text -->
+                    <div class='caption-container'>
+                      <p id='caption'></p>
+                    </div>
+                  
+                  <!-- Thumbnail images -->
+                  <div class='row'>";
 
       // Reset the query to fetch images again
       $img_query->data_seek(0);
-
+      $i=1;
+      
       while($img_row = $img_query->fetch_assoc())
       {
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
-        $img_lay .="<div class='col-lg-2 col-sm-3 col-4'>
-                      <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+        $img_lay .="<div class='column'>
+                      <img class='demo cursor' src='$SiteUrl/upload/product/$ImageName.$ImageExt'  style='width:100%' onclick='currentSlide($i)' alt='The Woods'>
                     </div>";
+        $i++;
       }
       $img_lay .="</div>";
     }
@@ -79,7 +92,7 @@ if($pro_query->num_rows > 0)
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
-        $img_lay .= " <a href='$SiteUrl/upload/product/$ImageName.$ImageExt' data-fancybox='products' data-title='Enlarge'>
+        $img_lay .= " <a href='$SiteUrl/upload/product/$ImageName.$ImageExt'>
                         <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
                       </a>";
       }
@@ -100,6 +113,13 @@ if($pro_query->num_rows > 0)
 <head>
   <?php include("lib/head.php"); ?>
   <title><?=$ProName // food name?> - LBM</title>
+  <style>
+    /* Position the image cont (needed to position the left and right arrows) */
+    .cont
+    {
+      position: relative;
+    }
+  </style>
 </head>
 
 <body>
@@ -122,7 +142,7 @@ if($pro_query->num_rows > 0)
           <h2><?=$ProName?></h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li><a href="menu.php?cat=<?php echo urlencode($CatName);?>"></a></li>
+            <li><a href="menu.php?CatID=<?=urlencode($CatName);?>"><?=$CatName; ?></a></li>
           </ol>
         </div>
       </div>
@@ -131,11 +151,9 @@ if($pro_query->num_rows > 0)
 
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
-      <div class="row product-info-row" style="margin-bottom:10px">
+      <div class="row" style="margin-bottom:10px">
 			  <div class="col-md-6">
-				  <div class="product-info-image-box">
-            <?php echo $img_lay; ?>
-          </div>
+          <?php echo $img_lay; ?>
           <div class="product-info-desc d-sm-block d-none">
             <div class="accor-box">
                 <h4 class="toggle-arrow enable">Descriptions</h4>

@@ -24,7 +24,7 @@
 <link href="assets/css/main.css" rel="stylesheet">
 
 <!-- Custom CSS File -->
-<link href="assets/css/custom.css" rel="stylesheet">
+<link href="assets/css/custom.css?v=5" rel="stylesheet">
 
 
 <!-- =======================================================
@@ -45,4 +45,4 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/script.js"></script>
+<script src="assets/js/script.js?v=2"></script>
