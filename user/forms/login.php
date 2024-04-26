@@ -24,8 +24,8 @@ if(isset($_POST["loginbtn"])) {
         
         // Set session and redirect
         $_SESSION['MemberEmail'] = $row['MemberEmail'];
-        echo "<script>alert('You are now logged in');</script>";
-        echo "<script>window.location.href='../index.php';</script>";
+        $_SESSION["MemberID"] = $row["MemberID"];
+        header("Location: ../index.php");
         exit();
     } else {
         $_SESSION['alert'] = 'Invalid username or password';

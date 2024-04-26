@@ -56,40 +56,43 @@
             </p>
               <div class="row gy-4">
                 <div class="col-lg-4 col-md-6">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                  <input type="date" name="Date" class="form-control" id="Date" placeholder="Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                  <div class="validate"></div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <select class="form-control" name="Time" id="Time" data-rule="minlen:1" data-msg="Please select a time">
+                        <option value="">Time</option>
+                        <option value="1">8AM - 9AM</option>
+                        <option value="2">9AM - 10AM</option>
+                        <option value="3">10AM - 11AM</option>
+                        <option value="4">11AM - 12PM</option>
+                        <option value="5">12PM - 1PM</option>
+                        <option value="6">1PM - 2PM</option>
+                        <option value="7">2PM - 3PM</option>
+                        <option value="8">3PM - 4PM</option>
+                        <option value="9">4PM - 5PM</option>
+                        <option value="10">5PM - 6PM</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                  <input type="number" class="form-control" name="People" id="People" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars" min="1" max="20">
                   <div class="validate"></div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-                  <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" name="date" class="form-control" id="date" placeholder="Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="time" id="time" placeholder="Time" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                  <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="number" class="form-control" name="people" id="people" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                  <input type="text" class="form-control" id="Table" placeholder="Table no" readonly>
                   <div class="validate"></div>
                 </div>
               </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
-                <div class="validate"></div>
-              </div>
+              
               <div class="mb-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit">Book a Table</button></div>
+              <div class="text-center"><button type="submit" name="BtnBooking">Book a Table</button></div>
             </form>
           </div><!-- End Reservation Form -->
 
@@ -105,5 +108,13 @@
 
   <div id="preloader"></div>
 
+  <script>
+    document.getElementById('People').addEventListener('input', function() {
+      var People = this.value;
+      var tablesNeeded = Math.ceil(People / 4); // Calculate number of tables needed
+      tablesNeeded = Math.min(tablesNeeded, 5); // Limit maximum tables to 5
+      document.getElementById('Table').value = tablesNeeded;
+    });
+  </script>
 </body>
 </html>

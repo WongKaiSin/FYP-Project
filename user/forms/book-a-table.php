@@ -1,45 +1,84 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+// Include your database connection file
+include("../lib/db.php");
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Start the session
+session_start();
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+// Check if MemberID is set in session
+if(isset($_SESSION['MemberID'])) {
+    // Retrieve MemberID from session
+    $MemberID = $_SESSION['MemberID'];
 
-  $book_a_table = new PHP_Email_Form;
-  $book_a_table->ajax = true;
-  
-  $book_a_table->to = $receiving_email_address;
-  $book_a_table->from_name = $_POST['name'];
-  $book_a_table->from_email = $_POST['email'];
-  $book_a_table->subject = "New table booking request from the website";
+    // Check if the submit button is clicked
+    if (isset($_POST["BtnBooking"])) {
+        // Retrieve form data and sanitize inputs
+        $Date = $db_conn->real_escape_string($_POST["Date"]);
+        $Time = $db_conn->real_escape_string($_POST["Time"]);
+        $People = $db_conn->real_escape_string($_POST["People"]);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $book_a_table->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+        // Calculate the number of tables needed based on the number of people
+        $tablesNeeded = ceil($People / 4);
 
-  $book_a_table->add_message( $_POST['name'], 'Name');
-  $book_a_table->add_message( $_POST['email'], 'Email');
-  $book_a_table->add_message( $_POST['phone'], 'Phone', 4);
-  $book_a_table->add_message( $_POST['date'], 'Date', 4);
-  $book_a_table->add_message( $_POST['time'], 'Time', 4);
-  $book_a_table->add_message( $_POST['people'], '# of people', 1);
-  $book_a_table->add_message( $_POST['message'], 'Message');
+        // Check if the selected time slot already has 5 tables booked or if adding the requested tables would exceed the limit
+        $sql = "SELECT COUNT(*) AS bookedTables FROM booking WHERE Date = '$Date' AND Time = '$Time'";
+        $result = mysqli_query($db_conn, $sql);
 
-  echo $book_a_table->send();
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $bookedTables = $row['bookedTables'];
+
+            // Calculate the total number of tables after adding the requested tables
+            $totalTables = $bookedTables + $tablesNeeded;
+
+            // Check if the total number of tables exceeds the limit (5 tables)
+            if ($totalTables > 5) {
+                // Redirect back to booking page with an error message
+                $_SESSION['alert'] = 'Sorry, reservations for this time slot are full. Please choose another time slot.';
+                header("Location: ../booking.php");
+                exit();
+            } else {
+                // Retrieve MemberName, MemberEmail, MemberPhone from the member table based on MemberID
+                $sql = "SELECT MemberName, MemberEmail, MemberPhone FROM member WHERE MemberID = $MemberID";
+                $result = mysqli_query($db_conn, $sql);
+
+                if ($result && mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_assoc($result);
+                    $MemberName = $row['MemberName'];
+                    $MemberEmail = $row['MemberEmail'];
+                    $MemberPhone = $row['MemberPhone'];
+
+                    // Get the current date and time
+                    $BookAddDate = date("Y-m-d H:i:s");
+
+                    // Construct the SQL query to insert booking data
+                    $sql = "INSERT INTO booking (Date, Time, People, MemberID, Name, Phone, Email, BookAddDate) VALUES ('$Date', '$Time', '$People', '$MemberID', '$MemberName', '$MemberPhone', '$MemberEmail', '$BookAddDate')";
+
+                    // Execute the query
+                    if (mysqli_query($db_conn, $sql)) {
+                        $_SESSION['alert'] = 'Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!';
+                        header("Location: ../booking.php");
+                        exit();
+                    } else {
+                        $_SESSION['alert'] = 'Error: ' . mysqli_error($db_conn);
+                        header("Location: ../booking.php");
+                        exit();
+                    }
+                } else {
+                    $_SESSION['alert'] = 'Please fill in all fields.';
+                    header("Location: ../booking.php");
+                    exit();
+                }
+            }
+        } else {
+            // Error handling if the query fails
+            $_SESSION['alert'] = 'Error: Unable to check the number of booked tables.';
+            header("Location: ../booking.php");
+            exit();
+        }
+    }
+}
+
+// Close the database connection
+mysqli_close($db_conn);
 ?>
