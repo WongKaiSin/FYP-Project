@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("lib/db.php");
 if (!isset($_SESSION['MemberEmail'])) {
   // Redirect to login page or handle unauthorized access
   header("Location: registration.php");
@@ -12,13 +13,24 @@ $MemberName = ""; // Initialize $MemberName
 $MemberPhone = ""; // Initialize $MemberPhone
 
 // Check if user is logged in and retrieve their profile information
-if (isset($_SESSION['MemberEmail'])) {
-    // Assuming you have a method to fetch user profile information from the database
-    // Replace the placeholders with actual code to retrieve the user's information
-    $MemberEmail = $_SESSION['MemberEmail']; // Example: $MemberEmail = getUserEmail($_SESSION['MemberEmail']);
-    $MemberName = ""; // Example: $MemberName = getUserName($_SESSION['MemberEmail']);
-    $MemberPhone = ""; // Example: $MemberPhone = getUserPhone($_SESSION['MemberEmail']);
+if (isset($_SESSION['MemberID'])) {
+  $MemberID = $_SESSION['MemberID'];
+  // Fetch user profile information from the database
+  $sql = "SELECT MemberEmail, MemberName, MemberPhone FROM member WHERE MemberID = $MemberID";
+  $result = $db_conn->query($sql);
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $MemberEmail = $row['MemberEmail'];
+      $MemberName = $row['MemberName'];
+      $MemberPhone = $row['MemberPhone'];
+  } else {
+      // Handle case when user profile is not found
+      // You can set default values or display an error message
+  }
 }
+
+// Close database connection
+$db_conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -69,10 +81,10 @@ if (isset($_SESSION['MemberEmail'])) {
                     <p class="mb-20"><?php echo $MemberEmail; ?></p>
 
                     <label><b>Name</b></label>
-                    <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
+                    <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" value="<?php echo $MemberName; ?>" required>
                     
                     <label><b>Contact No.</b></label>
-                    <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
+                    <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" value="<?php echo $MemberPhone; ?>" required>
                     
 
                     <div class="text-center">
