@@ -33,7 +33,7 @@ if(isset($_SESSION['MemberID'])) {
 
             // Check if the total number of tables exceeds the limit (5 tables)
             if ($totalTables > 5) {
-                // Redirect back to booking page with an error message
+                // Set alert message and redirect
                 $_SESSION['alert'] = 'Sorry, reservations for this time slot are full. Please choose another time slot.';
                 header("Location: ../booking.php");
                 exit();
@@ -57,18 +57,15 @@ if(isset($_SESSION['MemberID'])) {
                     // Execute the query
                     if (mysqli_query($db_conn, $sql)) {
                         $_SESSION['alert'] = 'Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!';
-                        header("Location: ../booking.php");
-                        exit();
                     } else {
                         $_SESSION['alert'] = 'Error: ' . mysqli_error($db_conn);
-                        header("Location: ../booking.php");
-                        exit();
                     }
                 } else {
                     $_SESSION['alert'] = 'Please fill in all fields.';
-                    header("Location: ../booking.php");
-                    exit();
                 }
+                // Redirect after setting the alert
+                header("Location: ../booking.php");
+                exit();
             }
         } else {
             // Error handling if the query fails

@@ -9,7 +9,7 @@
 <aside id="sidebar_orders" class="sidebar">
     <h1>My Orders</h1>
     <ul class='menu'>
-        <li><a href="<?php echo $SiteUrl ?>/my-waiting-orders">Booking</a></li>
+        <li><a href="member_bookinglist.php">Booking</a></li>
         <li><a href="<?php echo $SiteUrl ?>/my-confirmed-orders">Order History</a></li>
     </ul>
 </aside>
