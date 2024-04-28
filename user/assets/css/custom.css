@@ -12,7 +12,7 @@ img
 }
 
 /* Add a pointer when hovering over the thumbnail images */
-.cursor
+.cur
 {
 	cursor: pointer;
 }
@@ -66,7 +66,7 @@ img
 	color: white;
 }
 
-.row:after
+.slide-rw:after
 {
 	content: "";
 	display: table;
@@ -74,7 +74,7 @@ img
 }
 
 /* Six columns side by side */
-.column
+.slide-clmn
 {
 	float: left;
 	width: 16.66%;
