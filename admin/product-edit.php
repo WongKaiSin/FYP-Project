@@ -102,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.php" class="breadcrumb-link">Dashboard</a></li>
                                         <li class="breadcrumb-item"><a href="product-view.php" class="breadcrumb-link">View Product List</a></li>
+                                        <li class="breadcrumb-item"><a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="breadcrumb-link">Product Description</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                                     </ol>
                                 </nav>

@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 ?>
                                 <div class="product-sidebar-widget">
                                     <a href="product-category-add.php" class="btn btn-outline-light">Add Category</a>
-                                    <button class="btn btn-outline-light" id="resetFilterBtn">Reset</button>
+                                    <button class="btn btn-outline-light" id="resetFilterBtn">Clear All</button>
                                 </div>
                             </div>
                     </div>

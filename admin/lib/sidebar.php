@@ -166,6 +166,9 @@
                                 <a class="nav-link" href="product-view.php">Product Page</a>
                                 </li>
                                 <li class="nav-item">
+                                <a class="nav-link" href="order-list.php">Order Page</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
                                 </li>
                                 
