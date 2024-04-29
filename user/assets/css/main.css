@@ -1976,14 +1976,16 @@ section {
   font-weight:bold;
 }
 
-.profile .container {
+.profile .container,
+.bookinglist .container {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
-.profile .container h3 {
+.profile .container h3,
+.bookinglist .container h3 {
   margin: 0;
   font-size: 48px;
   font-weight: 400;
@@ -2233,6 +2235,31 @@ section {
 
 p span {
   color: var(--color-primary);
+}
+
+.bookinglist table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bookinglist th, .bookinglist td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.bookinglist th {
+  background-color: #ec2727;
+  color: #fff;
+  font-weight: bold;
+}
+
+.bookinglist tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.bookinglist tr:hover {
+  background-color: #ddd;
 }
 
 

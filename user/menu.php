@@ -7,20 +7,15 @@ include("lib/db.php");
 if(isset($_GET['CatID'])) {
     $category = $_GET['CatID'];
     // Prepare the SQL statement with a parameterized query to prevent SQL injection
-    $stmt = $db_conn->prepare("SELECT product_cat.ProName, product.ProPrice 
-                               FROM product_cat 
-                               JOIN product ON product_cat.ProID = product.ProID 
-                               WHERE product_cat.CatID = ?");
-    $stmt->bind_param("s", $category); // "s" indicates a string parameter
-    $stmt->execute();
-    $pro_query = $stmt->get_result();
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice 
+                                  FROM product_cat 
+                                  JOIN product ON product_cat.ProID = product.ProID 
+                                  WHERE product_cat.CatID = '$category'");
 } else {
     // If no category is selected, fetch all products
-    $stmt = $db_conn->prepare("SELECT product_cat.ProName, product.ProPrice 
-                               FROM product_cat 
-                               JOIN product ON product_cat.ProID = product.ProID");
-    $stmt->execute();
-    $pro_query = $stmt->get_result();
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice 
+                                  FROM product_cat 
+                                  JOIN product ON product_cat.ProID = product.ProID");
 }
 
 ?>

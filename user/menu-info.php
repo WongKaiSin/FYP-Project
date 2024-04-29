@@ -32,32 +32,31 @@ if($pro_query->num_rows > 0)
   $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = ".$ProID."";
   $img_query = $db_conn ->query($img_sql);
 
-  $img_row = $img_query->fetch_assoc();
-  if($img_row === NULL)
-    $img_num = 0;
-  else 
-      $img_num = count($img_row);
+  $img_num = $img_query->num_rows;
+  // $count = $img_query->fetch_assoc();
+  // if($count === NULL)
+  //   $img_num = 0;
+  // else 
+  //     $img_num = count($count);
 
   if($img_num > 0)
   {
     if($img_num > 1)
     {
       $img_lay ="<div class='cont'>";
-      $i=0;
+      $j=1;
       while($img_row = $img_query->fetch_assoc())
       {
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
         $img_lay .="<div class='mySlides'>
-                      <div class='numbertext'>".($i+1)." / $img_num</div>
-                        <a href='$SiteUrl/upload/product/$ImageName.$ImageExt'>
-                          <img src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%'>
-                        </a>
+                      <div class='numbertext'>".$j." / ".$img_num."</div>
+                      <img src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%'>
                     </div>";
-        $i++;
+        $j++;
       }
-      $img_lay .="  <!-- Next and previous buttons -->
+        $img_lay .="<!-- Next and previous buttons -->
                     <a class='prev' onclick='plusSlides(-1)'>&#10094;</a>
                     <a class='next' onclick='plusSlides(1)'>&#10095;</a>
                   
@@ -66,22 +65,21 @@ if($pro_query->num_rows > 0)
                       <p id='caption'></p>
                     </div>
                   
-                  <!-- Thumbnail images -->
-                  <div class='row'>";
+                    <!-- Thumbnail images -->
+                    <div class='slide-rw'>";
 
       // Reset the query to fetch images again
       $img_query->data_seek(0);
-      $i=1;
-      
+      $j=1;
       while($img_row = $img_query->fetch_assoc())
       {
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
-        $img_lay .="<div class='column'>
-                      <img class='demo cursor' src='$SiteUrl/upload/product/$ImageName.$ImageExt'  style='width:100%' onclick='currentSlide($i)' alt='The Woods'>
-                    </div>";
-        $i++;
+          $img_lay .="<div class='slide-clmn'>
+                        <img class='demo cur' src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%' onclick='currentSlide(".$j.")' alt='".$j."'>
+                      </div>";
+        $j++;
       }
       $img_lay .="</div>";
     }
@@ -151,43 +149,31 @@ if($pro_query->num_rows > 0)
 
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
-      <div class="row" style="margin-bottom:10px">
-			  <div class="col-md-6">
-          <?php echo $img_lay; ?>
-          <div class="product-info-desc d-sm-block d-none">
-            <div class="accor-box">
-                <h4 class="toggle-arrow enable">Descriptions</h4>
-                <div class="accor-content toggle-result">
-                    <?php
-                      echo (!empty($ProDesc) ? $ProDesc : "");
-                      echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
-                      echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
-                      echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
-                    ?>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-				  <div class="product-info-side">
-					  <aside>
-              <h3><?=$ProName?></h3>
-            </aside>
-          </div>
-        </div>
-      </div>
-        <!-- <div class="row mt-30">
-          <div class="col product-gallery col-lg-6">
-            <div class="row">
-              <div class="col col-md-12 col-sm-12 product-images">
-                <img src="http://localhost:80/FYP-Project/user/upload/product/<?php // echo $ImgName.".".$ImgExt; ?>" >
+        <div class="row" style="margin-bottom:10px">
+          <div class="col-md-6">
+            <?=$img_lay; ?>
+            <div class="product-info-desc d-sm-block d-none">
+              <div class="accor-box">
+                  <h4 class="toggle-arrow enable">Descriptions</h4>
+                  <div class="accor-content toggle-result">
+                      <?php
+                        echo (!empty($ProDesc) ? $ProDesc : "");
+                        echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
+                        echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
+                        echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
+                      ?>
+                  </div>
               </div>
             </div>
-            <p>
-              You can duplicate this sample page and create any number of inner pages you like!
-            </p>
           </div>
-        </div> -->
+          <div class="col-md-6">
+            <div class="product-info-side">
+              <aside>
+                <h3><?=$ProName?></h3>
+              </aside>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

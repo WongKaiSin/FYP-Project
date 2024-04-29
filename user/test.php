@@ -13,10 +13,7 @@
     }
 
     .reservation-form h3 {
-      margin: 0;
-      font-size: 30px;
-      font-weight:bold;
-      color: #ec2727;
+      color: #333;
     }
 
     .reservation-form p {
@@ -91,11 +88,9 @@
           <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/booking.jpg);" data-aos="zoom-out" data-aos-delay="200"></div>
 
           <div class="col-lg-8 d-flex align-items-center reservation-form-bg">
-          <div class="reservation-form">
+            <div class="reservation-form">
               <h3>Reservation Details</h3>
-              <p class="fst-italic"> We offer <span>five tables</span> available for reservation every hour, each comfortably seating up to <span>4 people</span>. 
-            Our maximum capacity per hour is <span>20 individuals</span>. If the number of people exceeds this limit, unfortunately, reservations for that time slot cannot be accommodated.
-            </p>
+              <p>We offer five tables available for reservation every hour, each comfortably seating up to 4 people. Our maximum capacity per hour is 20 individuals. If the number of people exceeds this limit, unfortunately, reservations for that time slot cannot be accommodated.</p>
               <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row">
                   <div class="col-lg-6">
