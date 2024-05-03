@@ -141,13 +141,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="newPrice">Price:</label>
-                                        <input type="text" class="form-control" id="newPrice" name="newPrice" value="<?php echo $product['ProPrice']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newCost">Cost:</label>
-                                        <input type="text" class="form-control" id="newCost" name="newCost" value="<?php echo $product['ProCost']; ?>">
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label for="newPrice">Price:</label>
+                                            <input type="text" class="form-control" id="newPrice" name="newPrice" value="<?php echo $product['ProPrice']; ?>">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="newCost">Cost:</label>
+                                            <input type="text" class="form-control" id="newCost" name="newCost" value="<?php echo $product['ProCost']; ?>">
+                                        </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-md-6">

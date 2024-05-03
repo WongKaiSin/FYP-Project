@@ -153,24 +153,26 @@ $db_conn->close();
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                        <label for="inputCounty" >Country</label>
-                        <input id="inputCounty" type="text" class="form-control" name="adCountry" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputState" >State</label>
-                        <input id="inputState" type="text" class="form-control" name="adState" required>
-                    </div>
-                </div>
-                    <div class="form-group row">
+                            <label for="inputPostcode">Postcode</label>
+                            <input id="inputPostcode" type="text" class="form-control" name="adPostcode" required>
+                        </div>
                         <div class="col-md-6">
                             <label for="inputCity">City</label>
                             <input id="inputCity" type="text" class="form-control" name="adCity" required>
                         </div>
-                        <div class="col-md-6">
-                            <label for="inputPostcode">Postcode</label>
-                            <input id="inputPostcode" type="text" class="form-control" name="adPostcode" required>
-                        </div>
                     </div>
+                    <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="inputState" >State</label>
+                        <input id="inputState" type="text" class="form-control" name="adState" required>
+                    </div>
+                    
+                        <div class="col-md-6">
+                        <label for="inputCounty" >Country</label>
+                        <input id="inputCounty" type="text" class="form-control" name="adCountry" required>
+                    </div>
+                </div>
+                    
                     
                     
                     

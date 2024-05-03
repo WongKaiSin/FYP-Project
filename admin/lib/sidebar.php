@@ -169,6 +169,12 @@
                                 <a class="nav-link" href="order-list.php">Order Page</a>
                                 </li>
                                 <li class="nav-item">
+                                <a class="nav-link" href="contact.php">User Contact</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="booking.php">User Booking</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
                                 </li>
                                 

@@ -50,37 +50,43 @@ $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
                             <label for="inputText3" class="col-form-label" >Product Name</label>
                             <input id="inputText3" type="text" class="form-control" name="ProName" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
+                                <div class="col-md-6">
                                 <label for="inputText3" class="col-form-label" >Product Cost</label>
                                 <input id="inputText3" type="text" class="form-control" name="ProCost" required>
+                                </div>
+                                <div class="col-md-6">
+                                <label for="inputText3" class="col-form-label" >Product Price</label>
+                                <input id="inputText3" type="text" class="form-control" name="ProPrice" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                <label for="inputText3" >Storage</label>
+                                <input id="inputText3" type="text" class="form-control" name="Storage" required>
+                                </div>
+                                <div class="col-md-6">
+                                <label for="inputText3" >Shelf Life</label>
+                                <input id="inputText3" type="text" class="form-control" name="ShelfLife" required>
+                                </div>
+                            </div>
+                            <div class="form-group mr-2">
+                                <label for="inputText3" >Stock</label>
+                                <input type="number" class="form-control" id="stock" name="stock" required>
                             </div>
                             <div class="form-group">
-                        <label for="inputText3" class="col-form-label" >Product Price</label>
-                        <input id="inputText3" type="text" class="form-control" name="ProPrice" required>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                        <label for="inputText3" >Storage</label>
-                        <input id="inputText3" type="text" class="form-control" name="Storage" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputText3" >Shelf Life</label>
-                        <input id="inputText3" type="text" class="form-control" name="ShelfLife" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                        <label for="Textarea" >Product Description</label>
-                        <textarea class="form-control" id="Textarea" rows="3" name="ProDesc" required></textarea>
-                </div>
-                <div class="form-group">
-                        <label for="Textarea" >Ingredient</label>
-                        <textarea class="form-control" id="Textarea" rows="3" name="Ingredient" required></textarea>
-                </div>
+                                    <label for="Textarea" >Product Description</label>
+                                    <textarea class="form-control" id="Textarea" rows="3" name="ProDesc" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                    <label for="Textarea" >Ingredient</label>
+                                    <textarea class="form-control" id="Textarea" rows="3" name="Ingredient" required></textarea>
+                            </div>
 
-                <div class="form-group">
-                        <label for="productPicture">Product Picture</label>
-                        <input type="file" class="form-control-file" id="productPicture" name="#">
-                </div>
+                            <div class="form-group">
+                                    <label for="productPicture">Product Picture</label>
+                                    <input type="file" class="form-control-file" id="productPicture" name="#">
+                            </div>
                             
                             <button type="submit" name="save" class="btn btn-primary">Add Product</button>
                             <button type="reset"  name="cancel" class="btn btn-danger">Cancel</button>

@@ -24,10 +24,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $ShelfLife = $_POST["ShelfLife"];
     $ProDesc = $_POST["ProDesc"];
     $Ingredient = $_POST["Ingredient"];
+    $stock= $_POST["stock"];
 
     // Insert data into the database
-    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate) 
-            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime')";
+    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
+            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
 
 
     // Execute the first insert query

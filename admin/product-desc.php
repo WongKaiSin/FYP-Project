@@ -57,8 +57,7 @@ if (isset($_REQUEST["del"]))
 
 <head>
     <title><?php echo $product['ProName']; ?> - Product Description</title>
-    <!-- Include CSS stylesheets -->
-    <!-- Include any additional CSS stylesheets for styling -->
+    
 </head>
 
 <body>
@@ -122,6 +121,16 @@ if (isset($_REQUEST["del"]))
                                                             <th>Profit</th>
                                                             <td>RM <?php echo $profit; ?></td>
                                                         </tr>
+                                                        <th>Stock</th>
+                                                            <td>
+                                                                <form class="form-inline" method="post" action="">
+                                                                    <div class="form-group mr-2">
+                                                                        <input type="number" class="form-control" id="stock" name="stock" value="<?php echo $product['ProStock']; ?>">
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary btn-xs">Update Stock</button>
+                                                                </form>
+                                                            </td>
+
                                                         <tr>
                                                             <th>Add Person</th>
                                                             <td><?php echo $product['ProAddPerson']; ?></td>
@@ -137,23 +146,24 @@ if (isset($_REQUEST["del"]))
                                         <p><?php echo $product['ProDesc']; ?></p>
                                     </div>
                                     <div class="tab-pane fade" id="add-info" role="tabpanel" aria-labelledby="add-info-tab">
-                                    <table class="table">
+                                        <table class="table">
                                             <tbody>
-                                            <tr>
-                                                        <th>Ingredient</th>
-                                                        <td><?php echo $product['Ingredient']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Storage</th>
-                                                        <td><?php echo $product['Storage']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Shelf Life</th>
-                                                        <td><?php echo $product['ShelfLife']; ?></td>
-                                                    </tr>
+                                                <tr>
+                                                    <th>Ingredient</th>
+                                                    <td><?php echo $product['Ingredient']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Storage</th>
+                                                    <td><?php echo $product['Storage']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Shelf Life</th>
+                                                    <td><?php echo $product['ShelfLife']; ?></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

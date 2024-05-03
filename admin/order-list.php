@@ -3,6 +3,14 @@ session_start();
 
 include("lib/head.php"); 
 include("lib/db.php");
+
+// Default to current date if no order date is provided
+$order_date = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['order_date'])) {
+    $order_date = $_GET['order_date'];
+}
+
 ?>
 
 <!doctype html>
@@ -15,7 +23,12 @@ include("lib/db.php");
        
     </style>
 </head>
-
+<script>
+    function resetDate() {        
+        
+        window.location.href = "order-list.php";
+    }
+</script>
 <body>
     <div class="dashboard-main-wrapper">
         <?php 
@@ -40,80 +53,92 @@ include("lib/db.php");
                     </div>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="accrodion-regular">
+                <div class="card">
+                    <div class="card-header">
+                    <form method="GET" action="order-list.php" class="float-left">
+                    <h5>Select Order Date 
+                        <input type="date" class="form-control" id="order_date" name="order_date" value="<?php echo $order_date; ?>">
+                    </h5>
+                    <button type="submit" class="btn btn-primary btn-xs">View Orders</button>
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="resetDate()">Reset</button>
+                    </form>
+                    </div>
+
+                        <div class="card-body">
+                        <p>
+                        <i class="m-r-10 fas fa-stopwatch"> Preparing</i>
+                        <i class="m-r-10 fas fa-shipping-fast"> Shipping</i>
+                        <i class="m-r-10 fas fa-dolly"> Complete</i>
+                        <i class="m-r-10 fas fa-times"> Cancel</i></p>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">OrderNumber</th>
+                                        <th scope="col">User Name</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Payment Type</th>
+                                        <th scope="col">Total Payment(RM)</th>
+                                        <th scope="col">Order Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                         <?php
                         mysqli_select_db($db_conn, "bagel");
-                        $sql = "SELECT * FROM `order` o,`member` m,`order_product` op
-                                where o.MemberID = m.MemberID and o.OrderID = op.OrderID";
-                        $sql_address = "SELECT * FROM `member` m,`member_address` ma
-                        where o.MemberID = m.MemberID "; 
+                        mysqli_select_db($db_conn, "bagel");
+                        $sql = "SELECT o.*, ma.*, p.*
+                        FROM `order` o
+                        JOIN `member_address` ma ON o.MemberID=ma.MemberID 
+                        JOIN `payment` p ON o.paymentID=p.paymentID
+                        ORDER BY OrderDate ASC";
+                        
+                        if ($order_date) {
+                            $sql = "SELECT o.*, ma.*, p.*
+                            FROM `order` o
+                            JOIN `member_address` ma ON o.MemberID=ma.MemberID 
+                            JOIN `payment` p ON o.paymentID=p.paymentID
+                            WHERE DATE(o.OrderDate)='$order_date'
+                            ORDER BY OrderDate ASC";
+                        }
+
                         $query = $db_conn->query($sql);
                         if ($query) {
                             while ($row = $query->fetch_assoc()) {
-                                // Fetch order data here
+                                if($row['OrderStatus']=="Complete"){
+                                    $status='<i class="m-r-10 fas fa-dolly">';
+                                }
+                                else if($row['OrderStatus']=="Preparing"){
+                                    $status='<i class="m-r-10 fas fa-stopwatch">';
+                                }
+                                else if($row['OrderStatus']=="Shipping"){
+                                    $status='<i class="m-r-10 fas fa-shipping-fast">';
+                                }
+                                else if($row['OrderStatus']=="Cancel"){
+                                    $status='<i class="m-r-10 fas fa-times">';
+                                }
+                                else{
+                                    $status='';
+                                }
+
                                 ?>
-                                <div id="accordion3">
-                                    <div class="card">
-                                        <div class="card-header" id="headingSeven">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
-                                                    <span class="fas fa-angle-down mr-3"></span>Order #<?php echo $row["OrderID"]; ?>
-                                                </button>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseSeven" class="collapse show" aria-labelledby="headingSeven" data-parent="#accordion3">
-                                        <div class="card-header p-4">                                   
-                                        <div class="float-right"> 
-                                        Date: <?php echo $row["OrderDate"]; ?></div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row mb-4">
-                                                <div class="col-sm-6">
-                                                    <h5 class="mb-3">Customer:</h5>                                            
-                                                    <h3 class="text-dark mb-1"><?php echo $row["MemberName"]; ?></h3>
-                                                
-                                                    <div><?php echo $row["AddAddress"]; ?></div>
-                                                    <div><?php echo $row["AddPostcode"]; ?><?php echo $row["AddCity"]; ?></div>
-                                                    <div><?php echo $row["AddState"]; ?><?php echo $row["AddCountry"]; ?></div>
-                                                    <div>Email: <?php echo $row["MemberEmail"]; ?></div>
-                                                    <div>Phone: <?php echo $row["MemberPhone"]; ?></div>
-                                                </div>
-                                            </div>
-                                                <div class="table-responsive-sm">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="center">#</th>
-                                                            <th>Item</th>
-                                                            <th>Remark</th>
-                                                            <th class="right">Unit Cost</th>
-                                                            <th class="center">Qty</th>
-                                                            <th class="right">Total</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="center">1</td>
-                                                            <td class="left strong"><?php echo $row["ProName"]; ?></td>
-                                                            <td class="left">Remark!!!!</td>
-                                                            <td class="right">RM <?php echo $row["ProPrice"]; ?></td>
-                                                            <td class="center"><?php echo $row["ProQty"]; ?></td>
-                                                            <td class="right"><?php echo $row["ProTotal"]; ?></td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <tr onclick="window.location='order-desc.php?OrderID=<?php echo $row['OrderID']; ?>';" style="cursor: pointer;">
+                                    <td scope="row"><?php echo $status; ?></td>
+                                    <td><?php echo $row['OrderNo']; ?></td>
+                                    <td><?php echo $row['AddName']; ?></td>
+                                    <td><?php echo $row['AddPhone']; ?></td>
+                                    <td><?php echo $row['PaymentName']; ?></td>
+                                    <td><?php echo $row['OrderTotal']; ?></td>
+                                    <td><?php echo $row['OrderDate']; ?></td>
+                                </tr>
+
                                 <?php
                             }
                         } else {
                             echo "Error fetching records: " . $db_conn->error;
                         }
                         ?>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -156,9 +156,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 //add delete edit button
                                 echo '<h3>' . $categoryRow["catName"] . 
-                                '<a href="product-add.php?catID='.$catID .'"   style="color: #00ab41; padding-left: 10px;"><i class="m-r-10 mdi mdi-plus-circle-outline"></i></a>|
-                                <a href="product-category-edit.php?catID='.$catID.'"   style="color: #8080ff; padding: 0px;"><i class="m-r-10 mdi mdi-lead-pencil"></i></a>|
-                                <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="color: red;padding: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a></h3>';
+                                '<a href="product-add.php?catID='.$catID .'"   style="padding-left: 10px;"><i class="m-r-10 mdi mdi-plus-circle-outline"></i></a>|
+                                <a href="product-category-edit.php?catID='.$catID.'"   style="padding: 0px;"><i class="m-r-10 mdi mdi-lead-pencil"></i></a>|
+                                <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="padding: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a></h3>';
                                 
                                 
                                 
