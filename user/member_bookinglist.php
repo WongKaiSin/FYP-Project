@@ -1,23 +1,17 @@
 <?php
-// Assuming you have already started the session
 session_start();
+include("lib/db.php");
 
-// Check if MemberID is set in the session
 if(isset($_SESSION['MemberID'])) {
-    // Assuming you have already established a database connection
-    include("lib/db.php");
-
-    // Get the MemberID from the session
     $memberId = $_SESSION['MemberID'];
-
-    // SQL query to select bookings for the logged-in member
     $sql = "SELECT booking.BookID, booking.People, booking.Date, booking.Time, booking.Approval, member.MemberName, member.MemberPhone  
             FROM booking 
             JOIN member ON booking.MemberID = member.MemberID 
-            WHERE booking.MemberID = $memberId";
-
-    // Execute the query
-    $result = mysqli_query($db_conn, $sql);
+            WHERE booking.MemberID = ?";
+    $stmt = mysqli_prepare($db_conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $memberId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 }
 ?>
 
@@ -28,7 +22,6 @@ if(isset($_SESSION['MemberID'])) {
   <title>Booking | London Bagel Museum</title>
 </head>
 <body>
-  <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
       <?php 
@@ -36,10 +29,9 @@ if(isset($_SESSION['MemberID'])) {
         include("lib/topmenu.php");
       ?>
     </div>
-  </header><!-- End Header -->
+  </header>
 
   <main id="main">
-    <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
@@ -50,62 +42,77 @@ if(isset($_SESSION['MemberID'])) {
           </ol>
         </div>
       </div>
-    </div><!-- End Breadcrumbs -->
+    </div>
 
     <div class="container">
       <div class="row">
-        <!-- Sidebar -->
         <div class="col-lg-3">
           <?php include("lib/sidebar.php"); ?>
         </div>
-        <!-- Main Content -->
         <div class="col-lg-9">
           <section id="bookinglist" class="bookinglist">
             <div class="container" data-aos="fade-up">
                 <h3><span>Check Your Booking Details</span></h3>
-                    <?php
-                        if(isset($result)) {
-                            if (mysqli_num_rows($result) > 0) {
-                                $counter = 1;
-                                echo "<table border='1'>";
-                                echo "<tr><th>Booking No.</th><th>Name</th><th>Phone Number</th><th>People(pax)</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>";
-                                while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $counter . "</td>";
-                                    echo "<td>" . $row["MemberName"]. "</td>";
-                                    echo "<td>" . $row["MemberPhone"]. "</td>";
-                                    echo "<td>" . $row["People"]. "</td>";
-                                    echo "<td>" . $row["Date"]. "</td>";
-                                    echo "<td>" . $row["Time"]. "</td>";
-                                    // Displaying approval status based on value
-                                    echo "<td>";
-                                    if ($row["Approval"] == 0) {
-                                        echo "Not Approved";
+                <div class="card-body">
+                    <p>
+                    <span class="badge-dot badge-success"></span>Approved</span>
+                    <span class="badge-dot badge-warning"></span>Waiting Approval</span>
+                    <span class="badge-dot badge-dark"></span>Rejected</span>
+                    </p>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">People(s)</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                if(isset($result)) {
+                                    if (mysqli_num_rows($result) > 0) {
+                                        $counter = 1;
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>";
+                                            if ($row["Approval"] == 0) {
+                                                echo "<span class='badge-dot badge-warning'></span>";
+                                            } elseif ($row["Approval"] == 1) {
+                                                echo "<span class='badge-dot badge-success'></span>";
+                                            } else {
+                                                echo "<span class='badge-dot badge-dark'></span>";
+                                            }
+                                            echo "</td>";
+                                            echo "<td>" . $row["MemberName"]. "</td>";
+                                            echo "<td>" . $row["MemberPhone"]. "</td>";
+                                            echo "<td>" . $row["People"]. "</td>";
+                                            echo "<td>" . $row["Date"]. "</td>";
+                                            echo "<td>" . $row["Time"]. "</td>";
+                                            echo "<td><a onclick='return confirm(\"Are you sure you want to cancel this booking?\")' href='forms/cancel_booking.php?id=" . $row["BookID"] . "'>Cancel</a></td>";
+                                            echo "</tr>";
+                                            $counter++;
+                                        }
                                     } else {
-                                        echo "Successful Booking";
+                                        echo "<tr><td colspan='8'>No bookings found.</td></tr>";
                                     }
-                                    echo "</td>";
-                                    // Cancel button
-                                    echo "<td><a onclick='return confirm(\"Are you sure you want to cancel this booking?\")' href='forms/cancel_booking.php?id=" . $row["BookID"] . "'>Cancel</a></td>";
-                                    echo "</tr>";
-                                    $counter++;
+                                    mysqli_close($db_conn);
+                                } else {
+                                    echo "<tr><td colspan='8'>Please login to view bookings.</td></tr>";
                                 }
-                                echo "</table>";
-                            } else {
-                                echo "0 results";
-                            }
-                            mysqli_close($db_conn); // Close the connection
-                        } else {
-                            echo "Please login to view bookings.";
-                        }
-                    ?>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
           </section>
         </div>
       </div>
     </div>
-  </main><!-- End #main -->
+  </main>
   <?php include("lib/footer.php"); ?>
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <div id="preloader"></div>

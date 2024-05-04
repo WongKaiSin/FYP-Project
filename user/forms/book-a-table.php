@@ -6,7 +6,7 @@ include("../lib/db.php");
 session_start();
 
 // Check if MemberID is set in session
-if(isset($_SESSION['MemberID'])) {
+if (isset($_SESSION['MemberID'])) {
     // Retrieve MemberID from session
     $MemberID = $_SESSION['MemberID'];
 
@@ -20,30 +20,30 @@ if(isset($_SESSION['MemberID'])) {
         // Calculate the number of tables needed based on the number of people
         $tablesNeeded = ceil($People / 4);
 
-        // Check if the selected time slot already has 5 tables booked or if adding the requested tables would exceed the limit
-        $sql = "SELECT COUNT(*) AS bookedTables FROM booking WHERE Date = '$Date' AND Time = '$Time'";
-        $result = mysqli_query($db_conn, $sql);
+        // Check if the total number of people or tables exceeds the limit
+        $sql = "SELECT SUM(People) AS totalPeople, COUNT(*) AS totalTables FROM booking WHERE Date = '$Date' AND Time = '$Time'";
+        $result = $db_conn->query($sql);
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $bookedTables = $row['bookedTables'];
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $totalPeople = $row['totalPeople'];
+            $totalTables = $row['totalTables'];
 
-            // Calculate the total number of tables after adding the requested tables
-            $totalTables = $bookedTables + $tablesNeeded;
+            // Calculate the new total number of people and tables after adding the requested booking
+            $newTotalPeople = $totalPeople + $People;
+            $newTotalTables = $totalTables + $tablesNeeded;
 
-            // Check if the total number of tables exceeds the limit (5 tables)
-            if ($totalTables > 5) {
-                // Set alert message and redirect
+            // Check if the total number of people or tables exceeds the limit
+            if ($newTotalPeople > 20 || $newTotalTables > 5) {
+                // Set alert message
                 $_SESSION['alert'] = 'Sorry, reservations for this time slot are full. Please choose another time slot.';
-                header("Location: ../booking.php");
-                exit();
             } else {
                 // Retrieve MemberName, MemberEmail, MemberPhone from the member table based on MemberID
                 $sql = "SELECT MemberName, MemberEmail, MemberPhone FROM member WHERE MemberID = $MemberID";
-                $result = mysqli_query($db_conn, $sql);
+                $result = $db_conn->query($sql);
 
-                if ($result && mysqli_num_rows($result) > 0) {
-                    $row = mysqli_fetch_assoc($result);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
                     $MemberName = $row['MemberName'];
                     $MemberEmail = $row['MemberEmail'];
                     $MemberPhone = $row['MemberPhone'];
@@ -55,27 +55,31 @@ if(isset($_SESSION['MemberID'])) {
                     $sql = "INSERT INTO booking (Date, Time, People, MemberID, Name, Phone, Email, BookAddDate) VALUES ('$Date', '$Time', '$People', '$MemberID', '$MemberName', '$MemberPhone', '$MemberEmail', '$BookAddDate')";
 
                     // Execute the query
-                    if (mysqli_query($db_conn, $sql)) {
+                    if ($db_conn->query($sql) === TRUE) {
                         $_SESSION['alert'] = 'Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!';
                     } else {
-                        $_SESSION['alert'] = 'Error: ' . mysqli_error($db_conn);
+                        $_SESSION['alert'] = 'Error: ' . $db_conn->error;
                     }
                 } else {
                     $_SESSION['alert'] = 'Please fill in all fields.';
                 }
-                // Redirect after setting the alert
-                header("Location: ../booking.php");
-                exit();
             }
         } else {
             // Error handling if the query fails
-            $_SESSION['alert'] = 'Error: Unable to check the number of booked tables.';
-            header("Location: ../booking.php");
-            exit();
+            $_SESSION['alert'] = 'Error: Unable to check the total number of people or tables booked.';
         }
+
+        // Redirect after setting the alert
+        echo '<script>window.location.href="../booking.php";</script>';
+        exit();
     }
+} else {
+    $_SESSION['alert'] = 'Error: MemberID not set in session.';
+    // Redirect to booking page
+    echo '<script>window.location.href="../booking.php";</script>';
+    exit();
 }
 
 // Close the database connection
-mysqli_close($db_conn);
+$db_conn->close();
 ?>

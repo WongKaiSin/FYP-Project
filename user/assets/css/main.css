@@ -2242,8 +2242,9 @@ p span {
   border-collapse: collapse;
 }
 
-.bookinglist th, .bookinglist td {
-  border: 1px solid #ddd;
+.bookinglist th,
+.bookinglist td {
+  border-bottom: 1px solid #ddd; /* Only apply border to the bottom of cells */
   padding: 12px;
   text-align: left;
 }
@@ -2255,12 +2256,44 @@ p span {
 }
 
 .bookinglist tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #f8f9fa; /* Lighter gray for even rows */
 }
 
 .bookinglist tr:hover {
-  background-color: #ddd;
+  background-color: #f2f2f2; /* Light gray on hover */
 }
+
+.bookinglist .badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px; /* Add some spacing between badge and text */
+}
+
+.bookinglist .badge-success {
+  background-color: #28a745; /* Green color for success */
+}
+
+.bookinglist .badge-warning {
+  background-color: #ffc107; /* Yellow color for warning */
+}
+
+.bookinglist .badge-dark {
+  background-color: #343a40; /* Dark color for rejected */
+}
+
+.bookinglist a {
+  color: #007bff; /* Blue color for links */
+  text-decoration: none;
+}
+
+.bookinglist a:hover {
+  text-decoration: underline; /* Underline links on hover */
+}
+
+
+
 
 
 
