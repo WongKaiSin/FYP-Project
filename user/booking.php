@@ -1,3 +1,13 @@
+<?php
+session_start();
+include("lib/db.php");
+if (!isset($_SESSION['MemberEmail'])) {
+  // Redirect to login page or handle unauthorized access
+  header("Location: registration.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +15,6 @@
   <?php include("lib/head.php"); ?>
   <title>Reservations | London Bagel Museum</title>
   <style>
-    /* Additional CSS styles for the form */
     .reservation-form {
       padding: 30px;
       background-color: #f9f9f9;
@@ -26,24 +35,6 @@
     .form-control {
       border-radius: 5px;
       margin-bottom: 20px;
-    }
-
-    .form-control:focus {
-      box-shadow: none;
-    }
-
-    .btn-book-table {
-      background-color: #ff7b00;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn-book-table:hover {
-      background-color: #ff9500;
     }
   </style>
 </head>

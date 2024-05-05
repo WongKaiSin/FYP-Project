@@ -1,19 +1,17 @@
 <?php
 include("lib/db.php");
+$SiteUrl = "http://localhost:80/FYP-Project";
 
-// Assuming $db_conn is your database connection object
-
-// Check if a category is selected
 if(isset($_GET['CatID'])) {
     $category = $_GET['CatID'];
-    // Prepare the SQL statement with a parameterized query to prevent SQL injection
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice 
+
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                   FROM product_cat 
                                   JOIN product ON product_cat.ProID = product.ProID 
                                   WHERE product_cat.CatID = '$category'");
 } else {
-    // If no category is selected, fetch all products
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice 
+
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                   FROM product_cat 
                                   JOIN product ON product_cat.ProID = product.ProID");
 }
@@ -122,9 +120,20 @@ if(isset($_GET['CatID'])) {
               if ($pro_query->num_rows > 0) {
                 // Output data of each row
                 while ($row = $pro_query->fetch_assoc()) {
+                  $ProID = $row['ProID']; // Fetching Product ID
+                  $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = $ProID";
+                  $img_query = $db_conn->query($img_sql);
+                  
                   echo '<div class="product-item">';
+                  if ($img_query->num_rows > 0) {
+                    $img_row = $img_query->fetch_assoc();
+                    $ImageName = $img_row['ImageName'];
+                    $ImageExt = $img_row['ImageExt'];
+                    $image_url = $SiteUrl . "/upload/product/" . $ImageName . "." . $ImageExt;
+                    echo "<img src='$image_url' style='width:100%'>";
+                  }
                   echo "<p>" . $row["ProName"] . "</p>";
-                  echo "<p>RM " . $row["ProPrice"] . "</p>"; 
+                  echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>"; 
                   echo '</div>';
                 }
               } else {

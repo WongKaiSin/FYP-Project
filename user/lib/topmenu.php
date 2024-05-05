@@ -10,7 +10,7 @@
 </ul>
 </nav><!-- .navbar -->
 <a href="member_profile.php" class="user-icon-link">
-  <img src="assets/img/user_icon.png" class="user-icon img-fluid" alt="User Icon">
+  <img src="assets/img/user_icon.png" class="user-icon img-fluid" alt="User Icon" title="Setting">
 </a>
 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>

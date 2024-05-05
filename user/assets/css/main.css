@@ -1233,7 +1233,8 @@ section {
 }
 
 .book-a-table .php-email-form input,
-.book-a-table .php-email-form textarea {
+.book-a-table .php-email-form textarea,
+.book-a-table .php-email-form select{
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
@@ -1241,15 +1242,14 @@ section {
 }
 
 .book-a-table .php-email-form input:focus,
-.book-a-table .php-email-form textarea:focus {
+.book-a-table .php-email-form textarea:focus, 
+.book-a-table .php-email-form select:focus{
   border-color: var(--color-primary);
 }
 
-.book-a-table .php-email-form input {
-  padding: 12px 15px;
-}
-
-.book-a-table .php-email-form textarea {
+.book-a-table .php-email-form input,
+.book-a-table .php-email-form textarea ,
+.book-a-table .php-email-form select {
   padding: 12px 15px;
 }
 
@@ -1502,6 +1502,8 @@ section {
   color: #fff;
   background: var(--color-primary);
   box-shadow: 0 8px 28px rgba(206, 18, 18, 0.2);
+  margin-right: 20px;
+  text-decoration: none; 
 }
 
 .hero .btn-book-a-table:hover {
@@ -1976,6 +1978,7 @@ section {
   font-weight:bold;
 }
 
+
 .profile .container,
 .bookinglist .container {
   background-color: #fff;
@@ -2203,18 +2206,14 @@ section {
   margin: 0;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-secondary);
+  font-weight: 30px;
+  font-weight: 500;
   font-family: var(--font-secondary);
   -moz-text-align-last: center;
   text-align-last: center;
 }
 
-.product-item p:first-child {
-  color: var(--color-secondary);
-  font-weight: 30px;
-  font-weight: 500;
-}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -2250,7 +2249,7 @@ p span {
 }
 
 .bookinglist th {
-  background-color: #ec2727;
+  background-color: #132a49;
   color: #fff;
   font-weight: bold;
 }

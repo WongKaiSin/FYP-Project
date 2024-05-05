@@ -30,9 +30,10 @@ if (isset($_POST["signupbtn"])) {
         } else {
             $MemberJoined = date('Y-m-d H:i:s');
             $MemberType = 'email';
+            $MemberLogin = $MemberEmail;
             $isUp = '1';
-            $sql = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone, MemberType, isUp, MemberJoined) 
-                VALUES ('$MemberEmail', '$MemberPass', '$MemberName', '$MemberPhone', '$MemberType', '$isUp', '$MemberJoined')";
+            $sql = "INSERT INTO member (MemberEmail, MemberPass, MemberName, MemberPhone, MemberType, isUp, MemberJoined, MemberLogin) 
+                VALUES ('$MemberEmail', '$MemberPass', '$MemberName', '$MemberPhone', '$MemberType', '$isUp', '$MemberJoined', '$MemberLogin')";
             $query = $db_conn->query($sql);
             $_SESSION['alert'] = 'Record saved successfully!';
             header("Location: ../registration.php");

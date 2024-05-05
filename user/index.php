@@ -1,6 +1,15 @@
 <?php
 session_start();
+include("lib/db.php");
+if (!isset($_SESSION['MemberEmail'])) {
+  // If the user is not logged in, redirect to the registration page
+  $link = "registration.php";
+} else {
+  // If the user is logged in, direct them to the menu page
+  $link = "menu.php";
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +39,8 @@ session_start();
           <h2 data-aos="fade-up">"We want to eat a lot of really delicious and warm bagel in 365 days!"</h2>
           <p data-aos="fade-up" data-aos-delay="100">Fresh Bagels just baked, warm and healthy homemade Soup, completely dramatic Coffee. There are friendly and witty staff who always having fun small talk. Welcome to London Bagel Museum!</p>
           <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-            <a href="#book-a-table" class="btn-book-a-table">Book a Table</a>
-            <a href="https://youtu.be/3ysfWf2t8Po?si=vqRvGfc0S51Adhrs" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            <a href="booking.php" class="btn-book-a-table">Book a Table</a>
+            <a href="<?php echo $link; ?>" class="btn-book-a-table">Start Order</a>
           </div>
         </div>
         <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
@@ -76,7 +85,7 @@ session_start();
 
               <div class="position-relative mt-4">
                 <img src="assets/img/about-2.jpg" class="img-fluid" alt="">
-                <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+                <a href="https://youtu.be/3ysfWf2t8Po?si=vqRvGfc0S51Adhrs" class="glightbox play-btn"></a>
               </div>
             </div>
           </div>
