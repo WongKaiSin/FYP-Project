@@ -22,7 +22,24 @@ if ($result && $result->num_rows > 0) {
     echo "Product not found!";
     exit;
 }
+// Handle form submission to update product stock
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
 
+    // Validate and sanitize input data
+
+    // Update product details in the database
+    $sql_update = "UPDATE product SET ProStock = '$stock' WHERE ProID = '$ProID'";
+    if ($db_conn->query($sql_update) === TRUE) {
+        // Redirect back to the product description page
+        header("Location: product-desc.php?ProID=$ProID");
+        exit();
+    } else {
+        // Handle errors, if any
+        echo "Error updating product: " . $db_conn->error;
+    }
+}
 if (isset($_REQUEST["del"])) 
 {
 	// Delete related records in product_cat table

@@ -80,15 +80,17 @@ if (isset($_GET["del"])) {
                                         $ContactID = $row["ContactID"];
                                         $contactAddDate = new DateTime($row["ConAddDate"]);
                                         $currentDate = new DateTime();
-                                        $hoursSinceAdd = $currentDate->diff($contactAddDate)->h;
-                                        $minutesSinceAdd = $currentDate->diff($contactAddDate)->i;
+                                        $diff = $contactAddDate->diff($currentDate);
+                                        $daysSinceAdd = $diff->days;
+                                        $hoursSinceAdd = $diff->h;
+                                        $minutesSinceAdd = $diff->i;
                             ?>  
                             <div class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                
                                     <h5><a href="contact.php?del=1&ContactID=<?php echo $ContactID ?>" onclick="return confirmation();" style="color: red;padding: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a>
                                     <class="mb-1"><strong style="color:#5c5c5c"><?php echo $row["Subject"]; ?></strong></h5>
-                                    <small><?php echo $hoursSinceAdd ?> hours <?php echo $minutesSinceAdd ?> minutes ago</small>
+                                    <small><?php echo $daysSinceAdd ?> days <?php echo $hoursSinceAdd ?> hours <?php echo $minutesSinceAdd ?> minutes ago</small>
 
                                 </div>
                                 <small style="color:#777b7e">User: <?php echo $row["Name"]; ?>  [<a href="mailto:<?php echo $row["Email"]; ?>"><?php echo $row["Email"]; ?></a>]</a></small>
