@@ -36,7 +36,7 @@ if (isset($_SESSION['MemberID'])) {
             // Check if the total number of people or tables exceeds the limit
             if ($newTotalPeople > 20 || $newTotalTables > 5) {
                 // Set alert message
-                $_SESSION['alert'] = 'Sorry, reservations for this time slot are full. Please choose another time slot.';
+                echo '<script>alert("Sorry, reservations for this time slot are full. Please choose another time slot.")</script>';
             } else {
                 // Retrieve MemberName, MemberEmail, MemberPhone from the member table based on MemberID
                 $sql = "SELECT MemberName, MemberEmail, MemberPhone FROM member WHERE MemberID = $MemberID";
@@ -56,17 +56,17 @@ if (isset($_SESSION['MemberID'])) {
 
                     // Execute the query
                     if ($db_conn->query($sql) === TRUE) {
-                        $_SESSION['alert'] = 'Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!';
+                        echo '<script>alert("Your booking request was sent. We will confirm your reservation later. Thank you!")</script>';
                     } else {
-                        $_SESSION['alert'] = 'Error: ' . $db_conn->error;
+                        echo '<script>alert("Error:")</script>';
                     }
                 } else {
-                    $_SESSION['alert'] = 'Please fill in all fields.';
+                    echo '<script>alert("Please fill in all fields.")</script>';
                 }
             }
         } else {
             // Error handling if the query fails
-            $_SESSION['alert'] = 'Error: Unable to check the total number of people or tables booked.';
+            echo '<script>alert("Error: Unable to check the total number of people or tables booked.")</script>';
         }
 
         // Redirect after setting the alert
@@ -74,7 +74,7 @@ if (isset($_SESSION['MemberID'])) {
         exit();
     }
 } else {
-    $_SESSION['alert'] = 'Error: MemberID not set in session.';
+    echo '<script>alert("Error: MemberID not set in session.")</script>';
     // Redirect to booking page
     echo '<script>window.location.href="../booking.php";</script>';
     exit();
