@@ -2,12 +2,10 @@
 session_start();
 include("lib/db.php");
 if (!isset($_SESSION['MemberEmail'])) {
-  // Redirect to login page or handle unauthorized access
   header("Location: registration.php");
   exit();
 }
 
-// Initialize variables to avoid "Undefined variable" errors
 $MemberEmail = ""; // Initialize $MemberEmail
 $MemberName = ""; // Initialize $MemberName
 $MemberPhone = ""; // Initialize $MemberPhone
@@ -24,8 +22,7 @@ if (isset($_SESSION['MemberID'])) {
       $MemberName = $row['MemberName'];
       $MemberPhone = $row['MemberPhone'];
   } else {
-      // Handle case when user profile is not found
-      // You can set default values or display an error message
+
   }
 }
 
@@ -131,7 +128,7 @@ $db_conn->close();
   <?php
     if (isset($_SESSION['alert'])) {
         echo "<script>alert('{$_SESSION['alert']}');</script>";
-        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
+        unset($_SESSION['alert']); 
     }
   ?>
 
