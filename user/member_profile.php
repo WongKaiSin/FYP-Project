@@ -75,6 +75,9 @@ $db_conn->close();
                 
                 <form class="UpProfile" method="post" action="forms/update_profile.php" enctype="multipart/form-data">
                 <div class="form-group">
+                        <label><b>Email Address</b></label>
+                        <p class="mb-20"><?php echo $MemberEmail; ?></p>
+
                         <label for="MemberName"><b>Name</b></label>
                         <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" value="<?php echo $MemberName; ?>" required>
                     </div>
