@@ -179,26 +179,26 @@ if($pro_query->num_rows > 0)
                 <div class="product-info-price"><?=(!empty($ProDesc) ? $ProDesc : "")?></div>
                 <div class="product-info-price">RM <?=$ProPrice?></div>
                 <!--This is the form to cart-->
-                <form name="cart" id="cart" method="POST">
+                <form action="checkout.php" name="cart" id="cart" method="POST">
                   <div class="row">
-                    <div class="col-sm-5 product-info-stock">
+                    <div class="col-sm-5 product-info-stock <?=($ProStock <= 0 ? ' hide' : '')?>">
                       <div class="product-info-quantity-box">
                         <button type="button" class="button minus" value="-" data-rel="<?=$ProID?>">-</button>
                         <input type="text" name="ProQty" value="1" id="qty-box<?=$ProID?>" data-max="<?=$ProStock?>">
                         <button type="button" class="button plus" value="+" data-rel="<?=$ProID?>">+</button>
                       </div>
                     </div>
-                    <div class="col-sm-7 product-info-stock">
+                    <div class="col-sm-7 product-info-stock <?=($ProStock <= 0 ? ' hide' : '')?>">
                       <div class="product-info-button">
                           <input type="hidden" name="ProID" id="ProID" value="<?=$ProID?>">
                           <input type="hidden" name="ProName" value="<?=$ProName?>">
                           <input type="hidden" name="ProUrl" value="<?=$ProUrl?>">
-                          <button type="button" id="BtnCart" class="btn-secondary BtnSubmit" <?=($ProStock > 0 ? "" : " style='display:none'")?>>
+                          <button type="submit" id="BtnAdd" class="btn-secondary BtnSubmit">
                               <i class="fa fa-plus"></i>Add to Cart
                           </button>
                       </div>
                     </div>
-                    <div id="BtnOutStock" class="col-12 product-info-button<?=($ProStock > 0 ? " hide" : "")?>">
+                    <div id="BtnOutStock" class="col-12 product-info-button<?=($ProStock > 0 ? ' hide' : '')?>">
                         <button type="button" class="btn-out-of-stock"><i class="fa fa-times"></i>Out of Stock</button>
                     </div>
                   </div>
