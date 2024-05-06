@@ -77,15 +77,38 @@ $db_conn->close();
                 <h3><span>Profile</span></h3>
                 
                 <form class="UpProfile" method="post" action="forms/update_profile.php" enctype="multipart/form-data">
-                    <label><b>Email Address</b></label>
-                    <p class="mb-20"><?php echo $MemberEmail; ?></p>
-
-                    <label><b>Name</b></label>
-                    <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" value="<?php echo $MemberName; ?>" required>
-                    
-                    <label><b>Contact No.</b></label>
-                    <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" value="<?php echo $MemberPhone; ?>" required>
-                    
+                <div class="form-group">
+                        <label for="MemberName"><b>Name</b></label>
+                        <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" value="<?php echo $MemberName; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="MemberPhone"><b>Contact No.</b></label>
+                        <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" value="<?php echo $MemberPhone; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddAddress"><b>Address</b></label>
+                        <input type="text" class="form-control" name="AddAddress" id="AddAddress" placeholder="Please Enter Your Address">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
+                            <label for="AddPostcode"><b>Postcode</b></label>
+                            <input type="text" name="AddPostcode" class="form-control" id="AddPostcode" placeholder="Please Enter Your Postcode">
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <label for="AddCity"><b>City</b></label>
+                            <input type="text" name="AddCity" class="form-control" id="AddCity" placeholder="Please Enter Your City">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
+                            <label for="AddState"><b>State</b></label>
+                            <input type="text" name="AddState" class="form-control" id="AddState" placeholder="Please Enter Your State">
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <label for="AddCountry"><b>Country</b></label>
+                            <input type="text" name="AddCountry" class="form-control" id="AddCountry" placeholder="Please Enter Your Country">
+                        </div>
+                    </div>
 
                     <div class="text-center">
                         <input type="submit" name="BtnUpdateProfile" value="Update" class="button primary lowercase mt-20">
