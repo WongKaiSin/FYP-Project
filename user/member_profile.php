@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("lib/db.php");
-if (!isset($_SESSION['MemberEmail'])) {
+if (!isset($_SESSION['MemberID'])) {
   header("Location: registration.php");
   exit();
 }
@@ -9,6 +9,7 @@ if (!isset($_SESSION['MemberEmail'])) {
 $MemberEmail = ""; // Initialize $MemberEmail
 $MemberName = ""; // Initialize $MemberName
 $MemberPhone = ""; // Initialize $MemberPhone
+
 
 // Check if user is logged in and retrieve their profile information
 if (isset($_SESSION['MemberID'])) {

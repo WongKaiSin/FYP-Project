@@ -3,7 +3,7 @@ session_start();
 include("../lib/db.php");
 
 // Check if user is logged in
-if (!isset($_SESSION['MemberEmail'])) {
+if (!isset($_SESSION['MemberID'])) {
     // Redirect to login page or handle unauthorized access
     header("Location: ../registration.php");
     exit();
@@ -14,18 +14,30 @@ if (isset($_POST['BtnUpdateProfile'])) {
     // Prepare data for insertion
     $MemberName = $_POST["MemberName"];
     $MemberPhone = $_POST["MemberPhone"];
+    $AddAddress = $_POST["AddAddress"];
+    $AddPostcode = $_POST["AddPostcode"];
+    $AddCity = $_POST["AddCity"];
+    $AddState = $_POST["AddState"];
+    $AddCountry = $_POST["AddCountry"];
     $MemberEmail = $_SESSION["MemberEmail"];
+    $MemberID = $_SESSION['MemberID'];
 
     // Update user's profile in the database
-    $sql = "UPDATE member SET MemberName = '$MemberName', MemberPhone = '$MemberPhone' WHERE MemberEmail = '$MemberEmail'";
+    $sql = "UPDATE member SET MemberName = '$MemberName', MemberPhone = '$MemberPhone' WHERE MemberID = '$MemberID'";
     $query = $db_conn->query($sql);
 
-    if ($query) {
+    // Update user's address in the database
+    $sqlAddress = "UPDATE member_address SET AddName= '$MemberName', AddPhone= '$MemberPhone', AddAddress= '$AddAddress', AddPostcode= '$AddPostcode', AddCity= '$AddCity', AddState= '$AddState', AddCountry= '$AddCountry' WHERE MemberID = '$MemberID'";
+    $queryAddress = $db_conn->query($sqlAddress);
+
+    if ($query && $queryAddress) {
         // Get the current timestamp
         $MemberReset = date('Y-m-d H:i:s');
+        $MemberName = $AddName;
+        $MemberPhone = $AddPhone;
 
         // Update the MemberReset in the database
-        $updateSql = "UPDATE member SET MemberReset = '$MemberReset' WHERE MemberEmail = '$MemberEmail'";
+        $updateSql = "UPDATE member SET MemberReset = '$MemberReset' WHERE MemberID = '$MemberID'";
         $updateQuery = $db_conn->query($updateSql);
 
         if ($updateQuery) {
