@@ -24,7 +24,7 @@
 <link href="assets/css/main.css" rel="stylesheet">
 
 <!-- Custom CSS File -->
-<link href="assets/css/custom.css?v=13" rel="stylesheet">
+<link href="assets/css/custom.css?v=14" rel="stylesheet">
 
 
 <!-- =======================================================
@@ -45,4 +45,7 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/script.js?v=16"></script>
+<script src="assets/js/script.js?v=18"></script>
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

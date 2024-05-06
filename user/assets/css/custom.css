@@ -1,4 +1,9 @@
 /***** PRODUCT DETAIL PAGE *****/
+.hide
+{
+	display:none;
+}
+
 /*-----Image Sliders-----*/
 /* Hide the images by default */
 img
