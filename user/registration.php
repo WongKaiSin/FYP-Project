@@ -93,6 +93,8 @@ session_start();
                     </div>
                 </div>
 
+                <a href ="forgot-password.php" >Forgot Password</a>
+
                 <div class="text-center">
                     <button type="submit" name="loginbtn" class="btn btn-primary">Login</button>
                 </div>

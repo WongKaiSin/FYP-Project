@@ -26,8 +26,34 @@ if (isset($_POST['BtnUpdateProfile'])) {
     $sql = "UPDATE member SET MemberName = '$MemberName', MemberPhone = '$MemberPhone' WHERE MemberID = '$MemberID'";
     $query = $db_conn->query($sql);
 
-    // Update user's address in the database
-    $sqlAddress = "UPDATE member_address SET AddName= '$MemberName', AddPhone= '$MemberPhone', AddAddress= '$AddAddress', AddPostcode= '$AddPostcode', AddCity= '$AddCity', AddState= '$AddState', AddCountry= '$AddCountry' WHERE MemberID = '$MemberID'";
+    // Get current timestamp for AddressModifyDate
+    $AddressModifyDate = date('Y-m-d H:i:s');
+
+    // Check if the member address already exists
+    $checkSql = "SELECT * FROM member_address WHERE MemberID = '$MemberID'";
+    $checkResult = $db_conn->query($checkSql);
+
+    if ($checkResult->num_rows > 0) {
+        // Update user's address in the database
+        $sqlAddress = "UPDATE member_address 
+                       SET AddName = '$MemberName',
+                           AddPhone = '$MemberPhone',
+                           AddAddress = '$AddAddress',
+                           AddPostcode = '$AddPostcode',
+                           AddCity = '$AddCity',
+                           AddState = '$AddState',
+                           AddCountry = '$AddCountry',
+                           AddressModifyDate = '$AddressModifyDate'
+                       WHERE MemberID = '$MemberID'";
+    } else {
+        // Get current timestamp for AddressAddDate
+        $AddressAddDate = $AddressModifyDate;
+
+        // Insert new address for the member
+        $sqlAddress = "INSERT INTO member_address (MemberID, AddName, AddPhone, AddAddress, AddPostcode, AddCity, AddState, AddCountry, AddressAddDate, AddressModifyDate)
+                       VALUES ('$MemberID', '$MemberName', '$MemberPhone', '$AddAddress', '$AddPostcode', '$AddCity', '$AddState', '$AddCountry', '$AddressAddDate', '$AddressModifyDate')";
+    }
+
     $queryAddress = $db_conn->query($sqlAddress);
 
     if ($query && $queryAddress) {

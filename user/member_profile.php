@@ -1,30 +1,45 @@
 <?php
 session_start();
 include("lib/db.php");
+
+// Check if user is logged in
 if (!isset($_SESSION['MemberID'])) {
-  header("Location: registration.php");
-  exit();
+    header("Location: registration.php");
+    exit();
 }
 
-$MemberEmail = ""; // Initialize $MemberEmail
-$MemberName = ""; // Initialize $MemberName
-$MemberPhone = ""; // Initialize $MemberPhone
+// Initialize variables
+$MemberEmail = "";
+$MemberName = "";
+$MemberPhone = "";
+$AddAddress = "";
+$AddPostcode = "";
+$AddCity = "";
+$AddState = "";
+$AddCountry = "";
 
+// Fetch user profile information from the database
+$MemberID = $_SESSION['MemberID'];
+$sql = "SELECT MemberEmail, MemberName, MemberPhone FROM member WHERE MemberID = $MemberID";
+$result = $db_conn->query($sql);
 
-// Check if user is logged in and retrieve their profile information
-if (isset($_SESSION['MemberID'])) {
-  $MemberID = $_SESSION['MemberID'];
-  // Fetch user profile information from the database
-  $sql = "SELECT MemberEmail, MemberName, MemberPhone FROM member WHERE MemberID = $MemberID";
-  $result = $db_conn->query($sql);
-  if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      $MemberEmail = $row['MemberEmail'];
-      $MemberName = $row['MemberName'];
-      $MemberPhone = $row['MemberPhone'];
-  } else {
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $MemberEmail = $row['MemberEmail'];
+    $MemberName = $row['MemberName'];
+    $MemberPhone = $row['MemberPhone'];
+}
 
-  }
+$sqlAddress = "SELECT AddAddress, AddPostcode, AddCity, AddState, AddCountry FROM member_address WHERE MemberID = $MemberID";
+$queryAddress = $db_conn->query($sqlAddress);
+
+if ($queryAddress->num_rows > 0) {
+    $addressRow = $queryAddress->fetch_assoc();
+    $AddAddress = $addressRow['AddAddress'];
+    $AddPostcode = $addressRow['AddPostcode'];
+    $AddCity = $addressRow['AddCity'];
+    $AddState = $addressRow['AddState'];
+    $AddCountry = $addressRow['AddCountry'];
 }
 
 // Close database connection
@@ -88,26 +103,26 @@ $db_conn->close();
                     </div>
                     <div class="form-group">
                         <label for="AddAddress"><b>Address</b></label>
-                        <input type="text" class="form-control" name="AddAddress" id="AddAddress" placeholder="Please Enter Your Address">
+                        <input type="text" class="form-control" name="AddAddress" id="AddAddress" placeholder="Please Enter Your Address"value="<?php echo $AddAddress; ?>" required>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label for="AddPostcode"><b>Postcode</b></label>
-                            <input type="text" name="AddPostcode" class="form-control" id="AddPostcode" placeholder="Please Enter Your Postcode">
+                            <input type="text" name="AddPostcode" class="form-control" id="AddPostcode" placeholder="Please Enter Your Postcode"value="<?php echo $AddPostcode; ?>" required>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label for="AddCity"><b>City</b></label>
-                            <input type="text" name="AddCity" class="form-control" id="AddCity" placeholder="Please Enter Your City">
+                            <input type="text" name="AddCity" class="form-control" id="AddCity" placeholder="Please Enter Your City"value="<?php echo $AddCity; ?>" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label for="AddState"><b>State</b></label>
-                            <input type="text" name="AddState" class="form-control" id="AddState" placeholder="Please Enter Your State">
+                            <input type="text" name="AddState" class="form-control" id="AddState" placeholder="Please Enter Your State"value="<?php echo $AddState; ?>" required>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label for="AddCountry"><b>Country</b></label>
-                            <input type="text" name="AddCountry" class="form-control" id="AddCountry" placeholder="Please Enter Your Country">
+                            <input type="text" name="AddCountry" class="form-control" id="AddCountry" placeholder="Please Enter Your Country"value="<?php echo $AddCountry; ?>" required>
                         </div>
                     </div>
 
