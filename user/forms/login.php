@@ -5,6 +5,17 @@ include("../lib/function.php");
 
 $function = new Functions;
 
+// Main setting
+/************************ Cart ************************/
+if (!isset($_SESSION["Cart"]))
+{
+    $_SESSION['Cart'] = time();
+    !isset($_SESSION["Cart"]);
+}
+
+$CurrCart = $_SESSION['Cart'];
+/************************ END Cart ************************/
+
 if(isset($_POST["loginbtn"])) {
     $MemberEmail = $_POST['MemberEmail'];
     $MemberPass = $function->PassSign($MemberEmail, $_POST['MemberPass']);  
@@ -20,7 +31,12 @@ if(isset($_POST["loginbtn"])) {
         
         // Update the MemberLoginTime in the database
         $updateSql = "UPDATE member SET MemberLoginTime = '$MemberLoginTime' WHERE MemberEmail = '$MemberEmail'";
-        $query = $db_conn->query($updateSql); 
+        $query = $db_conn->query($updateSql);
+
+        // update cart
+        mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
+        // mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
+        // END update cart
         
         // Set session and redirect
         $_SESSION['MemberEmail'] = $row['MemberEmail'];
