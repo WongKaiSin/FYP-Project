@@ -58,7 +58,7 @@ class Functions
     // Email
     function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')
     {
-        global $db_conn;
+        // global $db_conn;
         
         // $setting_query = mysqli_query($db_conn, "SELECT SettingEmailMethod, SettingSmtpHost, SettingSmtpUser, SettingSmtpPass, SettingSmtpPort FROM js_setting_site");
         // $setting_row = mysqli_fetch_array($setting_query);
