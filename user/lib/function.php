@@ -20,10 +20,12 @@ class Functions
 
     function CalcReviewRate($ProID, $type='')
     {
+        global $db_conn;
+
         $ExtraSql = $type == "host" ? "HostID='".$ProID."'" : "ProID='".$ProID."'";
         $rate_sql = "SELECT ReviewsRate FROM js_store_reviews WHERE ".$ExtraSql." AND ReviewsStatus='1' AND isUp='1'";
-        $rate_query = $this->db->query($rate_sql);
-        $rate_row = $rate_query->getResultArray();
+        $rate_query = mysqli_query($db_conn, $rate_sql);
+        $rate_row = mysqli_fetch_assoc($rate_query);
         $rate_num = count($rate_row);
 
         $RateAvg = 0;
@@ -155,6 +157,87 @@ class Functions
             exit;
             }
         }
+    }
+
+    function email_template($message, $name)
+    {        
+        $template = "<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic,300italic,300' rel='stylesheet' type='text/css'>
+                    <style type='text/css'>
+                        body, td, th, table 
+                        {
+                            font-family:Open Sans !important;
+                            font-size:13px;
+                        }
+                        
+                        p
+                        {
+                            margin:0px;
+                            margin-bottom:7px;
+                        }
+                    </style>
+                    <table cellpadding='0' cellspacing='0' width='800px' bgcolor='#CCCCCC' style='padding:15px'>
+                        <tr bgcolor='#FFFFFF'>
+                            <td style='padding:10px 15px'>
+                                <center><img src='http://localhost:80/FYP-Project/user/assets/img/logo.png' style='max-width:200px'></center><br>
+                                Dear $name,<br><br>
+                                $message
+                                <br><br><br>
+                                <em>This is a computer generated receipt and no signature is required.<br>
+                                <div style='border-bottom:1px dashed #000000; margin:5px 0px'></div>
+                                <span style='font-size:11px'>
+                                    For enquiry, please contact us at:<br>
+                                    Address: 33 Ubi Avenue 3, Tower B #08-09 Vertex, Singapore 408868.<br>
+                                    Tel: +65 9036 1829<br>
+                                    Email: hello@ikiitravel.com
+                                </span>
+                            </td>
+                        </tr>
+                    </table>";
+                    
+        return $template;
+    }
+
+    function send_email($email_id, $name, $email, $custom_msg='', $attachment='')
+    {
+        $SiteName = "London Bagel Museum";
+
+        $custom = array();
+        if(!empty($custom_msg))
+        {
+            $msg_exp = explode("######", $custom_msg);
+            
+            foreach($msg_exp as $msg)
+            {
+                $custom[] = $msg;
+            }
+        }
+
+        // Set email content
+        require_once("email_content.php?id=$email_id");
+
+        // email to user
+        $EmailUserSender = $SiteName;
+        $EmailUserSenderEmail = "wongksin7@gmail.com";
+        
+        $EmailUserSubject = str_replace("{#SiteName}", $SiteName, $EmailUserSubject);
+        
+
+        // Account created
+        if($email_id == "1")
+        {
+            $EmailUserMsg = str_replace("{#MemberEmail}", $custom[0], $EmailUserMsg);
+            $EmailUserMsg = str_replace("{#MemberPassword}", $custom[1], $EmailUserMsg);
+        }
+
+        // Retrieve Password for forgot password
+        else if($email_id == "2")
+        {
+            $EmailUserMsg = str_replace("{#link}", $custom[0], $EmailUserMsg);
+			$EmailUserMsg = str_replace("{#email}", $custom[1], $EmailUserMsg);
+        }
+        
+        $UserMsg = email_template($EmailUserMsg, $name);
+        authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, $attachment);
     }
     // END Email
 
