@@ -55,6 +55,109 @@ class Functions
         return ["rate" => $rate, "TotalReview" => $TotalReview, "RateAvg" => $RateAvg, "RateAvgWidth" => $RateAvgWidth];
     }
     
+    // Email
+    function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')
+    {
+        global $db_conn;
+        
+        $setting_query = mysqli_query($db_conn, "SELECT SettingEmailMethod, SettingSmtpHost, SettingSmtpUser, SettingSmtpPass, SettingSmtpPort FROM js_setting_site");
+        $setting_row = mysqli_fetch_array($setting_query);
+        
+        // $SettingEmailMethod = $setting_row["SettingEmailMethod"];
+        // $SettingSmtpHost = $setting_row["SettingSmtpHost"];
+        // $SettingSmtpUser = $setting_row["SettingSmtpUser"];
+        // $SettingSmtpPass = $setting_row["SettingSmtpPass"];
+        // $SettingSmtpPort = $setting_row["SettingSmtpPort"];
 
+        // tester using smtp
+        $SettingEmailMethod = "SMTP";
+        $SettingSmtpHost = "mail.ikiitravel.com";
+        $SettingSmtpUser = "smtp@ikiitravel.com";
+        $SettingSmtpPass = "a_KH\$MIrQ6SN";
+        $SettingSmtpPort = "587";
+
+        if($SettingEmailMethod == "mail")
+        {
+            $headers  = "MIME-Version: 1.0 \n";
+            $headers .= "Content-type: text/html; charset=utf8 \n";
+            $headers .= "To: $nameto <$to> \n";
+            $headers .= "From: $namefrom <$from> \n";
+            $headers .= "Cc: $namefrom <$cc> \n";
+            
+            mail('', $subject, $message, $headers);
+        }
+        else
+        {
+            $timeout = "300";
+            $localhost = "";
+            
+            require_once 'lib/mailer/class.phpmailer.php';
+            
+            $mail = new PHPMailer();
+            $mail->IsSMTP();        // set mailer to use SMTP
+            $mail->Host = $SettingSmtpHost;  // specify main and backup server
+            $mail->Port = $SettingSmtpPort;
+            $mail->SMTPAuth = true;     // turn on SMTP authentication
+            $mail->SMTPSecure = "ssl";
+            $mail->Username = $SettingSmtpUser;  // SMTP username
+            $mail->Password = $SettingSmtpPass; // Please enter the SMTP password for the user name
+            $mail->CharSet = "UTF-8";
+            
+            $mail->From = $from; // Sender Address
+            $mail->FromName = $namefrom;	// Sender Name
+            $mail->addReplyTo($from, $namefrom);
+            $mail->AddAddress("$to","$nameto");   // Email address where by this form will be delivered to		
+            $mail->AddCC($cc, "");
+            $mail->IsHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = $message;
+            
+            if(!empty($cc))
+            {
+                $CcEmailExp = explode(",", $cc);
+
+                if ($CcEmailExp) //send multiple mail in CC list
+                {
+                    foreach ($CcEmailExp as $CcEmail)
+                    {
+                        $CcEmail = trim($CcEmail);
+                        
+                        if(empty($CcEmail))
+                        {
+                            $CcEmailName = current(explode("@", $CcEmail));
+                            
+                            $mail->AddCC($CcEmail, $CcEmailName);
+                        }
+                    }
+                }
+            }
+            
+            if(!empty($attachment))
+            {
+                $attach = explode(";", $attachment);
+                
+                foreach($attach as $files)
+                {
+                    if(!empty($files))
+                    {
+                        $explode = explode("#", $files);
+                        $file = $explode[0];
+                        $file_name = $explode[1];
+                        
+                        $mail->addAttachment($file, $file_name);
+                    }
+                }
+            }
+            
+            if(!$mail->Send())
+            {
+            echo "Message could not be sent.<br>Error: " . $mail->ErrorInfo;
+            exit;
+            }
+        }
+    }
+    // END Email
+
+    
 }
 ?>
