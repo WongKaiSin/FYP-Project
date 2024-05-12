@@ -1,5 +1,16 @@
 <?php 
 session_start();
+
+// Main setting
+/************************ Cart ************************/
+if (!isset($_SESSION["Cart"]))
+{
+    $_SESSION['Cart'] = time();
+    !isset($_SESSION["Cart"]);
+}
+
+$CurrCart = $_SESSION["Cart"];
+/************************ END Cart ************************/
 ?>
 
 <meta charset="utf-8">

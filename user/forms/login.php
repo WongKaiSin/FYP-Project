@@ -5,17 +5,6 @@ include("../lib/function.php");
 
 $function = new Functions;
 
-// Main setting
-/************************ Cart ************************/
-if (!isset($_SESSION["Cart"]))
-{
-    $_SESSION['Cart'] = time();
-    !isset($_SESSION["Cart"]);
-}
-
-$CurrCart = $_SESSION["Cart"];
-/************************ END Cart ************************/
-
 if(isset($_POST["loginbtn"])) {
     $MemberEmail = $_POST['MemberEmail'];
     $MemberPass = $function->PassSign($MemberEmail, $_POST['MemberPass']);  
@@ -35,11 +24,7 @@ if(isset($_POST["loginbtn"])) {
         $query = $db_conn->query($updateSql);
 
         // Check the CartID
-        $CartSql = "";
-        if($MemberID > 0)
-            $CartSql = " OR MemberID='$MemberID'";
-            
-        $cart_query = mysqli_query($db_conn, "SELECT CartID FROM cart WHERE (`CartSession`='".$CurrCart."'".$CartSql.")");
+        $cart_query = mysqli_query($db_conn, "SELECT CartID FROM cart WHERE (`CartSession`='".$CurrCart."' OR MemberID='$MemberID')");
         $cart_num = mysqli_num_rows($cart_query);
         
         // If new login don't have CartSession

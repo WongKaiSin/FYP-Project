@@ -179,7 +179,7 @@ if($pro_query->num_rows > 0)
                 <div class="product-info-price"><?=(!empty($ProDesc) ? $ProDesc : "")?></div>
                 <div class="product-info-price">RM <?=$ProPrice?></div>
                 <!--This is the form to cart-->
-                <form action="cart_process.php" name="cart" id="cart" method="POST">
+                <form action="./process/cart_process.php" name="cart" id="cart" method="POST">
                   <div class="row">
                     <div class="col-sm-5 product-info-stock <?=($ProStock <= 0 ? ' hide' : '')?>">
                       <div class="product-info-quantity-box">
@@ -193,7 +193,7 @@ if($pro_query->num_rows > 0)
                           <input type="hidden" name="ProID" id="ProID" value="<?=$ProID?>">
                           <input type="hidden" name="ProName" value="<?=$ProName?>">
                           <input type="hidden" name="ProUrl" value="<?=$ProUrl?>">
-                          <button type="submit" id="BtnAdd" class="btn-secondary BtnSubmit">
+                          <button type="submit" name="BtnAdd" class="btn-secondary BtnSubmit">
                               <i class="fa fa-plus"></i>Add to Cart
                           </button>
                       </div>

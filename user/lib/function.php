@@ -2,11 +2,6 @@
 
 class Functions
 {
-    function __construct()
-    {
-        $func = new Functions;
-    }
-
     // Password for admin
     function PassSign($email, $password) 
     { 
@@ -205,13 +200,13 @@ class Functions
     {
         global $db_conn;
         
-        $total_query = mysqli_query($db_conn, "SELECT sum(ProTotal) as CartSubtotal FROM cart_product WHERE CartID='$CartID'");
+        $total_query = mysqli_query($db_conn, "SELECT sum(ProTotal) as CartSubtotal FROM cart_product WHERE `CartID`='$CartID'");
         $total_row = mysqli_fetch_array($total_query);
         
         $CartSubtotal = $total_row["CartSubtotal"];
         $CartTotal = $CartSubtotal + $shipping;
         
-        mysqli_query($db_conn, "UPDATE cart SET CartSubtotal='$CartSubtotal', CartTotal='$CartTotal' WHERE CartID='$CartID'");
+        mysqli_query($db_conn, "UPDATE cart SET `CartSubtotal`='$CartSubtotal', CartTotal='$CartTotal' WHERE CartID='$CartID'");
     }
     // END Cart
 
