@@ -2,75 +2,28 @@
 
 class Functions
 {
+    // Password for admin
     function PassSign($email, $password) 
     { 
         return base64_encode(hex2bin(sha1($email . $password . "Ad2024@123"))); 
     }
 
+    // Password for customer
     function PassSignCust($email, $password) 
     { 
         return base64_encode(hex2bin(sha1($email . $password . "Mem123@2024"))); 
     }
 
+    // Check the password (length, character size, symbol, number)
     function checkPass($pass)
 	{
 		$result = (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[0-9A-Za-z]{8,20}$/', $pass)) ? false : true;
 		return $result;
 	}
 
-    function CalcReviewRate($ProID, $type='')
-    {
-        global $db_conn;
-
-        $ExtraSql = $type == "host" ? "HostID='".$ProID."'" : "ProID='".$ProID."'";
-        $rate_sql = "SELECT ReviewsRate FROM js_store_reviews WHERE ".$ExtraSql." AND ReviewsStatus='1' AND isUp='1'";
-        $rate_query = mysqli_query($db_conn, $rate_sql);
-        $rate_row = mysqli_fetch_assoc($rate_query);
-        $rate_num = count($rate_row);
-
-        $RateAvg = 0;
-        $RateAvgWidth = 0;
-        $TotalReview = $rate_num;
-        if($rate_num > 0)
-        {
-            $rate = [];
-            foreach($rate_row as $index=>$each)
-            {
-                extract($each);
-
-                $rate[$ReviewsRate] = $rate[$ReviewsRate]+1;
-            }
-
-            if(!empty($rate))
-            {
-                $TotalRate = 0;
-                foreach($rate as $rating => $num)
-                {
-                    $TotalRate += ($rating*$num);
-                }
-
-                $RateAvg = round($TotalRate / $TotalReview, 1);
-                $RateAvgWidth = round((($TotalRate / $TotalReview) * pow(100,2))/500, 2);
-            }
-        }
-        
-        return ["rate" => $rate, "TotalReview" => $TotalReview, "RateAvg" => $RateAvg, "RateAvgWidth" => $RateAvgWidth];
-    }
-    
     // Email
     function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')
     {
-        // global $db_conn;
-        
-        // $setting_query = mysqli_query($db_conn, "SELECT SettingEmailMethod, SettingSmtpHost, SettingSmtpUser, SettingSmtpPass, SettingSmtpPort FROM js_setting_site");
-        // $setting_row = mysqli_fetch_array($setting_query);
-        
-        // $SettingEmailMethod = $setting_row["SettingEmailMethod"];
-        // $SettingSmtpHost = $setting_row["SettingSmtpHost"];
-        // $SettingSmtpUser = $setting_row["SettingSmtpUser"];
-        // $SettingSmtpPass = $setting_row["SettingSmtpPass"];
-        // $SettingSmtpPort = $setting_row["SettingSmtpPort"];
-
         // tester using smtp
         $SettingEmailMethod = "SMTP";
         $SettingSmtpHost = "mail.ikiitravel.com";
@@ -236,11 +189,49 @@ class Functions
 			$EmailUserMsg = str_replace("{#email}", $custom[1], $EmailUserMsg);
         }
         
+        // Why red coloured don't ask me QAQ
         $UserMsg = email_template($EmailUserMsg, $name);
         authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, $attachment);
     }
     // END Email
 
+    function CalcReviewRate($ProID, $type='')
+    {
+        global $db_conn;
 
+        $ExtraSql = $type == "host" ? "HostID='".$ProID."'" : "ProID='".$ProID."'";
+        $rate_sql = "SELECT ReviewsRate FROM js_store_reviews WHERE ".$ExtraSql." AND ReviewsStatus='1' AND isUp='1'";
+        $rate_query = mysqli_query($db_conn, $rate_sql);
+        $rate_row = mysqli_fetch_assoc($rate_query);
+        $rate_num = count($rate_row);
+
+        $RateAvg = 0;
+        $RateAvgWidth = 0;
+        $TotalReview = $rate_num;
+        if($rate_num > 0)
+        {
+            $rate = [];
+            foreach($rate_row as $index=>$each)
+            {
+                extract($each);
+
+                $rate[$ReviewsRate] = $rate[$ReviewsRate]+1;
+            }
+
+            if(!empty($rate))
+            {
+                $TotalRate = 0;
+                foreach($rate as $rating => $num)
+                {
+                    $TotalRate += ($rating*$num);
+                }
+
+                $RateAvg = round($TotalRate / $TotalReview, 1);
+                $RateAvgWidth = round((($TotalRate / $TotalReview) * pow(100,2))/500, 2);
+            }
+        }
+        
+        return ["rate" => $rate, "TotalReview" => $TotalReview, "RateAvg" => $RateAvg, "RateAvgWidth" => $RateAvgWidth];
+    }
 }
 ?>
