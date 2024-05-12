@@ -25,6 +25,7 @@ if(isset($_POST["loginbtn"])) {
 
     if($query->num_rows == 1) {
         $row = $query->fetch_assoc();
+        $MemberID = $row["MemberID"];
         
         // Get the current timestamp
         $MemberLoginTime = date('Y-m-d H:i:s');
@@ -33,10 +34,26 @@ if(isset($_POST["loginbtn"])) {
         $updateSql = "UPDATE member SET MemberLoginTime = '$MemberLoginTime' WHERE MemberEmail = '$MemberEmail'";
         $query = $db_conn->query($updateSql);
 
-        // update cart
-        mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
-        // mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
-        // END update cart
+        // Check the CartID
+        $CartSql = "";
+        if($MemberID > 0)
+            $CartSql = " OR MemberID='$MemberID'";
+            
+        $cart_query = mysqli_query($db_conn, "SELECT CartID FROM cart WHERE (`CartSession`='".$CurrCart."'".$CartSql.")");
+        $cart_num = mysqli_num_rows($cart_query);
+        
+        // If new login don't have CartSession
+        if($cart_num == 0)
+        {
+            mysqli_query($db_conn, "INSERT INTO cart (`CartSession`, `MemberID`, `CartAddDate`) VALUES ('$CurrCart', '$MemberID', NOW())");
+            $CartID = mysqli_insert_id($db_conn);
+        }
+        else
+        {
+            // update cart
+            mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
+            // mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
+        }
         
         // Set session and redirect
         $_SESSION['MemberEmail'] = $row['MemberEmail'];
