@@ -179,7 +179,7 @@ if($pro_query->num_rows > 0)
                 <div class="product-info-price"><?=(!empty($ProDesc) ? $ProDesc : "")?></div>
                 <div class="product-info-price">RM <?=$ProPrice?></div>
                 <!--This is the form to cart-->
-                <form action="checkout.php" name="cart" id="cart" method="POST">
+                <form action="cart_process.php" name="cart" id="cart" method="POST">
                   <div class="row">
                     <div class="col-sm-5 product-info-stock <?=($ProStock <= 0 ? ' hide' : '')?>">
                       <div class="product-info-quantity-box">

@@ -2,6 +2,11 @@
 
 class Functions
 {
+    function __construct()
+    {
+        $func = new Functions;
+    }
+
     // Password for admin
     function PassSign($email, $password) 
     { 
@@ -190,10 +195,25 @@ class Functions
         }
         
         // Why red coloured don't ask me QAQ
-        $UserMsg = email_template($EmailUserMsg, $name);
-        authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, $attachment);
+        $UserMsg = $func->email_template($EmailUserMsg, $name);
+        $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, $attachment);
     }
     // END Email
+
+    // Cart
+    function updateCartTotal($CartID, $shipping='0')
+    {
+        global $db_conn;
+        
+        $total_query = mysqli_query($db_conn, "SELECT sum(ProTotal) as CartSubtotal FROM cart_product WHERE CartID='$CartID'");
+        $total_row = mysqli_fetch_array($total_query);
+        
+        $CartSubtotal = $total_row["CartSubtotal"];
+        $CartTotal = $CartSubtotal + $shipping;
+        
+        mysqli_query($db_conn, "UPDATE cart SET CartSubtotal='$CartSubtotal', CartTotal='$CartTotal' WHERE CartID='$CartID'");
+    }
+    // END Cart
 
     function CalcReviewRate($ProID, $type='')
     {

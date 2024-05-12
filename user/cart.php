@@ -1,9 +1,25 @@
+<?php
+include("lib/head.php");
+
+require_once("lib/db.php");
+$msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
+
+$MemberID = $_SESSION["MemberID"];
+$CurrCart = $_SESSION["Cart"];
+
+$CartSql = "";
+if($MemberID > 0)
+	$CartSql = " OR MemberID='$MemberID'";
+	
+$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE (CartSession='".$CurrCart."'".$CartSql.") ORDER BY CartID DESC");
+$cart_num = mysqli_num_rows($cart_query);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <?php include("lib/head.php"); ?>
-  <title>Checkout</title>
+  <title>Cart</title>
 
 </head>
 
@@ -25,7 +41,7 @@
     <div class="breadcrumbs">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Checkout</h2>
+          <h2>Cart</h2>
         </div>
       </div>
     </div><!-- End Breadcrumbs -->

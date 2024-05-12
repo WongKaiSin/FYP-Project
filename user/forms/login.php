@@ -13,7 +13,7 @@ if (!isset($_SESSION["Cart"]))
     !isset($_SESSION["Cart"]);
 }
 
-$CurrCart = $_SESSION['Cart'];
+$CurrCart = $_SESSION["Cart"];
 /************************ END Cart ************************/
 
 if(isset($_POST["loginbtn"])) {
@@ -52,12 +52,12 @@ if(isset($_POST["loginbtn"])) {
         {
             // update cart
             mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
-            // mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
+            mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
         }
         
         // Set session and redirect
         $_SESSION['MemberEmail'] = $row['MemberEmail'];
-        $_SESSION["MemberID"] = $row["MemberID"];
+        $_SESSION['MemberID'] = $row["MemberID"];
         header("Location: ../index.php");
         exit();
     } else {

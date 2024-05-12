@@ -1,5 +1,4 @@
 <?php
-session_start();
 include("lib/db.php");
 if (!isset($_SESSION['MemberEmail'])) {
   // If the user is not logged in, redirect to the registration page
