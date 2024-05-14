@@ -1,4 +1,15 @@
 <?php
+session_start();
+
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require("lib/vendor/autoload.php");
+// require '../vendor/autoload.php';
 
 class Functions
 {
@@ -49,6 +60,12 @@ class Functions
         }
     }
 
+    // Forgot password
+    function codeLock($var)
+    {
+        return str_rot13(base64_encode($var));
+    }
+
     // Email
     function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')
     {
@@ -73,10 +90,10 @@ class Functions
         {
             $timeout = "300";
             $localhost = "";
-            
-            require_once 'lib/mailer/class.phpmailer.php';
-            
+
+            //Create a new PHPMailer instance
             $mail = new PHPMailer();
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;     //Enable verbose debug output
             $mail->IsSMTP();        // set mailer to use SMTP
             $mail->Host = $SettingSmtpHost;  // specify main and backup server
             $mail->Port = $SettingSmtpPort;
@@ -180,6 +197,7 @@ class Functions
 
     function send_email($email_id, $name, $email, $custom_msg='', $attachment='')
     {
+        $func = new Functions;
         $SiteName = "London Bagel Museum";
 
         $custom = array();
@@ -193,8 +211,10 @@ class Functions
             }
         }
 
+        $_SESSION["email_id"]=$email_id;
+
         // Set email content
-        require_once("./email_content.php?id=$email_id");
+        require_once("lib/email_content.php");
 
         // email to user
         $EmailUserSender = $SiteName;

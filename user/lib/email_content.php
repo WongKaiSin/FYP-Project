@@ -1,7 +1,11 @@
 <?php
-$id = isset($_GET["id"]) ? $_GET["id"] : [];
+$email_id = $_SESSION["email_id"];
 
-if ($id == 1) 
+if (!isset($email_id)) {
+    $email_id = ''; // Default to an empty string if not set
+}
+
+if ($email_id == 1) 
 {
     $EmailUserSubject = 'Welcome to {#SiteName}';
 
@@ -12,12 +16,11 @@ if ($id == 1)
     Password : {#MemberPassword}';
 }
 
-if ($id == 2) 
+if ($email_id == 2) 
 {
     $EmailUserSubject = '{#SiteName} - Forgot your password?';
 
-    // $EmailUserMsg = 
-    echo '<h3>Retrieve Password</h3>
+    $EmailUserMsg = '<h3>Retrieve Password</h3>
 
     <p><a href="{#link}">Click here</a> to retrieve your password for email address, {#email}.<br />
     The link is only valid for 20 minutes.</p>';
