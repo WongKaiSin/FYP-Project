@@ -194,7 +194,7 @@ class Functions
         }
 
         // Set email content
-        require_once("email_content.php?id=$email_id");
+        require_once("./email_content.php?id=$email_id");
 
         // email to user
         $EmailUserSender = $SiteName;
