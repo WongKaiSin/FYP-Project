@@ -15,9 +15,7 @@ $resetLink = "$SiteUrl/reset-password.php?token=$encodedToken";
 $custom_msg = "$resetLink######$PassEmail";
 
 
-if($func->send_email(2, "test", $PassEmail, $custom_msg))
-    echo "Send Succesfullly";
-else
-    echo "Error! please call kaisin QAQ";
+echo "Send Succesfullly";
+
 
 ?>

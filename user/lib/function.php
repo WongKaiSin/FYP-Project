@@ -9,7 +9,6 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
 require("lib/vendor/autoload.php");
-// require '../vendor/autoload.php';
 
 class Functions
 {
@@ -151,8 +150,8 @@ class Functions
             
             if(!$mail->Send())
             {
-            echo "Message could not be sent.<br>Error: " . $mail->ErrorInfo;
-            exit;
+                echo "Message could not be sent.<br>Error: " . $mail->ErrorInfo;
+                exit;
             }
         }
     }
@@ -239,7 +238,7 @@ class Functions
         
         // Why red coloured don't ask me QAQ
         $UserMsg = $func->email_template($EmailUserMsg, $name);
-        $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, $attachment);
+        $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, "", $attachment);
     }
     // END Email
 
