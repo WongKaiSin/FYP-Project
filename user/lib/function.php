@@ -54,10 +54,10 @@ class Functions
     {
         // tester using smtp
         $SettingEmailMethod = "SMTP";
-        $SettingSmtpHost = "mail.ikiitravel.com";
-        $SettingSmtpUser = "smtp@ikiitravel.com";
-        $SettingSmtpPass = "a_KH\$MIrQ6SN";
-        $SettingSmtpPort = "587";
+        $SettingSmtpHost = "s1364.securessl.net";
+        $SettingSmtpUser = "webmaster@fitmate.com.my";
+        $SettingSmtpPass = "Web2587!@#$";
+        $SettingSmtpPort = "465";
 
         if($SettingEmailMethod == "mail")
         {
