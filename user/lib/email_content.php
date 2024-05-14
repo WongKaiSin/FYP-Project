@@ -1,5 +1,5 @@
 <?php
-$id = $_GET("id");
+$id = isset($_GET["id"]) ? $_GET["id"] : [];
 
 if ($id == 1) 
 {
@@ -16,7 +16,8 @@ if ($id == 2)
 {
     $EmailUserSubject = '{#SiteName} - Forgot your password?';
 
-    $EmailUserMsg = '<h3>Retrieve Password</h3>
+    // $EmailUserMsg = 
+    echo '<h3>Retrieve Password</h3>
 
     <p><a href="{#link}">Click here</a> to retrieve your password for email address, {#email}.<br />
     The link is only valid for 20 minutes.</p>';

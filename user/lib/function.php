@@ -21,6 +21,34 @@ class Functions
 		return $result;
 	}
 
+    // For display message
+    function displayMsg($type='success', $msg='')
+    {
+        if(!empty($msg))
+        {
+            if(is_array($msg))
+            {
+                $msg_list = "";
+                foreach($msg as $msg_text)
+                {
+                    if(sizeof($msg) > 1)
+                        $msg_list .= "- ";
+                    
+                    $msg_list .= $msg_text."<br>";
+                }
+                
+                $msg = $msg_list;
+            }
+            
+            $list = "<div class=\"response-msg ".$type."\">
+                        <strong>".ucwords($type)." Message</strong><br>".
+                        $msg."
+                    </div>";
+            
+            return $list;
+        }
+    }
+
     // Email
     function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')
     {
@@ -207,6 +235,29 @@ class Functions
         $CartTotal = $CartSubtotal + $shipping;
         
         mysqli_query($db_conn, "UPDATE cart SET `CartSubtotal`='$CartSubtotal', CartTotal='$CartTotal' WHERE CartID='$CartID'");
+    }
+
+    function checkoutStep($active)
+    {
+        $btn1=""; $btn2=""; $btn3=""; $btn4=""; $btn5=""; 
+        switch($active)
+        {
+            case 1: $btn1 = " active"; break;
+            case 2: $btn1 = " active"; $btn2 = " active"; break;
+            case 3: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; break;
+            case 4: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; $btn4 = " active"; break;
+            case 5: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; $btn4 = " active"; $btn5 = " active"; break;
+        }
+        
+        $step = '<div class="navigation">
+                    <div class="navi'.$btn1.'">Cart<div><span class="fa fa-check"></span></div></div>
+                    <div class="navi'.$btn2.'">Checkout<div><span class="fa fa-check"></span></div></div>
+                    <div class="navi'.$btn3.'">Review<div><span class="fa fa-check"></span></div></div>
+                    <div class="navi'.$btn4.'">Payment<div><span class="fa fa-check"></span></div></div>
+                    <div class="navi'.$btn5.'">Complete<div><span class="fa fa-check"></span></div></div>
+                </div>';
+        
+        return $step;
     }
     // END Cart
 

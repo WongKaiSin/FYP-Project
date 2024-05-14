@@ -1,24 +1,21 @@
 <?php
 include("lib/head.php");
-
 require_once("lib/db.php");
+
 $msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
+$SiteUrl = "http://localhost:80/FYP-Project";
 
 $MemberID = $_SESSION["MemberID"];
 $CurrCart = $_SESSION["Cart"];
 
-$CartSql = "";
-if($MemberID > 0)
-	$CartSql = " OR MemberID='$MemberID'";
-	
-$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE (CartSession='".$CurrCart."'".$CartSql.") ORDER BY CartID DESC");
+$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE (`CartSession`='".$CurrCart."' OR `MemberID`='$MemberID') ORDER BY `CartID` DESC");
 $cart_num = mysqli_num_rows($cart_query);
 
 
 if($cart_num == 0)
 {
-	$cart .= $EMPTY_TEXT_VIEWCART.".<br><br>
-			  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/".PRODUCTS_PREFIX."/'\"><i class=\"fa fa-arrow-left\"></i>$BACK_VIEWCART</button><br><br>";
+	$cart .= "Your shopping cart is empty.<br><br>
+			  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
 }
 else
 {
@@ -26,23 +23,15 @@ else
 	
 	$CartID = $cart_row["CartID"];
 	$CartSubtotal = $cart_row["CartSubtotal"];
-	$CartCouponCode = $cart_row["CartCouponCode"];
-	$CartCouponText = $cart_row["CartCouponText"];
-	$CartCouponAmount = $cart_row["CartCouponAmount"];
-	$CartCouponError = $cart_row["CartCouponError"];
-	$CartReferralCode = $cart_row["CartReferralCode"];
-	$CartReferralAmount = $cart_row["CartReferralAmount"];
-	$CartReferralError = $cart_row["CartReferralError"];
-	$CartCredits = $cart_row["CartCredits"];
 	$CartTotal = $cart_row["CartTotal"];
 
-    $item_query = mysqli_query($db_conn, "SELECT * FROM js_store_cart_products WHERE CartID='$CartID'") ;
+    $item_query = mysqli_query($db_conn, "SELECT * FROM cart_products WHERE `CartID`='$CartID'") ;
 	$item_num = mysqli_num_rows($item_query);
 
     if($item_num == 0)
 	{
-		$cart .= $EMPTY_TEXT_VIEWCART.".<br><br>
-				  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/".PRODUCTS_PREFIX."/'\"><i class=\"fa fa-arrow-left\"></i>$BACK_VIEWCART</button><br><br>";
+		$cart .= "Your shopping cart is empty.<br><br>
+				  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
 	}
 	else
     {
