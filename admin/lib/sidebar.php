@@ -175,6 +175,9 @@
                                 <a class="nav-link" href="booking.php">User Booking</a>
                                 </li>
                                 <li class="nav-item">
+                                <a class="nav-link" href="sales-report.php">Sales Report</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="pages/blank-page-header.html">Blank Page Header</a>
                                 </li>
                                 
