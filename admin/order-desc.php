@@ -50,10 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details</title>
-
 </head>
 <style>
      #statusDropdown {
@@ -198,6 +195,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                        <div class="float-right">
+                                        <?php if($row['OrderStatus'] == "Complete") {
+                                            echo '<a href="order-rating.php?OrderID=' . $row['OrderID'] . '" class="btn btn-outline-light view-rating">View Rating &#8594;</a>';
+                                        } ?>
+
                                     </div>
                         </div>
                     </div>
