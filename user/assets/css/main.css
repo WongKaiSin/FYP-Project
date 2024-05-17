@@ -1906,6 +1906,34 @@ section {
   border-color: var(--color-primary);
 }
 
+.registration .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #777;
+  font-size: 12px;
+}
+.registration .password-input {
+  position: relative;
+}
+/* Styling for Forgot Password link */
+.registration .forgot-password {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.registration .forgot-password a {
+  color: #777;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.registration .forgot-password a:hover {
+  text-decoration: underline;
+}
+
 .sidebar h1
 {
 	font-size: 16px;
