@@ -26,11 +26,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $Ingredient = $_POST["Ingredient"];
     $stock= $_POST["stock"];
 
+    $filename = $_FILES["ProUrl"]["name"];
+    $tempname = $_FILES["ProUrl"]["tmp_name"];
+    $folder = "../upload/product/";
+
+    $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+
+    // Construct the filename using the username and file extension
+    $newFilename = $ProName . '.' . $fileExt;
+
+    // Move the uploaded file before inserting data into the database
+    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
+
+        echo "<h3> Image uploaded successfully!</h3>";
+
+
     // Insert data into the database
-    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
-            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
+    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock,ProUrl) 
+            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock','$newFilename')";
 
-
+    }
     // Execute the first insert query
     if ($db_conn->query($sql) === TRUE) {
         // Retrieve the last inserted ID

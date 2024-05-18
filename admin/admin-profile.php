@@ -73,6 +73,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
             $adminAddDate = new DateTime($admindata["AdminAddDate"]);
             $currentDate = new DateTime();
             $daysSinceAdd = $currentDate->diff($adminAddDate)->days;
+
+            $logo = $admindata["adLogo"];
+            $defaultImage = "../upload/admin/default-profile.png";
+            $profileImage = empty($logo) ? $defaultImage : "../upload/admin/" . $logo;
+
         ?>
 
                                     
@@ -86,10 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
                     <!-- .card-body -->
                     <div class="card-body text-center">
                         <!-- .user-avatar -->
-                        <a href="user-profile.html" class="user-avatar user-avatar-floated user-avatar-xl">
-                            <img src="assets/images/user.png" alt="User Avatar" class="rounded-circle user-avatar-xl">
+                        <a href="admin-change-profile_img.php" class="user-avatar user-avatar-floated user-avatar-xl">
+                            <img src="<?php echo $profileImage ?>" alt="User Avatar" class="rounded-circle user-avatar-xl">
                         </a>
                         <!-- /.user-avatar -->
+                        <a href="admin-change-profile_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
                         <h3 class="card-title mb-2">
                             <?php echo $_SESSION["adName"]?>
                         </h3>
@@ -113,18 +119,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
                                         </tr>
                                         <tr>
                                             <th>Email <i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
-                                            <td><input id="inputText3" type="text" class="form-control" name="adEmail" value="<?php echo $admindata['adEmail']; ?>" required></td>
+                                            <td><input id="inputText3" type="email" class="form-control" name="adEmail" value="<?php echo $admindata['adEmail']; ?>" required></td>
                                         </tr>
                                         <tr>
                                         <th>Phone Number  <i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
-                                        <td><input id="inputText3" type="text" class="form-control"  name="adTel" value="<?php echo $admindata['adTel']; ?>" required></td>
+                                        <td><input id="inputText3" type="tel" class="form-control"  name="adTel" pattern="[0-9]{3}-[0-9]{3} [0-9]{4}" value="<?php echo $admindata['adTel']; ?>" required></td>
                                     </tr>
                                     <tr>
                                         <th>Address <i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
                                         <td>
                                             <input id="inputText3" type="text" class="form-control" name="adAdd" value="<?php echo $admindata["adAdd"] ?>" required><br>
                                             <div class="form-inline">
-                                                <input id="inputPostcode" type="text" class="form-control mr-2" name="adPostcode" value="<?php echo $admindata['adPostcode']; ?>" required>
+                                                <input id="inputPostcode" type="text" class="form-control mr-2" name="adPostcode" pattern="\d{5}" value="<?php echo $admindata['adPostcode']; ?>" required>
                                                 <input id="inputCity" type="text" class="form-control" name="adCity" value="<?php echo $admindata['adCity']; ?>" required>
                                             </div>
                                             <br>

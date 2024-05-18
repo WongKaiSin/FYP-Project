@@ -43,10 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_REQUEST["del"])) 
 {
 	// Delete related records in product_cat table
-    $sql_delete_product_cat = "DELETE FROM product_cat WHERE ProID = '$ProID'";
+    $sql_delete_product_cat = "UPDATE product_cat SET active=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product_cat) === TRUE) {
     // Now delete the product from the product table
-    $sql_delete_product = "DELETE FROM product WHERE ProID = '$ProID'";
+    $sql_delete_product = "UPDATE product SET active=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product) === TRUE) {
         // Redirect back to the product list page
         header("Location: product-view.php");
@@ -107,7 +107,10 @@ if (isset($_REQUEST["del"]))
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <img src="assets/images/card-img.jpg" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
+                                    <a href="product-change_img.php?ProID=<?php echo $ProID; ?>"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
+                                        <a href="product-change_img.php?ProID=<?php echo $ProID; ?>">
+                                            <img style="height: 194px; weight: 259px; margin-top:60px;"src="../upload/product/<?php echo $product["ProUrl"] ?>" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
+                                        </a>
                                     </div>
                                     <div class="col-md-8">
                                     <div class="tab-regular">

@@ -44,7 +44,7 @@ $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
                         <div class="card">
                             <div class="card-body">
                         <!-- Add your form for adding a new product here -->
-                        <form action="product-add_p.php?catID=<?php echo $catID; ?>" method="POST">
+                        <form action="product-add_p.php?catID=<?php echo $catID; ?>" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="catID" value="<?php echo $catID; ?>">
                             <div class="form-group">
                             <label for="inputText3" class="col-form-label" >Product Name</label>
@@ -85,7 +85,7 @@ $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
 
                             <div class="form-group">
                                     <label for="productPicture">Product Picture</label>
-                                    <input type="file" class="form-control-file" id="productPicture" name="#">
+                                    <input type="file" class="form-control-file" id="ProUrl" name="ProUrl" required>
                             </div>
                             
                             <button type="submit" name="save" class="btn btn-primary">Add Product</button>

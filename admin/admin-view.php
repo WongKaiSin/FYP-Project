@@ -12,7 +12,7 @@ if (isset($_GET["del"])) {
 
     if ($adtype == "SuperAdmin") {
         
-        $sql_delete = "DELETE FROM admin WHERE adID = '$adID'";
+        $sql_delete = "UPDATE `admin` SET active=0 WHERE adID = '$adID'";
         if ($db_conn->query($sql_delete) === TRUE) {
             // Redirect back to the admin page
             header("Location: admin-view.php");
@@ -29,7 +29,6 @@ if (isset($_GET["del"])) {
     }
         
     }
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -62,15 +61,6 @@ if (isset($_GET["del"])) {
             margin-bottom: 10px;
         }
     
-    .card-header{
-        position:sticky;
-    }
-
-    .card-body {
-    height: 400px; 
-    overflow-y: auto; 
-}
-
 </style>
 <script type="text/javascript">
 
@@ -120,7 +110,7 @@ function addAdmin(){
 
 </script>
 
-<body style="overflow-y: hidden; ">
+<body>
     <!-- main wrapper -->
     <div class="dashboard-main-wrapper">
         <?php 
@@ -161,16 +151,21 @@ function addAdmin(){
                             <div class="card-body">
                                 <?php
                                 mysqli_select_db($db_conn, "bagel");
-                                $sql = "SELECT * FROM admin";
+                                $sql = "SELECT * FROM admin WHERE active=1";
                                 $query = $db_conn->query($sql);
                                 if ($query) {
-                                    echo '<ul id="myUL">'; // Start the unordered list
+                                    echo '<ul id="myUL">'; 
                                     while ($row = $query->fetch_assoc()) {
+                                        $defaultImage = "../upload/admin/default-profile.png";
+                                        $profileImage = empty($row['adLogo']) ? $defaultImage : "../upload/admin/" . $row['adLogo'];
                                 ?>
 
                                         <li>
                                             <div class="media align-items-center">
-                                                <img src="assets/images/avatar-1.jpg" alt="User Avatar" class="rounded-circle user-avatar-xl">
+                                            <div id="display-image">
+                                                <img src="<?php echo $profileImage; ?>" class="rounded-circle user-avatar-xl">
+                                            </div>
+
                                                 <div class="media-body">
                                                     <h4 class="card-title mb-2 text-truncate"><?php echo $row["adName"] ?>
                                                     

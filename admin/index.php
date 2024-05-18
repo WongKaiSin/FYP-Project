@@ -129,28 +129,29 @@ function displayStars($rating) {
                     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <?php
-                                   
+                            <?php
                                 $sql = "SELECT p.ProName, SUM(op.ProQty) AS TotalSales
-                                FROM order_product op
-                                JOIN product p ON op.ProID = p.ProID
-                                JOIN `order` o ON op.OrderID = o.OrderID
-                                WHERE o.OrderStatus = 'Complete'
-                                GROUP BY p.ProID
-                                ORDER BY SUM(op.ProQty) DESC
-                                LIMIT 1";
+                                        FROM order_product op
+                                        JOIN product p ON op.ProID = p.ProID
+                                        JOIN `order` o ON op.OrderID = o.OrderID
+                                        WHERE o.OrderStatus = 'Complete'
+                                        GROUP BY p.ProID
+                                        ORDER BY SUM(op.ProQty) DESC
+                                        LIMIT 1";
 
-                                            $query = $db_conn->query($sql);
-                                            if ($query) {
-                                                while ($row = $query->fetch_assoc()) {
-                                                    $top_pro_name = $row["ProName"];
-                                                }
-                                            }
-                                            else {
-                                                // Handle query error
-                                                $top_pro_name = "N/A"; 
-                                            }
-                                            ?>
+                                $query = $db_conn->query($sql);
+                                if ($query) {
+                                    if ($row = $query->fetch_assoc()) {
+                                        $top_pro_name = $row["ProName"];
+                                    } else {
+                                        // No results found
+                                        $top_pro_name = "N/A"; 
+                                    }
+                                } else {
+                                    // Handle query error
+                                    $top_pro_name = "N/A"; 
+                                }
+                            ?>
                                 <h5 class="text-muted">Best Selling Product</h5>
                                 <div class="metric-value d-inline-block">
                                     <h2 class="mb-1 text-primary"><?php echo $top_pro_name; ?></h2>

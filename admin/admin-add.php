@@ -21,26 +21,44 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adPostcode = $_POST["adPostcode"];
     $currentDateTime = date("Y-m-d H:i:s");
 
-    // Insert data into the database
-    $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode,adStatus,AdminAddDate) 
-            VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode','1','$currentDateTime')";
- if ($db_conn->query($sql) === TRUE) {
-    // Set success message
-    $success_message = "New record created successfully";
-    
-    // Redirect after submission
-    echo '<script type="text/javascript">
-                alert("'.$adName.' saved");
-                window.location.href = "admin-view.php";
-          </script>';
-    exit();
-} else {
-    
-    $error_message = "Error: " . $sql . "<br>" . $db_conn->error;
-}
+    $filename = $_FILES["adLogo"]["name"];
+    $tempname = $_FILES["adLogo"]["tmp_name"];
+    $folder = "../upload/admin/";
 
-// Close the database connection
-$db_conn->close();
+    $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+
+    // Construct the filename using the username and file extension
+    $newFilename = $adUser . '.' . $fileExt;
+
+    // Move the uploaded file before inserting data into the database
+    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
+
+        echo "<h3> Image uploaded successfully!</h3>";
+
+        // Insert data into the database
+        $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode, adStatus, AdminAddDate, adLogo) 
+                VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode', '1', '$currentDateTime', '$newFilename')";
+
+        if ($db_conn->query($sql) === TRUE) {
+            // Set success message
+            $success_message = "New record created successfully";
+            
+            // Redirect after submission
+            echo '<script type="text/javascript">
+                    alert("'.$adName.' saved");
+                    window.location.href = "admin-view.php";
+                  </script>';
+            exit();
+        } else {
+            $error_message = "Error: " . $sql . "<br>" . $db_conn->error;
+            echo "<h3>$error_message</h3>";
+        }
+    } else {
+        echo "<h3>Failed to upload image!</h3>";
+    }
+
+    // Close the database connection
+    $db_conn->close();
 }
 ?>
 
@@ -113,7 +131,7 @@ $db_conn->close();
         </div>
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="admin-add.php" onsubmit="return checkPassword();">
+                <form method="POST" action="admin-add.php" enctype="multipart/form-data"onsubmit="return checkPassword();">
                     <div class="form-group">
                         <label for="inputText3" class="col-form-label" >Admin Username</label>
                         <input id="inputText3" type="text" class="form-control" name="adUser" required>
@@ -128,7 +146,7 @@ $db_conn->close();
                     </div>
                     <div class="form-group">
                         <label for="inputText3" class="col-form-label" >Phone number</label>
-                        <input id="inputText3" type="text" class="form-control" name="adTel" placeholder="xxx-xxxxxxx" required>
+                        <input id="inputText3" type="tel" class="form-control" name="adTel" placeholder="xxx-xxx xxxx" pattern="[0-9]{3}-[0-9]{3} [0-9]{4}" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword">Password</label>
@@ -154,7 +172,7 @@ $db_conn->close();
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="inputPostcode">Postcode</label>
-                            <input id="inputPostcode" type="text" class="form-control" name="adPostcode" required>
+                            <input id="inputPostcode" type="text" class="form-control" pattern="\d{5}" name="adPostcode" required>
                         </div>
                         <div class="col-md-6">
                             <label for="inputCity">City</label>
@@ -172,14 +190,10 @@ $db_conn->close();
                         <input id="inputCounty" type="text" class="form-control" name="adCountry" required>
                     </div>
                 </div>
-                    
-                    
-                    
-                    
-                    <div class="form-group">
-                        <label for="profilePicture">Profile Picture</label>
-                        <input type="file" class="form-control-file" id="profilePicture" name="adLogo">
-                    </div>
+                <div class="form-group">
+                    <label for="profilePicture">Profile Picture</label>
+                    <input type="file" class="form-control-file" id="profilePicture" name="adLogo" required>
+                </div>                                        
                     <button type="submit"  name="savebtn" class="btn btn-primary">Add Admin</button>
                     <button type="reset"  name="registerbtn" class="btn btn-danger">Cancel</button>
                 </form>

@@ -66,8 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute both queries
         if ($db_conn->query($updateProductQuery) === TRUE && $db_conn->query($updateProductCatQuery) === TRUE) {
-            // Redirect back to the product description page
-            header("Location: product-desc.php?ProID=$ProID");
+            echo '<script type="text/javascript">
+            alert("Product updated successfully.");
+            window.location.href = "product-desc.php?ProID=' . $ProID . '";
+            </script>';
             exit();
         } else {
             // Handle errors, if any
@@ -172,10 +174,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group">
                                         <label for="newDesc">Ingredient:</label>
                                         <textarea class="form-control" id="newIngredient" name="newIngredient"><?php echo $product['Ingredient']; ?></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="productPicture">Product Picture</label>
-                                        <input type="file" class="form-control-file" id="productPicture" name="#">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>

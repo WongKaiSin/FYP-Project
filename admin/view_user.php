@@ -4,6 +4,25 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 
+if (isset($_REQUEST["del"])) {
+    $MemberID = $_REQUEST["MemberID"]; 
+
+
+    // Delete from member table
+    $sql_member = "UPDATE member SET active=0 WHERE MemberID = $MemberID";
+
+
+    if ($db_conn->query($sql_member) === TRUE) {
+        header("Location: view_user.php");
+        exit();
+    } else {
+        // At least one delete failed
+        echo "Error deleting record: " . $db_conn->error;
+    }
+}
+
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,21 +77,6 @@ function search() {
             }
         }
 </script>
-<?php
-if (isset($_REQUEST["del"])) 
-{
-	$MemberID = $_REQUEST["MemberID"]; 
-	$sql = "DELETE FROM member WHERE MemberID = $MemberID";
-    $query = $db_conn->query($sql);
-	if ($query) {
-        header("Location: view_user.php");
-        exit();
-    } else {
-        echo "Error deleting record: " . $db_conn->error;
-    }
-}
-
-?>
 <body style="overflow-y: hidden; ">
     <!-- ============================================================== -->
     <!-- main wrapper -->
@@ -137,7 +141,7 @@ if (isset($_REQUEST["del"]))
                                         <tbody>
                                             <?php
                                             mysqli_select_db($db_conn, "bagel");
-                                            $sql = "SELECT * FROM member";
+                                            $sql = "SELECT * FROM member WHERE active=1";
                                             $query = $db_conn->query($sql);
                                             if ($query) {
                                                 while ($row = $query->fetch_assoc()) {
