@@ -4,7 +4,7 @@ include("./lib/function.php");
 $func = new Functions;
 
 $SiteUrl = "http://localhost:80/FYP-Project";
-$PassEmail = "fomab94148@godsigma.com";
+$PassEmail = "cewidov879@huleos.com";
 $MemberID = "1";
 
 
@@ -14,8 +14,10 @@ $resetLink = "$SiteUrl/reset-password.php?token=$encodedToken";
 
 $custom_msg = "$resetLink######$PassEmail";
 
+$func->send_email(2, "test", $PassEmail, $custom_msg)
 
-echo "Send Succesfullly";
+// echo $PassEmail;
+// echo "Send Succesfullly";
 
 
 ?>

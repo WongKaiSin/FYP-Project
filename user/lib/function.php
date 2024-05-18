@@ -1,5 +1,13 @@
 <?php
-session_start();
+echo getcwd();
+
+require_once("../lib/mailer/PHPMailer.php");
+require_once("../lib/mailer/SMTP.php");
+require_once("../lib/mailer/POP3.php");
+require_once("../lib/mailer/Exception.php");
+// require_once 'lib/mailer/SMTP.php';
+// require_once 'lib/mailer/POP3.php';
+// require_once 'lib/mailer/Exception.php';
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
@@ -8,7 +16,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-require("lib/vendor/autoload.php");
+// require("lib/vendor/autoload.php");
 
 class Functions
 {
