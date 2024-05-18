@@ -4,13 +4,35 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 
-// Default to current date if no order date is provided
-$order_date = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['order_date'])) {
-    $order_date = $_GET['order_date'];
+// Handle form submission for selecting order status
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['status'])) {
+    $selected_status = $_GET['status'];
+
+    // Modify your SQL query based on the selected status
+    if ($selected_status != 'All') {
+        $sql = "SELECT o.*, ma.*, p.*
+                FROM `order` o
+                JOIN `member_address` ma ON o.MemberID=ma.MemberID 
+                JOIN `payment` p ON o.paymentID=p.paymentID
+                WHERE o.OrderStatus = '$selected_status'
+                ORDER BY o.OrderDate ASC";
+    } else {
+        // Default query to fetch all orders
+        $sql = "SELECT o.*, ma.*, p.*
+                FROM `order` o
+                JOIN `member_address` ma ON o.MemberID=ma.MemberID 
+                JOIN `payment` p ON o.paymentID=p.paymentID
+                ORDER BY o.OrderDate ASC";
+    }
+} else {
+    // Default SQL query
+    $sql = "SELECT o.*, ma.*, p.*
+            FROM `order` o
+            JOIN `member_address` ma ON o.MemberID=ma.MemberID 
+            JOIN `payment` p ON o.paymentID=p.paymentID
+            ORDER BY o.OrderDate ASC";
 }
-
 ?>
 
 <!doctype html>
@@ -20,8 +42,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['order_date'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order List</title>
     <style>
-       
-    </style>
+     #statusDropdown {
+        padding: 5px; 
+        margin:5px;
+    }
+    button {
+         
+        margin-left:5px;
+    }
+</style>
 </head>
 <script>
     function resetDate() {        
@@ -55,14 +84,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['order_date'])) {
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                    <form method="GET" action="order-list.php" class="float-left">
-                    <h5>Select Order Date 
-                        <input type="date" class="form-control" id="order_date" name="order_date" value="<?php echo $order_date; ?>">
-                    </h5>
-                    <button type="submit" class="btn btn-primary btn-xs">View Orders</button>
-                    <button type="button" class="btn btn-secondary btn-xs" onclick="resetDate()">Reset</button>
-                    </form>
-                    </div>
+                        <div class="float-left">
+                                <form method="GET" action="">
+                                    <h5>Select Order Status
+                                        <div>
+                                        <select id="statusDropdown" name="status">
+                                            <option value="All"<?php if(isset($_GET['status']) && $_GET['status'] == 'All') echo ' selected'; ?>>All</option>
+                                            <option value="Preparing"<?php if(isset($_GET['status']) && $_GET['status'] == 'Preparing') echo ' selected'; ?>>Preparing</option>
+                                            <option value="Shipping"<?php if(isset($_GET['status']) && $_GET['status'] == 'Shipping') echo ' selected'; ?>>Shipping</option>
+                                            <option value="Complete"<?php if(isset($_GET['status']) && $_GET['status'] == 'Complete') echo ' selected'; ?>>Complete</option>
+                                            <option value="Cancel"<?php if(isset($_GET['status']) && $_GET['status'] == 'Cancel') echo ' selected'; ?>>Cancel</option>
+                                        </select>
+                                        </div>
+                                    <button type="submit" class="btn btn-outline-primary btn-xs">View Orders</button>
+                                </form></h5>
+                            </div>
+                        </div>
 
                         <div class="card-body">
                         <p>
@@ -85,21 +122,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['order_date'])) {
                                 <tbody>
                         <?php
                         mysqli_select_db($db_conn, "bagel");
-                        mysqli_select_db($db_conn, "bagel");
-                        $sql = "SELECT o.*, ma.*, p.*
-                        FROM `order` o
-                        JOIN `member_address` ma ON o.MemberID=ma.MemberID 
-                        JOIN `payment` p ON o.paymentID=p.paymentID
-                        ORDER BY OrderDate ASC";
-                        
-                        if ($order_date) {
-                            $sql = "SELECT o.*, ma.*, p.*
-                            FROM `order` o
-                            JOIN `member_address` ma ON o.MemberID=ma.MemberID 
-                            JOIN `payment` p ON o.paymentID=p.paymentID
-                            WHERE DATE(o.OrderDate)='$order_date'
-                            ORDER BY OrderDate ASC";
-                        }
 
                         $query = $db_conn->query($sql);
                         if ($query) {

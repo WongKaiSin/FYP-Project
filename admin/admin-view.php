@@ -120,7 +120,7 @@ function addAdmin(){
 
 </script>
 
-<body>
+<body style="overflow-y: hidden; ">
     <!-- main wrapper -->
     <div class="dashboard-main-wrapper">
         <?php 
