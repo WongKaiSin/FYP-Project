@@ -114,6 +114,12 @@ document.addEventListener('DOMContentLoaded', function() {
             display: table;
             clear: both;
         }
+        .text-red {
+            color: red;
+        }
+        .text-black {
+            color: black;
+        }
     </style>
 </head>
 <script type="text/javascript">
@@ -164,10 +170,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 // Fetch and display products for each category
                                 mysqli_select_db($db_conn,"bagel");
-                                $productResult = $db_conn->query("SELECT * FROM product_cat WHERE CatID = " . $catID);
+                                $productResult = $db_conn->query("SELECT * FROM product_cat pc ,product p WHERE p.ProID=PC.ProID AND CatID = " . $catID );
                                 echo '<div class="row">';
                                 while($productRow = $productResult->fetch_assoc()) {
                                     $ProID = $productRow["ProID"];
+                                    $stock = $productRow['ProStock'];
+                                    $stockClass = $stock < 10 ? 'text-red' : 'text-black';
                         ?>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 product-item" data-categories="<?php echo $catID ?>">
                                 <!-- .card -->
@@ -186,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <!-- .figure-caption -->
                                         <figcaption class="figure-caption">
                                             <p class="text-muted mb-0"><?php echo $productRow["ProName"]; ?></p>
+                                            <p class="<?php echo $stockClass; ?>"><small><strong>[ STOCK : <?php echo $stock; ?> ]</small></strong></p>
                                         </figcaption>
                                         <!-- /.figure-caption -->
                                     </figure>

@@ -7,9 +7,17 @@ session_start();
 <head>
   <?php include("lib/head.php"); ?>
   <title>Customer Registration | London Bagel Museum</title>
-
+  <script>
+  function togglePasswordVisibility(inputId) {
+    var x = document.getElementById(inputId);
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
 </head>
-
 <body>
 
   <!-- ======= Header ======= -->
@@ -74,31 +82,37 @@ session_start();
         </div>
         
         <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-            <form action="forms/login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
-                <div class="row gy-4">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="MemberEmail"><b>Email</b></label>
-                            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-                            <div class="validate"></div>
-                        </div>
-                    </div>
+        <form action="forms/login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
+          <div class="row gy-4">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label for="MemberEmail"><b>Email</b></label>
+                      <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
+                      <div class="validate"></div>
+                  </div>
+              </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="MemberPass"><b>Password</b></label>
-                            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
-                            <div class="validate"></div>
-                        </div>
-                    </div>
-                </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label for="MemberPass"><b>Password</b></label>
+                      <div class="password-input">
+                          <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
+                          <span class="toggle-password" onclick="togglePasswordVisibility('MemberPass')">Show Password</span>
+                      </div>
+                      <div class="validate"></div>
+                  </div>
+              </div>
+          </div>
 
-                <a href ="forgot-password.php" >Forgot Password</a>
+          <div class="forgot-password">
+              <a href="forgot-password.php">Forgot Password?</a>
+          </div>
 
-                <div class="text-center">
-                    <button type="submit" name="loginbtn" class="btn btn-primary">Login</button>
-                </div>
-            </form>
+          <div class="text-center">
+              <button type="submit" name="loginbtn" class="btn btn-primary">Login</button>
+          </div>
+      </form>
+
         </div><!-- End Form -->
     </div><!-- End Login Content -->
 </div>
@@ -128,21 +142,28 @@ session_start();
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="MemberPass"><b>Password</b></label>
-                            <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" required>
-                            <div class="validate"></div>
-                        </div>
-                    </div>
+                      <div class="form-group">
+                          <label for="SignupMemberPass"><b>Password</b></label>
+                          <div class="password-input">
+                              <input type="password" name="MemberPass" class="form-control" id="SignupMemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
+                              <span class="toggle-password" onclick="togglePasswordVisibility('SignupMemberPass')">Show Password</span>
+                          </div>
+                          <div class="validate"></div>
+                      </div>
+                  </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="CfmPass"><b>Confirm Password</b></label>
-                            <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter the Confirmation Password" required>
-                            <div class="validate"></div>
-                        </div>
-                    </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="CfmPass"><b>Confirm Password</b></label>
+                          <div class="password-input">
+                               <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter Confirm Password" required>
+                              <span class="toggle-password" onclick="togglePasswordVisibility('CfmPass')">Show Password</span>
+                          </div>
+                          <div class="validate"></div>
+                      </div>
+                  </div>
 
+                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="MemberName"><b>Name</b></label>

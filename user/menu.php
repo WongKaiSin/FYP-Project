@@ -4,18 +4,15 @@ $SiteUrl = "http://localhost:80/FYP-Project";
 
 if(isset($_GET['CatID'])) {
     $category = $_GET['CatID'];
-
     $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                   FROM product_cat 
                                   JOIN product ON product_cat.ProID = product.ProID 
                                   WHERE product_cat.CatID = '$category'");
 } else {
-
     $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                   FROM product_cat 
                                   JOIN product ON product_cat.ProID = product.ProID");
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +21,64 @@ if(isset($_GET['CatID'])) {
 <head>
   <?php include("lib/head.php"); ?>
   <title>Menu | London Bagel Museum</title>
-
+  <style>
+     .search-container {
+        position: relative;
+        display: flex;
+        justify-content: end;
+        margin-bottom: 20px;
+    }
+    .search-input {
+        width: 50%;
+        padding: 10px 15px;
+        border-radius: 25px;
+        border: 2px solid #ccc;
+        transition: all 0.3s ease;
+    }
+    .search-input:focus {
+        border-color: #ec2727;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        outline: none;
+    }
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 1.2em;
+        transition: color 0.3s ease;
+    }
+    .search-input:focus + .search-icon {
+        color: #000000;
+        
+    }
+  </style>
 </head>
+
+<script>
+function search() {
+    // Declare variables
+    var input, filter, productDisplay, productItems, productName, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    productDisplay = document.getElementById("product-display");
+    productItems = productDisplay.getElementsByClassName("product-item");
+
+    // Loop through all product items, and hide those who don't match the search query
+    for (i = 0; i < productItems.length; i++) {
+        productName = productItems[i].getElementsByTagName("p")[0]; // Assuming the first <p> tag contains the product name
+        if (productName) {
+            txtValue = productName.textContent || productName.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                productItems[i].style.display = "";
+            } else {
+                productItems[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
 
 <body>
 
@@ -56,7 +109,6 @@ if(isset($_GET['CatID'])) {
       </div>
     </div><!-- End Breadcrumbs -->
 
-
     <section class="sample-page">
       <div class="section-header">
         <h2>London Bagel Museum Menu</h2>
@@ -67,7 +119,7 @@ if(isset($_GET['CatID'])) {
           <!-- Sidebar -->
           <div class="col-lg-3">
             <!-- Sidebar content -->
-            <aside id="product_list_food" class="product_list">
+            <aside class="product_list">
               <ul class='menu'>
                 <li class="dropdown">
                   <a href="?">All Products</a>
@@ -75,7 +127,7 @@ if(isset($_GET['CatID'])) {
               </ul>
             </aside>
 
-            <aside id="product_list_food" class="product_list">
+            <aside class="product_list">
               <ul class='menu'>
                 <li class="dropdown">
                   <a href="#">Food<i class="bi bi-chevron-down dropdown-indicator"></i></a>
@@ -88,7 +140,7 @@ if(isset($_GET['CatID'])) {
               </ul>
             </aside>
 
-            <aside id="product_list_soup" class="product_list">
+            <aside class="product_list">
               <ul class='menu'>
                 <li class="dropdown">
                   <a href="#">Homemade Soup<i class="bi bi-chevron-down dropdown-indicator"></i></a>
@@ -99,7 +151,7 @@ if(isset($_GET['CatID'])) {
               </ul>
             </aside>
 
-            <aside id="product_list_drinks" class="product_list">
+            <aside class="product_list">
               <ul class='menu'>
                 <li class="dropdown">
                   <a href="#">Drinks<i class="bi bi-chevron-down dropdown-indicator"></i></a>
@@ -115,7 +167,11 @@ if(isset($_GET['CatID'])) {
 
           <!-- Product Display -->
           <div class="col-lg-9">
-            <div class="product-display">
+            <div class="search-container">
+              <input type="text" class="form-control search-input" id="myInput" onkeyup="search()" placeholder="Search..">
+              <i class="bi bi-search search-icon"></i>
+            </div>
+            <div id="product-display" class="product-display">
               <?php
               if ($pro_query->num_rows > 0) {
                 // Output data of each row
@@ -124,15 +180,15 @@ if(isset($_GET['CatID'])) {
                   $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = $ProID";
                   $img_query = $db_conn->query($img_sql);
                   
-                  echo '<div class="product-item">';
+                  echo '<div class="product-item mb-3">';
                   if ($img_query->num_rows > 0) {
                     $img_row = $img_query->fetch_assoc();
                     $ImageName = $img_row['ImageName'];
                     $ImageExt = $img_row['ImageExt'];
                     $image_url = $SiteUrl . "/upload/product/" . $ImageName . "." . $ImageExt;
-                    echo "<img src='$image_url' style='width:100%'>";
+                    echo "<img src='$image_url' class='img-fluid'>";
                   }
-                  echo "<p>" . $row["ProName"] . "</p>";
+                  echo "<p class='mt-2'>" . $row["ProName"] . "</p>";
                   echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>"; 
                   echo '</div>';
                 }
@@ -152,6 +208,10 @@ if(isset($_GET['CatID'])) {
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <div id="preloader"></div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

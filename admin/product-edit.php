@@ -8,11 +8,15 @@ include("lib/db.php");
 $ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
 
 // Fetch product details from the database based on the product ID
-$query = "SELECT * FROM product WHERE ProID = '$ProID'";
+$query = "SELECT p.*, pc.CatID 
+            FROM product p
+            JOIN product_cat pc ON p.ProID = pc.ProID
+            WHERE p.ProID = '$ProID'";
 $result = $db_conn->query($query);
 
 if ($result && $result->num_rows > 0) {
     $product = $result->fetch_assoc();
+    $currentCategoryID = $product['CatID']; 
 } else {
     // Handle case where product is not found
     echo "Product not found!";
@@ -132,8 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             if ($catResult && $catResult->num_rows > 0) {
                                                 while ($row = $catResult->fetch_assoc()) {
-                                                    // Populate dropdown options with category names and IDs
-                                                    echo "<option value='" . $row['catID'] . "'>" . $row['catName'] . "</option>";
+                                                    $selected = ($row['catID'] == $currentCategoryID) ? 'selected' : '';
+                                                    echo "<option value='" . $row['catID'] . "' $selected>" . $row['catName'] . "</option>";
                                                 }
                                             } else {
                                                 echo "<option value=''>No categories found</option>";

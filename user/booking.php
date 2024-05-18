@@ -2,7 +2,6 @@
 session_start();
 include("lib/db.php");
 if (!isset($_SESSION['MemberEmail'])) {
-  // Redirect to login page or handle unauthorized access
   header("Location: registration.php");
   exit();
 }
@@ -24,7 +23,7 @@ if (!isset($_SESSION['MemberEmail'])) {
     .reservation-form h3 {
       margin: 0;
       font-size: 30px;
-      font-weight:bold;
+      font-weight: bold;
       color: #ec2727;
     }
 
@@ -150,6 +149,19 @@ if (!isset($_SESSION['MemberEmail'])) {
       var tablesNeeded = Math.ceil(People / 4); // Calculate number of tables needed
       tablesNeeded = Math.min(tablesNeeded, 5); // Limit maximum tables to 5
       document.getElementById('Table').value = tablesNeeded;
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var dateInput = document.getElementById('Date');
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      var maxDate = new Date(today);
+      maxDate.setMonth(today.getMonth() + 1);
+
+      dateInput.min = tomorrow.toISOString().split('T')[0];
+      dateInput.max = maxDate.toISOString().split('T')[0];
     });
   </script>
 
