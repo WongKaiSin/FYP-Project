@@ -88,7 +88,7 @@ else
       <div class="container" data-aos="fade-up">
 
         <!--  Form to cart-process  -->
-        <form action="cart-process.php" method="post">
+        <form action="cart_process.php" method="post">
             <table class="table-listing table-item-delete">
                 <thead>
                     <tr>
@@ -118,7 +118,7 @@ else
                         $StockText = "";
                         if($ProStock < $ProQty)
 						{
-							$StockText = "<br><strong style='color:red'>Out of Stock ".($StockQty > 0 ? "(Available Quantity: ".$StockQty.")" : "")."</strong>";
+							$StockText = "<br><strong style='color:red'>Out of Stock ".($ProStock > 0 ? "(Available Quantity: ".$ProStock.")" : "")."</strong>";
 							$NoStock = "1";
 						}
 
@@ -140,7 +140,7 @@ else
                                 <span class='d-lg-none'><strong>Quantity:</strong></span>
                                 <div class='quantity-box'>
                                     <button type='button' class='button minus' value='-' data-rel='".$CartProID."'><i class='fa fa-minus'></i></button>
-                                    <input type='text' value='".$ProQty."' id='qty-box".$CartProID."' data-max='".$ProStock."' style='font-size: 15px;'>
+                                    <input type='text' name='ProQty[".$CartProID."]' value='".$ProQty."' id='qty-box".$CartProID."' data-max='".$ProStock."' style='font-size: 15px;'>
                                     <button type='button' class='button plus' value='+' data-rel='".$CartProID."'><i class='fa fa-plus'></i></button>
                                 </div>
                                 <input type='hidden' name='CartProID[]' value='".$CartProID."'>
@@ -150,8 +150,8 @@ else
                                 ".$ProTotal."
                             </td>
                             <td class='text-right'>
-                                <a href='$SiteUrl/cart-process/Delete/$CartProID/' class='tooltip' data-title='Remove'>
-                                    <i class='fa fa-trash'></i>
+                                <a href='$SiteUrl/user/cart-process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
+                                    <i class='fa fa-trash-o'  style='font-size:48px;color:red'></i>
                                     <span class='d-lg-none'>Delete</span>
                                 </a>
                             </td>
@@ -163,9 +163,9 @@ else
             </table>
             <div class="row button-box">
                 <div class="col small-12 medium-6 large-6">
-                    <!-- <a href="$SiteUrl/PRODUCTS_PREFIX/"> -->
+                    <a href="<?=$SiteUrl?>/user/menu.php">
                         <button type="button" name="BtnCont" class="button is-outline pull-left"><i class="fa fa-arrow-left"></i>Continue Shopping</button>
-                    <!-- </a> -->
+                    </a>
                 </div>
                 <div class="col small-12 medium-6 large-6">
                     <button type="submit" name="BtnUpdate" class="button pull-right">Update Cart</button>
@@ -194,7 +194,7 @@ else
                     </table>
                     <?php
                     if($NoStock == 0)			  
-                        echo "<a href=\"$SiteUrl/checkout.php\" class=\"button width-100\">Proceed to Checkout</a>";
+                        echo "<a href='checkout.php' class='button width-100'>Proceed to Checkout</a>";
                     else
                         echo "<strong style='color:red'>One or more product is out of stock, please remove the product to proceed.</strong>";
                     ?>
