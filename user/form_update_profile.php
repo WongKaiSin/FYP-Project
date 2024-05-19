@@ -1,11 +1,11 @@
 <?php
 session_start();
-include("../lib/db.php");
+include("lib/db.php");
 
 // Check if user is logged in
 if (!isset($_SESSION['MemberID'])) {
     // Redirect to login page or handle unauthorized access
-    header("Location: ../registration.php");
+    header("Location: registration.php");
     exit();
 }
 
@@ -68,16 +68,16 @@ if (isset($_POST['BtnUpdateProfile'])) {
 
         if ($updateQuery) {
             $_SESSION['alert'] = 'Profile updated successfully.';
-            header('Location: ../member_profile.php');
+            header('Location: member_profile.php');
             exit(); // Exit after redirection
         } else {
             $_SESSION['alert'] = 'Error updating profile';
-            header("Location: ../member_profile.php");
+            header("Location: member_profile.php");
             exit();
         }
     } else {
         $_SESSION['alert'] = 'Error updating profile';
-        header("Location: ../member_profile.php");
+        header("Location: member_profile.php");
         exit();
     }
 }
