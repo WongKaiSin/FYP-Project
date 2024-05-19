@@ -179,10 +179,10 @@ if($pro_query->num_rows > 0)
                 <div class="product-info-price"><?=(!empty($ProDesc) ? $ProDesc : "")?></div>
                 <div class="product-info-price">RM <?=$ProPrice?></div>
                 <!--This is the form to cart-->
-                <form action="./process/cart_process.php" name="cart" id="cart" method="POST">
+                <form action="cart_process.php" name="cart" id="cart" method="POST">
                   <div class="row">
                     <div class="col-sm-5 product-info-stock <?=($ProStock <= 0 ? ' hide' : '')?>">
-                      <div class="product-info-quantity-box">
+                      <div class="quantity-box">
                         <button type="button" class="button minus" value="-" data-rel="<?=$ProID?>">-</button>
                         <input type="text" name="ProQty" value="1" id="qty-box<?=$ProID?>" data-max="<?=$ProStock?>">
                         <button type="button" class="button plus" value="+" data-rel="<?=$ProID?>">+</button>
@@ -219,7 +219,7 @@ if($pro_query->num_rows > 0)
 
 </body>
 <script>
-  var domain = "https://" + location.host + "/";
+  var domain = "https://localhost:80/FYP-Project/";
   $(document).ready(function() {
     $('.minus').click(function () {
         var $input = $(this).siblings('input');
@@ -305,7 +305,7 @@ if($pro_query->num_rows > 0)
 
 
     /*** product quantity control ***/
-    $(document).on("click", ".product-info-quantity-box > button", function() {
+    $(document).on("click", ".quantity-box > button", function() {
         var id = $(this).attr("data-rel");
         var qty = parseInt($("#qty-box" + id).val());
         var QtyMax = parseInt($("#qty-box" + id).attr("data-max"));

@@ -19,6 +19,9 @@ $CurrCart = $_SESSION["Cart"];
 <meta content="" name="description">
 <meta content="" name="keywords">
 
+<!-- Font awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!-- Favicons -->
 <link href="assets/img/logo.png" rel="icon">
 <link href="assets/img/logo.png" rel="apple-touch-icon">
@@ -39,7 +42,7 @@ $CurrCart = $_SESSION["Cart"];
 <link href="assets/css/main.css" rel="stylesheet">
 
 <!-- Custom CSS File -->
-<link href="assets/css/custom.css?v=14" rel="stylesheet">
+<link href="assets/css/custom.css?v=17" rel="stylesheet">
 
 
 <!-- =======================================================
@@ -49,6 +52,9 @@ $CurrCart = $_SESSION["Cart"];
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 ======================================================== -->
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -60,7 +66,6 @@ $CurrCart = $_SESSION["Cart"];
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/script.js?v=18"></script>
+<script src="assets/js/script.js?v=28"></script>
 
-<!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
