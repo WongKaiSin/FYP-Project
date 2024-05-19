@@ -251,26 +251,6 @@ $num=1;
         // Initialize Charts
         new Chart(document.getElementById("myChart"), barChartConfig);
         new Chart(document.getElementById("myChart2"), profitChartConfig);
-
-        //sorting
-        document.getElementById('sortBy').addEventListener('change', function() {
-            var sortBy = this.value;
-            window.location.href = 'sales-report.php?sortBy=' + sortBy;
-        });
-
-        function saveAsPDF() {
-            const doc = new jsPDF();
-
-            // Add a title to the PDF
-            doc.text("Sales Report", 10, 10);
-
-            // Convert the table to a PDF
-            doc.autoTable({ html: '#example' }); // 'example' should be the ID of your table
-
-            // Save the PDF
-            doc.save("sales_report.pdf");
-        }
-
         
 
     </script>
