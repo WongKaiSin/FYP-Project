@@ -1,14 +1,14 @@
 <?php 
 session_start();
-include("../lib/db.php"); // Assuming this file contains database connection
-include("../lib/function.php");
+include("lib/db.php"); // Assuming this file contains database connection
+include("lib/function.php");
 
 $function = new Functions;
 
 // Check if user is logged in
 if (!isset($_SESSION['MemberEmail'])) {
     // Redirect to login page or handle unauthorized access
-    header("Location: ../registration.php");
+    header("Location: registration.php");
     exit(); // Exit to prevent further execution
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['BtnUpdatePass'])) {
     // by adding (array_push()) corresponding error unto $errors array
     if ($MemberPass !== $CfmPass) {
         $_SESSION['alert'] = 'The two passwords do not match';
-        header("Location: ../member_password.php");
+        header("Location: member_password.php");
         exit();
     } else {
         // Update user's profile in the database
@@ -40,16 +40,16 @@ if (isset($_POST['BtnUpdatePass'])) {
 
             if ($updateQuery) {
                 $_SESSION['alert'] = 'Password updated successfully';
-                header('Location: ../member_password.php');
+                header('Location: member_password.php');
                 exit(); // Exit after redirection
             } else {
                 $_SESSION['alert'] = 'Error updating reset time';
-                header("Location: ../member_password.php");
+                header("Location: member_password.php");
                 exit();
             }
         } else {
             $_SESSION['alert'] = 'Error updating password';
-            header("Location: ../member_password.php");
+            header("Location: member_password.php");
             exit();
         }
     }

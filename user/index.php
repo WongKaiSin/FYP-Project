@@ -954,7 +954,7 @@ if (!isset($_SESSION['MemberEmail'])) {
 
         </div>
 
-        <form action="forms/contact.php" method="post" role="form" class="php-email-form p-3 p-md-4">
+        <form action="form_contact.php" method="post" role="form" class="php-email-form p-3 p-md-4">
   <div class="row">
     <div class="col-xl-6 form-group">
       <input type="text" name="Name" class="form-control" id="Name" placeholder="Your Name" required>

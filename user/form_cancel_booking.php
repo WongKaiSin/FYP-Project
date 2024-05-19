@@ -16,7 +16,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 // Include database connection
-include("../lib/db.php");
+include("lib/db.php");
 
 // Get the BookingID from the URL
 $bookingId = $_GET['id'];
@@ -34,7 +34,7 @@ if (mysqli_num_rows($result) == 1) {
     $cancelSql = "DELETE FROM booking WHERE BookID = $bookingId";
     if (mysqli_query($db_conn, $cancelSql)) {
         // Booking successfully cancelled
-        header("Location: ../member_bookinglist.php");
+        header("Location: member_bookinglist.php");
         exit();
     } else {
         // Error in cancelling booking
@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) == 1) {
     }
 } else {
     // Redirect to booking details page if booking doesn't belong to the logged-in member
-    header("Location: ../member_bookinglist.php");
+    header("Location: member_bookinglist.php");
     exit();
 }
 

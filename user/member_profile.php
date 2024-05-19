@@ -89,7 +89,7 @@ $db_conn->close();
             <div class="container" data-aos="fade-up">
                 <h3><span>Profile</span></h3>
                 
-                <form class="UpProfile" method="post" action="forms/update_profile.php" enctype="multipart/form-data">
+                <form class="UpProfile" method="post" action="form_update_profile.php" enctype="multipart/form-data">
                 <div class="form-group">
                         <label><b>Email Address</b></label>
                         <p class="mb-20"><?php echo $MemberEmail; ?></p>

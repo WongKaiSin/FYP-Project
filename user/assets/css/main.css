@@ -1906,7 +1906,7 @@ section {
   border-color: var(--color-primary);
 }
 
-.registration .toggle-password {
+.profile .toggle-password, .registration .toggle-password {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -1915,7 +1915,7 @@ section {
   color: #777;
   font-size: 12px;
 }
-.registration .password-input {
+.profile .password-input, .registration .password-input {
   position: relative;
 }
 /* Styling for Forgot Password link */

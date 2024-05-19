@@ -15,7 +15,7 @@
 </aside>
 
 <aside id="sidebar_logout" class="sidebar">
-    <form action="forms/logout.php" method="post">
+    <form action="form_logout.php" method="post">
         <button type="submit" class="logout-btn" name="logout">Log out</button>
     </form>
 </aside>

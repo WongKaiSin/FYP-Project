@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file
-include("../lib/db.php");
+include("lib/db.php");
 
 // Start the session
 session_start();
@@ -70,13 +70,13 @@ if (isset($_SESSION['MemberID'])) {
         }
 
         // Redirect after setting the alert
-        echo '<script>window.location.href="../booking.php";</script>';
+        echo '<script>window.location.href="booking.php";</script>';
         exit();
     }
 } else {
     echo '<script>alert("Error: MemberID not set in session.")</script>';
     // Redirect to booking page
-    echo '<script>window.location.href="../booking.php";</script>';
+    echo '<script>window.location.href="booking.php";</script>';
     exit();
 }
 

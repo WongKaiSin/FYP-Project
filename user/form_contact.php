@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../lib/db.php"); 
+include("lib/db.php"); 
 
 if (isset($_POST["BtnContact"])) {
   $Name = $_POST["Name"];    
@@ -26,21 +26,21 @@ if (isset($_POST["BtnContact"])) {
       // Execute the query
       if ($db_conn->query($sql) === TRUE) {
           $_SESSION['alert'] = 'Message sent successfully!';
-          header("Location: ../index.php");
+          header("Location: index.php");
           exit();
       } else {
           $_SESSION['alert'] = 'Error: ' . $sql . '<br>' . $db_conn->error;
-          header("Location: ../index.php");
+          header("Location: index.php");
           exit();
       }
   } else {
       $_SESSION['alert'] = 'Please fill in all fields.';
-      header("Location: ../index.php");
+      header("Location: index.php");
       exit();
   }
 } else {
   $_SESSION['alert'] = 'Form submission error.';
-  header("Location: ../index.php");
+  header("Location: index.php");
   exit();
 }
 ?>

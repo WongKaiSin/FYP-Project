@@ -1,7 +1,7 @@
 <?php 
 session_start();
-include("../lib/db.php"); // Assuming this file contains database connection
-include("../lib/function.php");
+include("lib/db.php"); // Assuming this file contains database connection
+include("lib/function.php");
 
 $function = new Functions;
 
@@ -43,11 +43,11 @@ if(isset($_POST["loginbtn"])) {
         // Set session and redirect
         $_SESSION['MemberEmail'] = $row['MemberEmail'];
         $_SESSION['MemberID'] = $row["MemberID"];
-        header("Location: ../index.php");
+        header("Location: index.php");
         exit();
     } else {
         $_SESSION['alert'] = 'Invalid username or password';
-        header("Location: ../registration.php");
+        header("Location: registration.php");
         exit();
     }
 }
