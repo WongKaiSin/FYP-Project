@@ -26,11 +26,12 @@ if ($result && $result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
-
+    $currentDateTime = date("Y-m-d H:i:s");
+    $adUser = $_SESSION['adUser'];
     // Validate and sanitize input data
 
     // Update product details in the database
-    $sql_update = "UPDATE product SET ProStock = '$stock' WHERE ProID = '$ProID'";
+    $sql_update = "UPDATE product SET ProStock = '$stock', ProModifyDate='$currentDateTime', ProModifyPerson='$adUser' WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_update) === TRUE) {
         // Redirect back to the product description page
         header("Location: product-desc.php?ProID=$ProID");
