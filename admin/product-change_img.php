@@ -4,7 +4,7 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 mysqli_select_db($db_conn, "bagel");
-$ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
+$ProID = $_SESSION["ProID"];
 
 $sql_fetch_pro_name = "SELECT ProName FROM product WHERE ProID = '$ProID'";
 $result_fetch_pro_name = $db_conn->query($sql_fetch_pro_name);
