@@ -11,7 +11,7 @@ if (isset($_GET["del"])) {
     $catID = $_GET['catID']; 
 
     // Check if there are products associated with this category
-    $productResult = $db_conn->query("SELECT COUNT(*) as total FROM product_cat WHERE active = 1 AND CatID = '$catID'");
+    $productResult = $db_conn->query("SELECT COUNT(*) as total FROM product_cat WHERE Active = 1 AND CatID = '$catID'");
     $productRow = $productResult->fetch_assoc();
     $totalProducts = $productRow['total'];
 
@@ -21,7 +21,7 @@ if (isset($_GET["del"])) {
         
     } else {
         // If there are no products, proceed with deletion
-        $sql_delete = "UPDATE category SET active=0 WHERE catID = '$catID'";
+        $sql_delete = "UPDATE category SET isUp = 0 WHERE catID = '$catID'";
         if ($db_conn->query($sql_delete) === TRUE) {
             // Redirect back to the product list page
             header("Location: product-view.php");
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <?php
                             // Fetch and display category names
                             mysqli_select_db($db_conn,"bagel");
-                            $categoryResult = $db_conn->query("SELECT * FROM category WHERE active=1");
+                            $categoryResult = $db_conn->query("SELECT * FROM category WHERE isUp=1");
                             while($categoryRow = $categoryResult->fetch_assoc()) {
 
                                 $catID = $categoryRow["catID"];
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 // Fetch and display products for each category
                                 mysqli_select_db($db_conn,"bagel");
-                                $productResult = $db_conn->query("SELECT * FROM product_cat pc ,product p WHERE p.ProID=PC.ProID AND p.active=1 AND CatID = " . $catID );
+                                $productResult = $db_conn->query("SELECT * FROM product_cat pc ,product p WHERE p.ProID=PC.ProID AND p.isUp=1 AND CatID = " . $catID );
                                 echo '<div class="row">';
                                 while($productRow = $productResult->fetch_assoc()) {
                                     $ProID = $productRow["ProID"];
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <?php
                                     // Fetch and display category names
                                     mysqli_select_db($db_conn,"bagel");
-                                    $categoryResult = $db_conn->query("SELECT * FROM category WHERE active=1");
+                                    $categoryResult = $db_conn->query("SELECT * FROM category WHERE isUp=1");
                                     while($categoryRow = $categoryResult->fetch_assoc()) {
                                         $catID = $categoryRow["catID"];
                                         echo '<div class="custom-control custom-radio">';

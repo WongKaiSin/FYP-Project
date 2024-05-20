@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         if($responseData->success)
         {
             // Prepare the SQL statement with prepared statements to prevent SQL injection
-            $sql = "SELECT * FROM admin WHERE adUser = '$adUser' AND adPass = '$adPass' AND adStatus='1' AND active=1";
+            $sql = "SELECT * FROM admin WHERE adUser = '$adUser' AND adPass = '$adPass' AND adStatus='1'";
 
             // Execute the query
             $query = $db_conn->query($sql);

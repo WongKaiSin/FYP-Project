@@ -44,10 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_REQUEST["del"])) 
 {
 	// Delete related records in product_cat table
-    $sql_delete_product_cat = "UPDATE product_cat SET active=0 WHERE ProID = '$ProID'";
+    $sql_delete_product_cat = "UPDATE product_cat SET Active=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product_cat) === TRUE) {
     // Now delete the product from the product table
-    $sql_delete_product = "UPDATE product SET active=0 WHERE ProID = '$ProID'";
+    $sql_delete_product = "UPDATE product SET isUp=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product) === TRUE) {
         // Redirect back to the product list page
         header("Location: product-view.php");

@@ -12,7 +12,7 @@ if (isset($_GET["del"])) {
 
     if ($adtype == "SuperAdmin") {
         
-        $sql_delete = "UPDATE `admin` SET active=0 WHERE adID = '$adID'";
+        $sql_delete = "UPDATE `admin` SET adStatus = 0 WHERE adID = '$adID'";
         if ($db_conn->query($sql_delete) === TRUE) {
             // Redirect back to the admin page
             header("Location: admin-view.php");
@@ -151,7 +151,7 @@ function addAdmin(){
                             <div class="card-body">
                                 <?php
                                 mysqli_select_db($db_conn, "bagel");
-                                $sql = "SELECT * FROM admin WHERE active=1";
+                                $sql = "SELECT * FROM admin WHERE adStatus=1";
                                 $query = $db_conn->query($sql);
                                 if ($query) {
                                     echo '<ul id="myUL">'; 

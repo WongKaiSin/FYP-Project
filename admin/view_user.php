@@ -9,7 +9,7 @@ if (isset($_REQUEST["del"])) {
 
 
     // Delete from member table
-    $sql_member = "UPDATE member SET active=0 WHERE MemberID = $MemberID";
+    $sql_member = "UPDATE member SET isUp=0 WHERE MemberID = $MemberID";
 
 
     if ($db_conn->query($sql_member) === TRUE) {
