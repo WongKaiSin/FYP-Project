@@ -5,7 +5,7 @@ include("lib/function.php");
 $function = new Functions;
 
 $TITLE = "Forgot Your Password?";
-$SiteUrl = "http://localhost:80/FYP-Project";
+$SiteUrl = "http://localhost:80/FYP-Project/user";
 
 $msg = isset($_GET["msg"]) ? $_GET["msg"] : ""; // Check if 'msg' exists in the GET request
 $PassEmail = "";
@@ -31,45 +31,72 @@ if(isset($_POST["BtnPass"]))
 		
 		$encodedToken = substr_replace($PassEmail, $MemberID."#".date("His"), 4, 0);
 
-$resetLink = "$SiteUrl/reset-password.php?token=$encodedToken";
+        $resetLink = "$SiteUrl/reset-password.php?token=$encodedToken";
 
-$custom_msg = "$resetLink######$PassEmail";
+        $custom_msg = "$resetLink######$PassEmail";
 		
 		$function->send_email("2", $MemberName, $PassEmail, $custom_msg);
 		
 		mysqli_query($db_conn, "UPDATE member SET MemberReset=DATE_ADD(NOW(), INTERVAL 8 HOUR) WHERE MemberID='$MemberID'");
 		
 		$content .= "<script>self.location = '$SiteUrl/forgotpass/success/'</script>";
+
+        $msg[] = "An email have sent to your email address.";
 	}
 	
 	if(!empty($msg))
 		$type = "error";
 }
-
-if(!empty($msg))
-{
-	switch($msg)
-	{
-		case "success": $type = "success"; $msg = "An email have sent to your email address."; break;
-		case "expired": $type = "error"; $msg = "The link is not longer valid."; break;
-		case "invalid": $type = "error"; $msg = "Invalid link."; break;
-	}
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $TITLE; ?></title>
+  <?php include("lib/head.php"); ?>
+  <title>Forgot Password | London Bagel Museum</title>
+
 </head>
+
 <body>
-    <h2>Forgot Password</h2>
-    <div class="box-center">
-        <div class="col large-5">
-            <div class="row">
-                <h3 class="mb-30"><span>Forgot Password</span></h3>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <?php 
+        include("lib/logo.php");
+        include("lib/topmenu.php");
+      ?>
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Forgot Password</h2>
+          <ol>
+            <li><a href="index.php">Home</a></li>
+            <li>Forgot Password</li>
+          </ol>
+        </div>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <section class="forgot" id="forgot">
+      <div class="container" data-aos="fade-up">
+
+      <h3 class="mb-30"><span>Forgot Password</span></h3>
+                <p>Please enter your email address used for login. You will receive a link to create a new password via email.</p>
+                <form name="theForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                    <label><b>Email Address</b></label>
+                    <input type="email" name="PassEmail" value="<?php echo htmlspecialchars($PassEmail); ?>" required />
+                    <input type="submit" name="BtnPass" value="Reset Password" class="button primary lowercase" />
+                </form>
                 <?php 
                 if (!empty($msg)) {
                     if (is_array($msg)) {
@@ -81,14 +108,17 @@ if(!empty($msg))
                     }
                 }
                 ?>
-                <p>Please enter your email address used for login. You will receive a link to create a new password via email.</p>
-                <form name="theForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                    <label>Email Address</label>
-                    <input type="email" name="PassEmail" value="<?php echo htmlspecialchars($PassEmail); ?>" required />
-                    <input type="submit" name="BtnPass" value="Reset Password" class="button primary lowercase" />
-                </form>
-            </div>
-        </div>
-    </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  <?php include("lib/footer.php"); ?>
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
 </body>
 </html>
+

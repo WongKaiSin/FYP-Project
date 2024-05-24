@@ -1,10 +1,10 @@
 <?php
 echo getcwd();
 
-require_once("../lib/mailer/PHPMailer.php");
-require_once("../lib/mailer/SMTP.php");
-require_once("../lib/mailer/POP3.php");
-require_once("../lib/mailer/Exception.php");
+require_once("lib/mailer/PHPMailer.php");
+require_once("lib/mailer/SMTP.php");
+require_once("lib/mailer/POP3.php");
+require_once("lib/mailer/Exception.php");
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
@@ -243,6 +243,29 @@ class Functions
         $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, "", $attachment);
     }
     // END Email
+
+    // Get product picture
+    function productPic($ProID)
+    {
+        global $db_conn, $SiteUrl;
+        
+        $img_query = mysqli_query($db_conn, "SELECT ImageName,ImageExt FROM product_image WHERE ProID='$ProID'");
+        $img_row = mysqli_fetch_array($img_query);
+        $img_num = mysqli_num_rows($img_query);
+
+        $img = "$SiteUrl/images/no-image.jpg";
+        if($img_num > 0)
+        {
+            $img_row = mysqli_fetch_array($img_query);
+            
+            $ImageName = $img_row["ImageName"];
+            $ImageExt = $img_row["ImageExt"];
+            
+            $img = $SiteUrl."/upload/product/".$ImageName.".".$ImageExt;
+        }
+        
+        return $img;
+    }
 
     // Cart
     function updateCartTotal($CartID, $shipping='0')

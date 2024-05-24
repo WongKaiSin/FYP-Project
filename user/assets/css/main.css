@@ -1831,7 +1831,9 @@ section {
 
 .registration .login-form button[type=submit],
 .profile .UpProfile .button,
-.profile .UpPass .button {
+.profile .UpPass .button, 
+.reset .theForm .button,
+.forgot .theForm .button{
   background: var(--color-primary);
   border: 0;
   padding: 14px 60px;
@@ -1842,7 +1844,9 @@ section {
 
 .registration .login-form button[type=submit]:hover,
 .profile .UpProfile .button:hover,
-.profile .UpPass .button:hover{
+.profile .UpPass .button:hover,
+.reset .theForm .button:hover,
+.forgot .theForm .button:hover{
   background: #ec2727;
 }
 
@@ -1906,7 +1910,7 @@ section {
   border-color: var(--color-primary);
 }
 
-.registration .toggle-password {
+.reset .toggle-password, .profile .toggle-password, .registration .toggle-password {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -1915,7 +1919,7 @@ section {
   color: #777;
   font-size: 12px;
 }
-.registration .password-input {
+.reset .password-input, .profile .password-input, .registration .password-input {
   position: relative;
 }
 /* Styling for Forgot Password link */
@@ -2016,7 +2020,9 @@ section {
 }
 
 .profile .container h3,
-.bookinglist .container h3 {
+.bookinglist .container h3,
+.reset .container h3,
+.forgot .container h3 {
   margin: 0;
   font-size: 48px;
   font-weight: 400;
@@ -2025,7 +2031,8 @@ section {
 }
 
 .profile .UpProfile input[type="text"],
-.profile .UpPass input[type="password"]{
+.profile .UpPass input[type="password"],
+.reset .theForm input[type="password"]{
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;

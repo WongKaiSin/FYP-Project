@@ -5,7 +5,7 @@ include("lib/head.php");
 include("lib/db.php");
 
 // Retrieve the product ID from the URL
-$ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
+$ProID = $_SESSION["ProID"];
 
 // Fetch product details from the database based on the product ID
 $query = "SELECT p.*, pc.CatID 

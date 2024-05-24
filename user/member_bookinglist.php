@@ -92,7 +92,7 @@ if(isset($_SESSION['MemberID'])) {
                                             echo "<td>" . $row["People"]. "</td>";
                                             echo "<td>" . $row["Date"]. "</td>";
                                             echo "<td>" . $row["Time"]. "</td>";
-                                            echo "<td><a onclick='return confirm(\"Are you sure you want to cancel this booking?\")' href='forms/cancel_booking.php?id=" . $row["BookID"] . "'>Cancel</a></td>";
+                                            echo "<td><a onclick='return confirm(\"Are you sure you want to cancel this booking?\")' href='form_cancel_booking.php?id=" . $row["BookID"] . "'>Cancel</a></td>";
                                             echo "</tr>";
                                             $counter++;
                                         }

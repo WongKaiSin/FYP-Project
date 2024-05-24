@@ -6,6 +6,7 @@ include("lib/db.php");
 
 // Retrieve the product ID from the URL
 $ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
+$_SESSION["ProID"] = $ProID;
 
 // Fetch product details from the database based on the product ID
 $query = "SELECT * FROM product WHERE ProID = '$ProID'";
@@ -44,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_REQUEST["del"])) 
 {
 	// Delete related records in product_cat table
-    $sql_delete_product_cat = "UPDATE product_cat SET active=0 WHERE ProID = '$ProID'";
+    $sql_delete_product_cat = "UPDATE product_cat SET Active=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product_cat) === TRUE) {
     // Now delete the product from the product table
-    $sql_delete_product = "UPDATE product SET active=0 WHERE ProID = '$ProID'";
+    $sql_delete_product = "UPDATE product SET isUp=0 WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_delete_product) === TRUE) {
         // Redirect back to the product list page
         header("Location: product-view.php");
@@ -108,8 +109,8 @@ if (isset($_REQUEST["del"]))
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                    <a href="product-change_img.php?ProID=<?php echo $ProID; ?>"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
-                                        <a href="product-change_img.php?ProID=<?php echo $ProID; ?>">
+                                    <a href="product-change_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
+                                        <a href="product-change_img.php">
                                             <img style="height: 194px; weight: 259px; margin-top:60px;"src="../upload/product/<?php echo $product["ProUrl"] ?>" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
                                         </a>
                                     </div>
@@ -191,8 +192,8 @@ if (isset($_REQUEST["del"]))
                          
                         <div class="col-sm-12 pl-0 text-right">
                             <p style="padding: 20px;">      
-                                <a class="btn btn-success" href="product-edit.php?ProID=<?php echo $ProID; ?>">Edit</a>
-                                <a class="btn btn-secondary" href="product-desc.php?del=1&ProID=<?php echo $ProID; ?>" onclick="return confirmation();">Delete</a>
+                                <a class="btn btn-success" href="product-edit.php">Edit</a>
+                                <a class="btn btn-secondary" href="product-desc.php?del=1" onclick="return confirmation();">Delete</a>
                             </p>
                         </div>
                                    </div>

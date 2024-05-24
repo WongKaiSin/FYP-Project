@@ -82,7 +82,7 @@ session_start();
         </div>
         
         <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-        <form action="forms/login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
+        <form action="form_login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
           <div class="row gy-4">
               <div class="col-md-12">
                   <div class="form-group">
@@ -131,7 +131,7 @@ session_start();
         </div>
 
         <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-            <form action="forms/signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
+            <form action="form_signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row gy-4">
                     <div class="col-md-12">
                         <div class="form-group">
