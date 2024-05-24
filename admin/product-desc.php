@@ -42,28 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating product: " . $db_conn->error;
     }
 }
-if (isset($_REQUEST["del"])) 
-{
-	// Delete related records in product_cat table
-    $sql_delete_product_cat = "UPDATE product_cat SET Active=0 WHERE ProID = '$ProID'";
-    if ($db_conn->query($sql_delete_product_cat) === TRUE) {
-    // Now delete the product from the product table
-    $sql_delete_product = "UPDATE product SET isUp=0 WHERE ProID = '$ProID'";
-    if ($db_conn->query($sql_delete_product) === TRUE) {
-        // Redirect back to the product list page
-        header("Location: product-view.php");
-        exit();
-    } else {
-        // Handle errors, if any
-        echo "Error deleting product: " . $db_conn->error;
-    }
-} else {
-    // Handle errors, if any
-    echo "Error deleting related product categories: " . $db_conn->error;
-}
-    
-}
-
 ?>
 <script type="text/javascript">
     function confirmation() {
@@ -190,12 +168,15 @@ if (isset($_REQUEST["del"]))
                             </div>
                         </div>
                          
-                        <div class="col-sm-12 pl-0 text-right">
-                            <p style="padding: 20px;">      
-                                <a class="btn btn-success" href="product-edit.php">Edit</a>
-                                <a class="btn btn-secondary" href="product-desc.php?del=1" onclick="return confirmation();">Delete</a>
-                            </p>
-                        </div>
+                        <form method="post" action="delete_pro.php">
+                            <!-- Product details and tabs -->
+                            <div class="col-sm-12 pl-0 text-right">
+                                <p style="padding: 20px;">      
+                                    <a class="btn btn-success" href="product-edit.php">Edit</a>
+                                    <button type="submit" class="btn btn-secondary" name="del" onclick="return confirmation();">Delete</button>
+                                </p>
+                            </div>
+                        </form>
                                    </div>
                                 </div>
                             </div>
