@@ -140,8 +140,7 @@ function search() {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            mysqli_select_db($db_conn, "bagel");
-                                            $sql = "SELECT * FROM member WHERE active=1";
+                                            $sql = "SELECT * FROM member WHERE isUp=1";
                                             $query = $db_conn->query($sql);
                                             if ($query) {
                                                 while ($row = $query->fetch_assoc()) {

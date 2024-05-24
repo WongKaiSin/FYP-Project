@@ -121,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['status'])) {
                                 </thead>
                                 <tbody>
                         <?php
-                        mysqli_select_db($db_conn, "bagel");
 
                         $query = $db_conn->query($sql);
                         if ($query) {

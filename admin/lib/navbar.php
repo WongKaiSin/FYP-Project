@@ -71,10 +71,9 @@ function timeElapsedString($datetime, $full = false) {
                             <div class="notification-list">
                                 <div class="list-group">
                                     <?php
-                                    mysqli_select_db($db_conn, "bagel");
                                     $productResult = $db_conn->query("SELECT *,
                                     IF(ProModifyDate = '0000-00-00 00:00:00', ProAddDate, ProModifyDate) AS DateToUse
-                                    FROM product p WHERE ProStock <= 10 AND p.isUp = 1 ORDER BY DateToUse DESC");
+                                    FROM product p WHERE ProStock < 10 AND p.isUp = 1 ORDER BY DateToUse DESC");
                                     while ($productRow = $productResult->fetch_assoc()) {
                                         $ProID = $productRow["ProID"];
                                         $ProModifyDate = $productRow["ProModifyDate"];

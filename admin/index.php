@@ -1,6 +1,5 @@
 <?php include("lib/validation.php"); 
 include("lib/db.php");
-mysqli_select_db($db_conn, "bagel");
 $sqlSalesByCategory = "SELECT pc.CatName, SUM(op.ProQty) AS category_sales
                         FROM order_product op
                         JOIN product_cat pc ON op.ProID = pc.ProID
@@ -390,36 +389,30 @@ function displayStars($rating) {
                                                 <th class="border-0">People(s)</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php
-                                            mysqli_select_db($db_conn, "bagel");
-                                            $sql = "SELECT * FROM booking ORDER BY `Date`, `Time`, `BookAddDate` DESC
-                                            LIMIT 5;";
+                                        <?php
+                                            $sql = "SELECT * FROM booking ORDER BY `Date`, `Time`, `BookAddDate` DESC LIMIT 5;";
                                             $query = $db_conn->query($sql);
                                             if ($query) {
                                                 $current_date = '';
                                                 while ($row = $query->fetch_assoc()) {
-                                                    $endtime = $row['Time'] + 1;
                                                     if ($current_date != $row['Date']) {
                                                         echo '<tr style="background-color:whitesmoke ;"><td colspan="7"><strong>' . $row['Date'] . '</strong></td></tr>';
                                                         $current_date = $row['Date'];
                                                     }
-                                                    if($row['Approval']==0){
-                                                        $status='class="badge-dot  badge-warning"';
+                                                    if ($row['Approval'] == 0) {
+                                                        $status = 'class="badge-dot badge-warning"';
+                                                    } else if ($row['Approval'] == 1) {
+                                                        $status = 'class="badge-dot badge-success"';
+                                                    } else if ($row['Approval'] == 2) {
+                                                        $status = 'class="badge-dot badge-dark"';
                                                     }
-                                                    else if($row['Approval']==1){
-                                                        $status='class="badge-dot  badge-success"';
-                                                    }
-                                                    else if($row['Approval']==2){
-                                                        $status='class="badge-dot  badge-dark"';
-                                                    }
-                                            ?>
+                                                ?>
                                                     <tr>
                                                         <th scope="row"><span <?php echo $status; ?>></span></th>
                                                         <td><?php echo $row['Name']; ?></td>
                                                         <td><?php echo $row['Phone']; ?></td>
                                                         <td><?php echo $row['Email']; ?></td>
-                                                        <td><?php echo $row['Time']; ?> - <?php echo $endtime; ?></td>
+                                                        <td><?php echo $row['Time']; ?></td>
                                                         <td><?php echo $row['People']; ?></td>
                                                     </tr>
                                             <?php

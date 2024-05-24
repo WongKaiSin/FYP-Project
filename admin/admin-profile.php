@@ -4,13 +4,6 @@ session_start();
 include("lib/head.php");
 include("lib/db.php");
 
-// Check if the user is logged in
-if (!isset($_SESSION["adUser"])) {
-    // Redirect to login page or handle unauthorized access
-    // For example:
-    header("Location: login.php");
-    exit(); // Ensure script stops execution after redirection
-}
 
 // Get the admin username from the session
 $adUser = $_SESSION["adUser"];
@@ -122,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
                                             <td><input id="inputText3" type="email" class="form-control" name="adEmail" value="<?php echo $admindata['adEmail']; ?>" required></td>
                                         </tr>
                                         <tr>
-                                        <th>Phone Number  <i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
+                                        <th>Phone Number  <small> (xxx-xxx xxxx)</small><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
                                         <td><input id="inputText3" type="tel" class="form-control"  name="adTel" pattern="[0-9]{3}-[0-9]{3} [0-9]{4}" value="<?php echo $admindata['adTel']; ?>" required></td>
                                     </tr>
                                     <tr>
@@ -146,6 +139,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
                                     }?>
                                 <button type="submit" name="updatebtn" class="btn btn-primary float-right">Update</button>
                             </form>
+                            <br/><br/>
+                            <a style="float: right;" href="admin-reset-pw.php"><i><u>Reset password</u></i></a>
                         </div>
                         <!-- /grid row -->
                     </div>

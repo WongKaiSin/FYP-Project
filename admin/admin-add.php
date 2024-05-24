@@ -40,8 +40,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
                 VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode', '1', '$currentDateTime', '$newFilename')";
 
         if ($db_conn->query($sql) === TRUE) {
-            // Set success message
-            $success_message = "New record created successfully";
             
             // Redirect after submission
             echo '<script type="text/javascript">
@@ -145,8 +143,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
                         <input id="inputEmail" type="email" placeholder="name@example.com" class="form-control" name="adEmail" required>
                     </div>
                     <div class="form-group">
-                        <label for="inputText3" class="col-form-label" >Phone number</label>
-                        <input id="inputText3" type="tel" class="form-control" name="adTel" placeholder="xxx-xxx xxxx" pattern="[0-9]{3}-[0-9]{3} [0-9]{4}" required>
+                        <label for="inputText3" class="col-form-label" >Phone number</label><small> (xxx-xxx xxxx)</small>
+                        <input id="inputText3" type="tel" class="form-control" name="adTel" pattern="[0-9]{3}-[0-9]{3} [0-9]{4}" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword">Password</label>

@@ -111,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['BookID']) && isset($_GE
                                 </thead>
                                 <tbody>
                                     <?php
-                                    mysqli_select_db($db_conn, "bagel");
                                     $sql = "SELECT * FROM booking ORDER BY `Date`, `Time`, `BookAddDate` DESC;";
                                     if ($start_date) {
                                         $sql = "SELECT * FROM booking WHERE `Date` = '$start_date' ORDER BY `Date`, `Time`, `BookAddDate` DESC;";
@@ -120,19 +119,18 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['BookID']) && isset($_GE
                                     if ($query) {
                                         $current_date = '';
                                         while ($row = $query->fetch_assoc()) {
-                                            $endtime = $row['Time'] + 1;
+                                    
                                             if ($current_date != $row['Date']) {
                                                 echo '<tr style="background-color:whitesmoke ;"><td colspan="7"><strong>' . $row['Date'] . '</strong></td></tr>';
                                                 $current_date = $row['Date'];
                                             }
-                                            if($row['Approval']==0){
-                                                $status='class="badge-dot  badge-warning"';
-                                            }
-                                            else if($row['Approval']==1){
-                                                $status='class="badge-dot  badge-success"';
-                                            }
-                                            else if($row['Approval']==2){
-                                                $status='class="badge-dot  badge-dark"';
+                                    
+                                            if ($row['Approval'] == 0) {
+                                                $status = 'class="badge-dot badge-warning"';
+                                            } elseif ($row['Approval'] == 1) {
+                                                $status = 'class="badge-dot badge-success"';
+                                            } elseif ($row['Approval'] == 2) {
+                                                $status = 'class="badge-dot badge-dark"';
                                             }
                                     ?>
                                             <tr>
@@ -140,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['BookID']) && isset($_GE
                                                 <td><?php echo $row['Name']; ?></td>
                                                 <td><?php echo $row['Phone']; ?></td>
                                                 <td><?php echo $row['Email']; ?></td>
-                                                <td><?php echo $row['Time']; ?> - <?php echo $endtime; ?></td>
+                                                <td><?php echo $row['Time']; ?></td>
                                                 <td><?php echo $row['People']; ?></td>
                                                 <td>
                                                     <?php if ($row['Approval'] == 0) { ?>

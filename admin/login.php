@@ -53,7 +53,7 @@ $SettingCaptchaKey = "6Lf1TrQpAAAAADXJXMkOVukCcVTeEPYYocKwwhTE"; //v3
                 ?>
                 <form id="loginform" method="POST" action="login_p.php">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Enter Email">
+                        <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Enter UserName">
                     </div>
                     <div class="form-group">
                         <input class="form-control form-control-lg" name="adPass" id="password" type="password" placeholder="Enter Password">
@@ -64,7 +64,7 @@ $SettingCaptchaKey = "6Lf1TrQpAAAAADXJXMkOVukCcVTeEPYYocKwwhTE"; //v3
             </div>
             <div class="card-footer bg-white p-0">
                 <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Forgot Password</a>
+                    <a href="forgot_pw.php" class="footer-link">Forgot Password</a>
                 </div>
             </div>
         </div>

@@ -111,7 +111,7 @@ if (isset($_REQUEST["del"]))
                                     <div class="col-md-4">
                                     <a href="product-change_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
                                         <a href="product-change_img.php">
-                                            <img style="height: 194px; weight: 259px; margin-top:60px;"src="../upload/product/<?php echo $product["ProUrl"] ?>" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
+                                            <img style="height: 250px; weight: 400px; margin-top:60px;"src="../upload/product/<?php echo $product["ProUrl"] ?>" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
                                         </a>
                                     </div>
                                     <div class="col-md-8">

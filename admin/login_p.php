@@ -32,6 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
                 // Set session variables
                 $_SESSION['AdminLogged'] = true;
                 $_SESSION["adUser"] = $row["adUser"];
+                $_SESSION["adEmail"] = $row["adEmail"];
                 $_SESSION["adName"] = $row["adName"];
                 $_SESSION["adType"] = $row["adType"];
                 $_SESSION["adMenu"] = $row["adMenu"];
@@ -52,4 +53,44 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
     }
 }
 
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["BtnPass"]))
+{
+    $PassEmail = $_POST['email'];
+
+    $check_query = mysqli_query($db_conn, "SELECT adID, adName, adEmail FROM admin WHERE adEmail='$PassEmail' AND adStatus='1'");
+    $check_num = mysqli_num_rows($check_query);
+
+    if($check_num > 0)
+    {
+        // the message
+        $msg = "First line of text\nSecond line of text";
+
+        // use wordwrap() if lines are longer than 70 characters
+        $msg = wordwrap($msg,70);
+
+        
+
+       
+        authSendEmail("kxn1102@gmail.com", "xuening", "kxn1102@gmail.com", "xuening", "Reset Password", $msg);
+
+        echo '<script type="text/javascript">
+        alert("Password reset email sent successfully!");
+        window.location.href = "login.php";
+        </script>';
+        exit;
+    }
+    else
+    {
+        echo '<script type="text/javascript">
+        alert("Email not found. Please enter a valid email address.");
+        window.location.href = "forgot_pw.php";
+        </script>';
+        exit;
+    }
+}
+
 ?>
+
+
+

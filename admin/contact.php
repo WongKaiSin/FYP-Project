@@ -71,7 +71,6 @@ if (isset($_GET["del"])) {
                         </div>
                         <div class="card-body" id="contactList">
                             <?php
-                                mysqli_select_db($db_conn, "bagel");
                                 $sortBy = isset($_GET['sortBy']) && $_GET['sortBy'] === 'oldest' ? 'ASC' : 'DESC';
                                 $sql = "SELECT * FROM contact ORDER BY ConAddDate $sortBy";
                                 $query = $db_conn->query($sql);

@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <!-- .figure-img -->
                                         <div class="figure-img">
                                             <!-- Replace the src attribute with the actual image source -->
-                                            <img class="img-fluid" src="../upload/product/<?php echo $productRow["ProUrl"] ?>" alt="Card image cap">
+                                            <img class="img-fluid" style="height:180px; width: 1000px;" src="../upload/product/<?php echo $productRow["ProUrl"] ?>" alt="Card image cap">
                                             <div class="figure-action">
                                             <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="btn btn-block btn-sm btn-primary">Description</a>
                                             </div>

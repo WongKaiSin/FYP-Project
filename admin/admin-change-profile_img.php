@@ -3,7 +3,6 @@ session_start();
 
 include("lib/head.php"); 
 include("lib/db.php");
-mysqli_select_db($db_conn, "bagel");
 
 if(isset($_POST['save'])) {
     $adUser = $_SESSION["adUser"];

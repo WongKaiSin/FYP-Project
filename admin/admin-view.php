@@ -150,7 +150,6 @@ function addAdmin(){
                         </div>
                             <div class="card-body">
                                 <?php
-                                mysqli_select_db($db_conn, "bagel");
                                 $sql = "SELECT * FROM admin WHERE adStatus=1";
                                 $query = $db_conn->query($sql);
                                 if ($query) {

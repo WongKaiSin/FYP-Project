@@ -4,7 +4,6 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 
-mysqli_select_db($db_conn, "bagel");
 
 // Fetch data from the database
 $sql = "SELECT p.ProName, SUM(op.ProQty) as total_quantity
