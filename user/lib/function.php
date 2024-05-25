@@ -92,7 +92,7 @@ class Functions
 
             //Create a new PHPMailer instance
             $mail = new PHPMailer();
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;     //Enable verbose debug output
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;     //Enable verbose debug output
             $mail->IsSMTP();        // set mailer to use SMTP
             $mail->Host = $SettingSmtpHost;  // specify main and backup server
             $mail->Port = $SettingSmtpPort;
@@ -236,7 +236,6 @@ class Functions
 			$EmailUserMsg = str_replace("{#email}", $custom[1], $EmailUserMsg);
         }
         
-        // Why red coloured don't ask me QAQ
         $UserMsg = $func->email_template($EmailUserMsg, $name);
         $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, "", $attachment);
     }

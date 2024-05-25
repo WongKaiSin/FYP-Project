@@ -37,9 +37,9 @@ if(isset($_POST["BtnPass"]))
 		
 		$function->send_email("2", $MemberName, $PassEmail, $custom_msg);
 		
-		mysqli_query($db_conn, "UPDATE member SET MemberReset=DATE_ADD(NOW(), INTERVAL 8 HOUR) WHERE MemberID='$MemberID'");
+		mysqli_query($db_conn, "UPDATE member SET MemberReset=NOW() WHERE MemberID='$MemberID'");
 		
-		$content .= "<script>self.location = '$SiteUrl/forgotpass/success/'</script>";
+		$content .= "<script>self.location = '$SiteUrl/user/forgot-password.php'</script>";
 
         $msg[] = "An email have sent to your email address.";
 	}
