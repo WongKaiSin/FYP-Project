@@ -3,15 +3,16 @@ include("lib/db.php");
 $SiteUrl = "http://localhost:80/FYP-Project";
 
 if(isset($_GET['CatID'])) {
-    $category = $_GET['CatID'];
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
-                                  FROM product_cat 
-                                  JOIN product ON product_cat.ProID = product.ProID 
-                                  WHERE product_cat.CatID = '$category'");
+  $category = $_GET['CatID'];
+  $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
+                                FROM product_cat 
+                                JOIN product ON product_cat.ProID = product.ProID 
+                                WHERE product_cat.CatID = '$category' AND product.isUp = 1");
 } else {
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
-                                  FROM product_cat 
-                                  JOIN product ON product_cat.ProID = product.ProID");
+  $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
+                                FROM product_cat 
+                                JOIN product ON product_cat.ProID = product.ProID 
+                                WHERE product.isUp = 1");
 }
 ?>
 
