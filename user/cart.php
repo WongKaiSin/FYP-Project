@@ -150,9 +150,9 @@ else
                                 ".$ProTotal."
                             </td>
                             <td class='text-right'>
-                                <a href='$SiteUrl/user/cart-process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
-                                    <i class='fa fa-trash-o'  style='font-size:48px;color:red'></i>
-                                    <span class='d-lg-none'>Delete</span>
+                                <span class='d-lg-none'>Delete</span>
+                                <a href='$SiteUrl/user/cart_process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
+                                <i class='fa fa-trash-o'></i>
                                 </a>
                             </td>
                         </tr>";
@@ -216,6 +216,11 @@ else
 </body>
 
 <script>
+
+    $(document).ready(function(){
+        $('[data-title]').tooltip(); 
+    });
+    
     $(document).ready(function() {
     $('.minus').click(function () {
         var $input = $(this).siblings('input');

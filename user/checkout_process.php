@@ -1,6 +1,6 @@
 <?php
 require_once("lib/db.php");
-require_once("./lib/function.php");
+require_once("lib/function.php");
 
 $SiteUrl = "http://localhost:80/FYP-Project";
 $func = new Functions;
