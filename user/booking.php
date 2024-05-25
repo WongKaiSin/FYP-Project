@@ -86,7 +86,7 @@ if (!isset($_SESSION['MemberEmail'])) {
               <p class="fst-italic"> We offer <span>five tables</span> available for reservation every hour, each comfortably seating up to <span>4 people</span>. 
             Our maximum capacity per hour is <span>20 individuals</span>. If the number of people exceeds this limit, unfortunately, reservations for that time slot cannot be accommodated.
               </p>
-              <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+              <form action="form_book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row">
                   <div class="col-lg-6">
                     <input type="date" name="Date" class="form-control" id="Date" placeholder="Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
