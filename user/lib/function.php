@@ -236,7 +236,6 @@ class Functions
 			$EmailUserMsg = str_replace("{#email}", $custom[1], $EmailUserMsg);
         }
         
-        // Why red coloured don't ask me QAQ
         $UserMsg = $func->email_template($EmailUserMsg, $name);
         $func->authSendEmail($EmailUserSenderEmail, $EmailUserSender, $email, $name, $EmailUserSubject, $UserMsg, "", $attachment);
     }
