@@ -1,5 +1,16 @@
 <?php
-include("lib/head.php");
+session_start();
+
+/************************ Cart Setting ************************/
+if (!isset($_SESSION["Cart"]))
+{
+    $_SESSION['Cart'] = time();
+    !isset($_SESSION["Cart"]);
+}
+
+$CurrCart = $_SESSION["Cart"];
+/************************ END Cart Setting************************/
+
 require_once("lib/db.php");
 require_once("lib/function.php");
 
@@ -58,6 +69,7 @@ else
 <html lang="en">
 
 <head>
+  <?=include("lib/head.php");?>
   <title>Cart</title>
 </head>
 

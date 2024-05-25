@@ -4,7 +4,6 @@
 <head>
   <?php include("lib/head.php"); ?>
   <title>Checkout</title>
-
 </head>
 
 <body>
