@@ -56,8 +56,23 @@ if(isset($_POST["BtnPass"]))
   <?php include("lib/head.php"); ?>
   <title>Forgot Password | London Bagel Museum</title>
 
-</head>
+  <style>
+    .button {
+      background: var(--color-primary);
+      border: 0;
+      padding: 8px 30px; /* Adjust padding to make the button smaller */
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+      font-size: 12px; /* Adjust font size */
+    }
 
+    .button:hover {
+      background: #ec2727;
+    }
+  </style>
+
+</head>
 <body>
 
   <!-- ======= Header ======= -->
