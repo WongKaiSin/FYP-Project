@@ -1,6 +1,4 @@
 <?php
-echo getcwd();
-
 require_once("lib/mailer/PHPMailer.php");
 require_once("lib/mailer/SMTP.php");
 require_once("lib/mailer/POP3.php");
