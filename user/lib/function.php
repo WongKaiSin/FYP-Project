@@ -92,7 +92,7 @@ class Functions
 
             //Create a new PHPMailer instance
             $mail = new PHPMailer();
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;     //Enable verbose debug output
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;     //Enable verbose debug output
             $mail->IsSMTP();        // set mailer to use SMTP
             $mail->Host = $SettingSmtpHost;  // specify main and backup server
             $mail->Port = $SettingSmtpPort;
