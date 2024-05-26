@@ -36,7 +36,7 @@ require("lib/function.php");
                 <form action="login_p.php" method="post">
                     <p>Don't worry, we will send your new password to your email.</p>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" type="email" name="email" required="" placeholder="Your Email" autocomplete="off">
+                        <input class="form-control form-control-lg" type="email" name="PassEmail" required="" placeholder="Your Email" autocomplete="off">
                     </div>
                     <div class="form-group pt-1"><input type="submit" name="BtnPass" class="btn btn-primary float-right" value="Send Password"></div>
                 </form>

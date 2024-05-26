@@ -2,17 +2,15 @@
 session_start();
 include("lib/db.php");
 
-    if(isset($_GET['catID']) && is_numeric($_GET['catID'])) {
-        $catID = $_GET['catID'];
-    } else {
-        // Handle if category_id is not set or not numeric
-        $error_message = "Invalid category ID";
-        // Redirect or display an error message as needed
-    }
+if(isset($_GET['catID']) && is_numeric($_GET['catID'])) {
+    $catID = $_GET['catID'];
+} else {
+    // Handle if category_id is not set or not numeric
+    $error_message = "Invalid category ID";
+    // Redirect or display an error message as needed
+}
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
-    
-
     // Retrieve form data
     $adUser = $_SESSION['adUser'];
     $currentDateTime = date("Y-m-d H:i:s");
@@ -26,30 +24,47 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $Ingredient = $_POST["Ingredient"];
     $stock= $_POST["stock"];
 
-    $filename = $_FILES["ProUrl"]["name"];
-    $tempname = $_FILES["ProUrl"]["tmp_name"];
-    $folder = "../upload/product/";
+    $productFolder = "../upload/product/$ProName";
+    if (!file_exists($productFolder)) {
+        mkdir($productFolder, 0777, true);
+    }
 
-    $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
-
-    // Construct the filename using the username and file extension
-    $newFilename = $ProName . '.' . $fileExt;
-
-    // Move the uploaded file before inserting data into the database
-    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
-
-        echo "<h3> Image uploaded successfully!</h3>";
-
+    $imageFiles = $_FILES["ProImg"];
 
     // Insert data into the database
-    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock,ProUrl) 
-            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock','$newFilename')";
+    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
+            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
 
-    }
-    // Execute the first insert query
+    // Execute the insert query
     if ($db_conn->query($sql) === TRUE) {
         // Retrieve the last inserted ID
         $last_id = $db_conn->insert_id;
+
+        foreach ($imageFiles["tmp_name"] as $key => $tmp_name) {
+            $filename = $imageFiles["name"][$key];
+            $tempname = $tmp_name;
+
+            $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+            // Construct the filename using a sequential number
+            $newFilename = ($key + 1) . '.' . $fileExt;
+            $imagename=$key + 1;
+
+            // Move the uploaded file before inserting data into the database
+            if (!empty($filename) && move_uploaded_file($tempname, "$productFolder/$newFilename")) {
+                // Insert image information into the database
+                $image_sql = "INSERT INTO product_image (ProID, ImageName, ImageExt, ImgAddDate, ImgAddPerson) 
+                            VALUES ('$last_id', '$imagename', '$fileExt', '$currentDateTime', '$adUser')";
+
+                // Execute the image insert query
+                if ($db_conn->query($image_sql) === FALSE) {
+                    $error_message = "Error: " . $image_sql . "<br>" . $db_conn->error;
+                    // Handle the error
+                }
+            } else {
+                $error_message = "Error uploading image: $filename";
+                // Handle the error
+            }
+        }
 
         // Fetch CatName based on CatID
         $sql_fetch_cat_name = "SELECT CatName FROM category WHERE catID = '$catID'";
@@ -88,5 +103,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     // Close the database connection
     $db_conn->close();
 }
-
 ?>

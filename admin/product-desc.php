@@ -7,6 +7,7 @@ include("lib/db.php");
 // Retrieve the product ID from the URL
 $ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
 $_SESSION["ProID"] = $ProID;
+$SiteUrl = "http://localhost:8080/FYP-Project";
 
 // Fetch product details from the database based on the product ID
 $query = "SELECT * FROM product WHERE ProID = '$ProID'";
@@ -87,10 +88,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                    <a href="product-change_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
-                                        <a href="product-change_img.php">
-                                            <img style="height: 250px; weight: 400px; margin-top:60px;"src="../upload/product/<?php echo $product["ProUrl"] ?>" alt="<?php echo $product['ProName']; ?>" class="img-fluid">
-                                        </a>
+                                        <a href="product-change_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
+                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <?php
+                                                        $ProName = $product['ProName'];
+                                                        $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID");
+                                                        $first = true;
+                                                        while ($img_row = $img_sql->fetch_assoc()) {
+                                                            $ImageName = $img_row['ImageName'];
+                                                            $ImageExt = $img_row['ImageExt'];
+                                                            $image_url = $ImageName . "." . $ImageExt;
+                                                            
+                                                            ?>
+                                                            <div class="carousel-item <?php if ($first) { echo 'active'; $first = false; } ?>">
+                                                                <img class="d-block w-100" src="../upload/product/ProName/<?php echo $image_url; ?>" alt="Product image">
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
                                     </div>
                                     <div class="col-md-8">
                                     <div class="tab-regular">

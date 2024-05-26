@@ -207,10 +207,10 @@ class Functions
         }
 
         // Retrieve Password for forgot password
-        else if($email_id == "2")
+        else if($email_id == "1")
         {
-            $EmailUserMsg = str_replace("{#link}", $custom[0], $EmailUserMsg);
-			$EmailUserMsg = str_replace("{#email}", $custom[1], $EmailUserMsg);
+            $EmailUserMsg = str_replace("{#new_pass}", $custom[0], $EmailUserMsg);
+			$EmailUserMsg = str_replace("{#adUser}", $custom[1], $EmailUserMsg);
         }
         
         // Why red coloured don't ask me QAQ

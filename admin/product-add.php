@@ -84,8 +84,8 @@ $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
                             </div>
 
                             <div class="form-group">
-                                    <label for="productPicture">Product Picture</label>
-                                    <input type="file" class="form-control-file" id="ProUrl" name="ProUrl" required>
+                                <label for="productPicture">Product Pictures</label>
+                                <input type="file" class="form-control-file" id="ProImg" name="ProImg[]" multiple required>
                             </div>
                             
                             <button type="submit" name="save" class="btn btn-primary">Add Product</button>

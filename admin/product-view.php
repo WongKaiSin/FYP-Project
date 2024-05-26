@@ -185,7 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <!-- .figure-img -->
                                         <div class="figure-img">
                                             <!-- Replace the src attribute with the actual image source -->
-                                            <img class="img-fluid" style="height:180px; width: 1000px;" src="../upload/product/<?php echo $productRow["ProUrl"] ?>" alt="Card image cap">
+                                            <?php
+                                                    $ProName = $productRow['ProName'];
+                                                    //$productFolder = "../upload/product/$ProName";
+                                                    $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND 'ImageName'=1");
+                                                    while ($img_row = $img_sql->fetch_assoc()) {
+                                                        $ImageName = $img_row['ImageName'];
+                                                        $ImageExt = $img_row['ImageExt'];
+                                                        $image_url = $ImageName . "." . $ImageExt;
+                                                    }
+                                                    ?>
+                                            <img class="img-fluid" style="height:180px; width: 1000px;" src="../upload/product/<?php echo $ProName; ?>/<?php echo $image_url; ?>" alt="Card image cap">
                                             <div class="figure-action">
                                             <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="btn btn-block btn-sm btn-primary">Description</a>
                                             </div>
