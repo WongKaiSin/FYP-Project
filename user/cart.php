@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['MemberID'])) {
+    header("Location: registration.php");
+    exit();
+}
+
 /************************ Cart Setting ************************/
 if (!isset($_SESSION["Cart"]))
 {
@@ -18,6 +23,7 @@ $msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
 $SiteUrl = "http://localhost:80/FYP-Project";
 $no = 1;	
 $NoStock = 0;
+$none = "";
 
 $func = new Functions;
 
@@ -26,44 +32,11 @@ $CurrCart = $_SESSION["Cart"];
 
 $cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE (`CartSession`='".$CurrCart."' OR `MemberID`='$MemberID') ORDER BY `CartID` DESC");
 $cart_num = mysqli_num_rows($cart_query);
+// var_dump($_SESSION);exit;
 
-if($cart_num == 0)
-{
-	$cart .= "Your shopping cart is empty.<br><br>
-			  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
-}
-else
-{
-    $cart_row = mysqli_fetch_array($cart_query);
-	
-	$CartID = $cart_row["CartID"];
-	$CartSubtotal = $cart_row["CartSubTotal"];
-	$CartTotal = $cart_row["CartTotal"];
 
-    $item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE `CartID`='$CartID'") ;
-	$item_num = mysqli_num_rows($item_query);
 
-    if($item_num == 0)
-	{
-		$cart .= "Your shopping cart is empty.<br><br>
-				  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
-	}
-	else
-    {
-		$cart .= $func->checkoutStep(1);
-
-        if(!empty($msg))
-		{
-			switch($msg)
-			{
-				case "updated": $msg_text = "The cart is updated."; $type='success'; break;
-				case "deleted": $msg_text = "The product is removed from cart."; $type='success'; break;
-			}
-            $cart .= $func->displayMsg($type, $msg_text);
-        }
-
-    }
-}
+		
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,7 +69,7 @@ else
       </div>
     </div><!-- End Breadcrumbs -->
 
-    <section class="sample-page">
+    <section class="sample-page <?=$none?>">
       <div class="container" data-aos="fade-up">
 
         <!--  Form to cart-process  -->
@@ -113,62 +86,100 @@ else
                 </thead>
                 <tbody>
                 <?php
-                    while($item_row = $item_query->fetch_array())
+                    if($cart_num == 0)
                     {
-                        $CartProID = $item_row["CartProID"];
-                        $ProID = $item_row["ProID"];
-                        $ProPrice = $item_row["ProPrice"];
-                        $ProQty = $item_row["ProQty"];
-                        $ProTotal = $item_row["ProTotal"];
+                        $none = "d-lg-none";
+                        echo "Your shopping cart is empty.<br><br>
+                                <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+                    }
+                    else
+                    {
+                        $cart_row = mysqli_fetch_array($cart_query);
+                        
+                        $CartID = $cart_row["CartID"];
+                        $CartSubtotal = $cart_row["CartSubTotal"];
+                        $CartTotal = $cart_row["CartTotal"];
+                    
+                        $item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE `CartID`='$CartID'") ;
+                        $item_num = mysqli_num_rows($item_query);
 
-                        $pro_query = $db_conn -> query("SELECT ProName, ProUrl, ProStock FROM product WHERE ProID=$ProID");
-                        $pro_row = $pro_query->fetch_array();
-                        $ProName = $pro_row["ProName"];
-                        $ProUrl = $pro_row["ProUrl"];
-                        $ProStock = $pro_row["ProStock"];
+                        if($item_num == 0)
+                        {
+                            echo "Your shopping cart is empty.<br><br>
+                                    <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+                        }
+                        else
+                        {
+                            echo $func->checkoutStep(1);
 
-                        $StockText = "";
-                        if($ProStock < $ProQty)
-						{
-							$StockText = "<br><strong style='color:red'>Out of Stock ".($ProStock > 0 ? "(Available Quantity: ".$ProStock.")" : "")."</strong>";
-							$NoStock = "1";
-						}
+                            if(!empty($msg))
+                            {
+                                switch($msg)
+                                {
+                                    case "updated": $msg_text = "The cart is updated."; $type='success'; break;
+                                    case "deleted": $msg_text = "The product is removed from cart."; $type='success'; break;
+                                }
+                                echo $func->displayMsg($type, $msg_text);
+                            }
 
-                        echo "<tr>
-                            <td><img src='".$func->productPic($ProID)."' class='img-fluid'></td>
-                            <td>
-                                <a style='cursor:default'><strong><?=$ProName?></strong></a><br>
-                                <span class='text-small'></span>
-                                <div class='listing-remarks-box'>
-                                    Remarks:<br>
-                                     <textarea name='remarks[$CartProID]'></textarea>
-                                </div>
-                            </td>
-                            <td class='text-right'>
-                                <span class='d-lg-none'><strong>Price:</strong> RM</span>
-                                ".$ProPrice."
-                            </td>
-                            <td class='text-right'>
-                                <span class='d-lg-none'><strong>Quantity:</strong></span>
-                                <div class='quantity-box'>
-                                    <button type='button' class='button minus' value='-' data-rel='".$CartProID."'><i class='fa fa-minus'></i></button>
-                                    <input type='text' name='ProQty[".$CartProID."]' value='".$ProQty."' id='qty-box".$CartProID."' data-max='".$ProStock."' style='font-size: 15px;'>
-                                    <button type='button' class='button plus' value='+' data-rel='".$CartProID."'><i class='fa fa-plus'></i></button>
-                                </div>
-                                <input type='hidden' name='CartProID[]' value='".$CartProID."'>
-                            </td>
-                            <td class='text-right'>
-                                <span class='d-lg-none'><strong>Total:</strong> </span>
-                                ".$ProTotal."
-                            </td>
-                            <td class='text-right'>
-                                <span class='d-lg-none'>Delete</span>
-                                <a href='$SiteUrl/user/cart_process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
-                                <i class='fa fa-trash-o'></i>
-                                </a>
-                            </td>
-                        </tr>";
-                        $no++;
+                            while($item_row = $item_query->fetch_array())
+                            {
+                                $CartProID = $item_row["CartProID"];
+                                $ProID = $item_row["ProID"];
+                                $ProPrice = $item_row["ProPrice"];
+                                $ProQty = $item_row["ProQty"];
+                                $ProTotal = $item_row["ProTotal"];
+
+                                $pro_query = $db_conn -> query("SELECT ProName, ProUrl, ProStock FROM product WHERE ProID=$ProID");
+                                $pro_row = $pro_query->fetch_array();
+                                $ProName = $pro_row["ProName"];
+                                $ProUrl = $pro_row["ProUrl"];
+                                $ProStock = $pro_row["ProStock"];
+
+                                $StockText = "";
+                                if($ProStock < $ProQty)
+                                {
+                                    $StockText = "<br><strong style='color:red'>Out of Stock ".($ProStock > 0 ? "(Available Quantity: ".$ProStock.")" : "")."</strong>";
+                                    $NoStock = "1";
+                                }
+
+                                echo "<tr>
+                                    <td><img src='".$func->productPic($ProID)."' class='img-fluid'></td>
+                                    <td>
+                                        <a style='cursor:default'><strong><?=$ProName?></strong></a><br>
+                                        <span class='text-small'></span>
+                                        <div class='listing-remarks-box'>
+                                            Remarks:<br>
+                                            <textarea name='remarks[$CartProID]'></textarea>
+                                        </div>
+                                    </td>
+                                    <td class='text-right'>
+                                        <span class='d-lg-none'><strong>Price:</strong> RM</span>
+                                        ".$ProPrice."
+                                    </td>
+                                    <td class='text-right'>
+                                        <span class='d-lg-none'><strong>Quantity:</strong></span>
+                                        <div class='quantity-box'>
+                                            <button type='button' class='button minus' value='-' data-rel='".$CartProID."'><i class='fa fa-minus'></i></button>
+                                            <input type='text' name='ProQty[".$CartProID."]' value='".$ProQty."' id='qty-box".$CartProID."' data-max='".$ProStock."' style='font-size: 15px;'>
+                                            <button type='button' class='button plus' value='+' data-rel='".$CartProID."'><i class='fa fa-plus'></i></button>
+                                        </div>
+                                        <input type='hidden' name='CartProID[]' value='".$CartProID."'>
+                                    </td>
+                                    <td class='text-right'>
+                                        <span class='d-lg-none'><strong>Total:</strong> </span>
+                                        ".$ProTotal."
+                                    </td>
+                                    <td class='text-right'>
+                                        <span class='d-lg-none'>Delete</span>
+                                        <a href='$SiteUrl/user/cart_process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
+                                        <i class='fa fa-trash-o'></i>
+                                        </a>
+                                    </td>
+                                </tr>";
+                                $no++;
+                            }
+                        }
                     }
                 ?>
                 </tbody>

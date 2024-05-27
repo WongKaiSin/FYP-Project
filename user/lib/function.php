@@ -59,6 +59,19 @@ class Functions
         }
     }
 
+    // Check the input
+    function checkInput($variable)
+    {
+        return str_replace('"', "&quot;", $variable);
+    }
+
+    //
+    function displayChecked($val_a, $val_b)
+    {
+        if($val_a == $val_b)
+            return " checked";
+    }
+
     // Forgot password
     function codeLock($var)
     {
@@ -280,25 +293,52 @@ class Functions
 
     function checkoutStep($active)
     {
-        $btn1=""; $btn2=""; $btn3=""; $btn4=""; $btn5=""; 
-        switch($active)
-        {
-            case 1: $btn1 = " active"; break;
-            case 2: $btn1 = " active"; $btn2 = " active"; break;
-            case 3: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; break;
-            case 4: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; $btn4 = " active"; break;
-            case 5: $btn1 = " active"; $btn2 = " active"; $btn3 = " active"; $btn4 = " active"; $btn5 = " active"; break;
+        $btn1 = $active >= 1 ? " active" : "";
+        $btn2 = $active >= 2 ? " active" : "";
+        $btn3 = $active >= 3 ? " active" : "";
+        $btn4 = $active >= 4 ? " active" : "";
+        $btn5 = $active >= 5 ? " active" : "";
+
+        $check1 = $active >= 1 ? '<div><span class="fa fa-check"></span></div>' : '';
+        $check2 = $active >= 2 ? '<div><span class="fa fa-check"></span></div>' : '';
+        $check3 = $active >= 3 ? '<div><span class="fa fa-check"></span></div>' : '';
+        $check4 = $active >= 4 ? '<div><span class="fa fa-check"></span></div>' : '';
+        $check5 = $active >= 5 ? '<div><span class="fa fa-check"></span></div>' : '';
+
+        $step = '<div class="navigation">
+                    <div class="navi' . $btn1 . '">Cart' . $check1 . '</div>
+                    <div class="navi' . $btn2 . '">Checkout' . $check2 . '</div>
+                    <div class="navi' . $btn3 . '">Review' . $check3 . '</div>
+                    <div class="navi' . $btn4 . '">Payment' . $check4 . '</div>
+                    <div class="navi' . $btn5 . '">Complete' . $check5 . '</div>
+                </div>';
+
+        return $step;
+    }
+
+
+    function CheckStock($CartID)
+    {
+        global $db_conn;
+        
+        $item_query = mysqli_query($db_conn, "SELECT ProID, ProQty FROM cart_product WHERE CartID='$CartID'");
+        
+        $CheckStock = 1;
+        while ($item_row = mysqli_fetch_array($item_query)) 
+        {	
+            $ProID = $item_row["ProID"];
+            $ProQty = $item_row["ProQty"];
+ 
+            $stock_query = mysqli_query($db_conn, "SELECT ProStock FROM product WHERE ProID='".$ProID."'");
+            $stock_row = mysqli_fetch_array($stock_query);
+            
+            $ProStock = $stock_row["ProStock"];
+
+            if($ProStock < $ProQty)
+                $CheckStock = 0;
         }
         
-        $step = '<div class="navigation">
-                    <div class="navi'.$btn1.'">Cart<div><span class="fa fa-check"></span></div></div>
-                    <div class="navi'.$btn2.'">Checkout<div><span class="fa fa-check"></span></div></div>
-                    <div class="navi'.$btn3.'">Review<div><span class="fa fa-check"></span></div></div>
-                    <div class="navi'.$btn4.'">Payment<div><span class="fa fa-check"></span></div></div>
-                    <div class="navi'.$btn5.'">Complete<div><span class="fa fa-check"></span></div></div>
-                </div>';
-        
-        return $step;
+        return $CheckStock;
     }
     // END Cart
 
