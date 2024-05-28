@@ -2,19 +2,76 @@
 include("lib/db.php");
 $SiteUrl = "http://localhost:80/FYP-Project";
 
-if(isset($_GET['CatID'])) {
-  $category = $_GET['CatID'];
-  $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
+// Define the displayStars() function
+function displayStars($rating) {
+    $output = '';
+    if ($rating > 0) {
+        // Calculate stars only if the rating is available
+        $fullStars = intval($rating); // Full stars
+        $halfStar = $rating - $fullStars; // Half star
+
+        // Full stars
+        for ($i = 0; $i < $fullStars; $i++) {
+            $output .= '<span class="fa fa-star checked"></span>';
+        }
+
+        // Half star
+        if ($halfStar >= 0.5) {
+            $output .= '<span class="fa fa-star-half-o checked"></span>';
+        }
+
+        // Empty stars
+        $emptyStars = 5 - ceil($rating);
+        if ($emptyStars > 0) {
+            for ($i = 0; $i < $emptyStars; $i++) {
+                $output .= '<span class="fa fa-star"></span>';
+            }
+        }
+    } else {
+        // Display no rating if the average rating is not available
+        $output .= '<span>No rating available</span>';
+    }
+
+    return $output;
+}
+
+if (isset($_GET['CatID'])) {
+    $category = $_GET['CatID'];
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                 FROM product_cat 
                                 JOIN product ON product_cat.ProID = product.ProID 
                                 WHERE product_cat.CatID = '$category' AND product.isUp = 1");
 } else {
-  $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
+    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
                                 FROM product_cat 
                                 JOIN product ON product_cat.ProID = product.ProID 
                                 WHERE product.isUp = 1");
 }
 ?>
+
+<script>
+function search() {
+    // Declare variables
+    var input, filter, productDisplay, productItems, productName, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    productDisplay = document.getElementById("product-display");
+    productItems = productDisplay.getElementsByClassName("product-item");
+
+    // Loop through all product items, and hide those who don't match the search query
+    for (i = 0; i < productItems.length; i++) {
+        productName = productItems[i].getElementsByTagName("p")[0]; // Assuming the first <p> tag contains the product name
+        if (productName) {
+            txtValue = productName.textContent || productName.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                productItems[i].style.display = "";
+            } else {
+                productItems[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,32 +111,25 @@ if(isset($_GET['CatID'])) {
         color: #000000;
         
     }
+
+    .star-rating-container {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        width: 100%;
+    }
+
+    .star-rating-container .checked {
+        color: orange;
+    }
+
+    .star-rating-container span {
+        color: #c5c5c5;
+        font-size: 16px;
+    }
+
   </style>
 </head>
-
-<script>
-function search() {
-    // Declare variables
-    var input, filter, productDisplay, productItems, productName, i, txtValue;
-    input = document.getElementById('myInput');
-    filter = input.value.toUpperCase();
-    productDisplay = document.getElementById("product-display");
-    productItems = productDisplay.getElementsByClassName("product-item");
-
-    // Loop through all product items, and hide those who don't match the search query
-    for (i = 0; i < productItems.length; i++) {
-        productName = productItems[i].getElementsByTagName("p")[0]; // Assuming the first <p> tag contains the product name
-        if (productName) {
-            txtValue = productName.textContent || productName.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                productItems[i].style.display = "";
-            } else {
-                productItems[i].style.display = "none";
-            }
-        }
-    }
-}
-</script>
 
 <body>
 
@@ -135,7 +185,7 @@ function search() {
                   <ul class="dropdown-menu">
                     <li><a href="?CatID=2">Bagel</a></li>
                     <li><a href="?CatID=3">Sandwich</a></li>
-                    <li><a href="?CatID=3">Cream Cheese</a></li>
+                    <li><a href="?CatID=5">Cream Cheese</a></li> <!-- Changed CatID from 3 to 5 -->
                   </ul>
                 </li>
               </ul>
@@ -158,8 +208,8 @@ function search() {
                   <a href="#">Drinks<i class="bi bi-chevron-down dropdown-indicator"></i></a>
                   <ul class="dropdown-menu">
                     <li><a href="?CatID=1">Coffee</a></li>
-                    <li><a href="?CatID=">Non-Coffee</a></li>
-                    <li><a href="?CatID=">Tea</a></li>
+                    <li><a href="?CatID=6">Non-Coffee</a></li> <!-- Changed CatID from blank to 6 -->
+                    <li><a href="?CatID=7">Tea</a></li> <!-- Added CatID 7 for Tea -->
                   </ul>
                 </li>
               </ul>
@@ -180,17 +230,27 @@ function search() {
                   $ProID = $row['ProID']; // Fetching Product ID
                   $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = $ProID";
                   $img_query = $db_conn->query($img_sql);
-                  
+
                   echo '<div class="product-item mb-3">';
                   if ($img_query->num_rows > 0) {
-                    $img_row = $img_query->fetch_assoc();
-                    $ImageName = $img_row['ImageName'];
-                    $ImageExt = $img_row['ImageExt'];
-                    $image_url = $SiteUrl . "/upload/product/" . $ImageName . "." . $ImageExt;
-                    echo "<img src='$image_url' class='img-fluid'>";
+                      $img_row = $img_query->fetch_assoc();
+                      $ImageName = $img_row['ImageName'];
+                      $ImageExt = $img_row['ImageExt'];
+                      $image_url = $SiteUrl . "/upload/product/" . $ImageName . "." . $ImageExt;
+                      echo "<img src='$image_url' class='img-fluid'>";
                   }
                   echo "<p class='mt-2'>" . $row["ProName"] . "</p>";
                   echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>"; 
+                  // Fetch and display average rating for this product
+                  $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
+                  $avg_rating_result = $db_conn->query($avg_rating_query);
+                  if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
+                    echo '<div class="star-rating-container">';
+                    echo displayStars($avg_rating_row['avg_rate']);
+                    echo '</div>';
+                  } else {
+                      echo '<span>No rating available</span>';
+                  }
                   echo '</div>';
                 }
               } else {
