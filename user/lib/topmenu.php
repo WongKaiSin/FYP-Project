@@ -39,7 +39,7 @@
 </nav><!-- .navbar -->
 
 <div class="icons-container">
-  <a class="cart-icon-link" href="#"><img class="cart-icon" src="assets/img/cart_icon.png" alt="Cart" title="Cart"></a>
+  <a class="cart-icon-link" href="cart.php"><img class="cart-icon" src="assets/img/cart_icon.png" alt="Cart" title="Cart"></a>
   <a class="user-icon-link" href="member_profile.php"><img class="user-icon" src="assets/img/user_icon.png" alt="User" title="Setting"></a>
 </div>
 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>

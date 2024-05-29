@@ -37,15 +37,15 @@ function displayStars($rating) {
 
 if (isset($_GET['CatID'])) {
     $category = $_GET['CatID'];
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
-                                FROM product_cat 
-                                JOIN product ON product_cat.ProID = product.ProID 
-                                WHERE product_cat.CatID = '$category' AND product.isUp = 1");
+    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID, p.ProUrl
+                                FROM product_cat pc
+                                JOIN product p ON pc.ProID = p.ProID 
+                                WHERE pc.CatID = '$category' AND p.isUp = 1");
 } else {
-    $pro_query = $db_conn->query("SELECT product_cat.ProName, product.ProPrice, product.ProID 
-                                FROM product_cat 
-                                JOIN product ON product_cat.ProID = product.ProID 
-                                WHERE product.isUp = 1");
+    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID , p.ProUrl
+                                FROM product_cat pc
+                                JOIN product p ON pc.ProID = p.ProID 
+                                WHERE p.isUp = 1");
 }
 ?>
 
@@ -228,10 +228,12 @@ function search() {
                 // Output data of each row
                 while ($row = $pro_query->fetch_assoc()) {
                   $ProID = $row['ProID']; // Fetching Product ID
+                  $ProUrl = $row['ProUrl']; // Fetching Product ID
                   $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = $ProID";
                   $img_query = $db_conn->query($img_sql);
 
-                  echo '<div class="product-item mb-3">';
+                  echo '<div class="product-item mb-3">
+                          <a href="'.$SiteUrl.'/user/menu-info.php?ProUrl='.$ProUrl.'">';
                   if ($img_query->num_rows > 0) {
                       $img_row = $img_query->fetch_assoc();
                       $ImageName = $img_row['ImageName'];
@@ -251,7 +253,8 @@ function search() {
                   } else {
                       echo '<span>No rating available</span>';
                   }
-                  echo '</div>';
+                  echo '  </a>
+                        </div>';
                 }
               } else {
                 echo "0 results";
