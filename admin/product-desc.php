@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 while ($img_row = $img_query->fetch_assoc()) {
                                                     $ImageName = $img_row['ImageName'];
                                                     $ImageExt = $img_row['ImageExt'];
-                                                    $image_url = "../upload/product/" . $product['ProName'] . "/" . $ImageName . "." . $ImageExt;
+                                                    $image_url = "../upload/product/" . $product['ProID'] . "/" . $ImageName . "." . $ImageExt;
                                                     //echo "Image URL: $image_url <br>"; // Debugging
                                                 ?>
                                                     <div class="carousel-item <?php if ($first) { echo 'active'; $first = false; } ?>">

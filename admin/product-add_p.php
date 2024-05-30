@@ -24,12 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $Ingredient = $_POST["Ingredient"];
     $stock= $_POST["stock"];
 
-    $productFolder = "../upload/product/$ProName";
-    if (!file_exists($productFolder)) {
-        mkdir($productFolder, 0777, true);
-    }
-
-    $imageFiles = $_FILES["ProImg"];
+    
 
     // Insert data into the database
     $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
@@ -39,6 +34,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     if ($db_conn->query($sql) === TRUE) {
         // Retrieve the last inserted ID
         $last_id = $db_conn->insert_id;
+
+        $productFolder = "../upload/product/$last_id";
+        if (!file_exists($productFolder)) {
+            mkdir($productFolder, 0777, true);
+        }
+
+        $imageFiles = $_FILES["ProImg"];
 
         foreach ($imageFiles["tmp_name"] as $key => $tmp_name) {
             $filename = $imageFiles["name"][$key];

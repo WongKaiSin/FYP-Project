@@ -84,7 +84,6 @@ function timeElapsedString($datetime, $full = false) {
                                         <div class="notification-info">
                                             <div class="notification-list-user-img">
                                             <?php
-                                                    $ProName = $productRow['ProName'];
                                                     $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
                                                     while ($img_row = $img_sql->fetch_assoc()) {
                                                         $ImageName = $img_row['ImageName'];
@@ -92,10 +91,10 @@ function timeElapsedString($datetime, $full = false) {
                                                         $image_url = $ImageName . "." . $ImageExt;
                                                     }
                                                     ?>
-                                                <img src="../upload/product/<?php echo $ProName; ?>/<?php echo $image_url; ?>" alt="" class="user-avatar-md rounded-circle">
+                                                <img src="../upload/product/<?php echo $ProID; ?>/<?php echo $image_url; ?>" alt="" class="user-avatar-md rounded-circle">
                                             </div>
                                             <div class="notification-list-user-block">
-                                                <span class="notification-list-user-name" style="color:red;"><?php echo $productRow["ProName"]; ?></span> needs to be restocked.
+                                                <span class="notification-list-user-name" style="color:red;"><?php echo $productRow["ProID"]; ?></span> needs to be restocked.
                                                 <div class="notification-date"><?php echo timeElapsedString($dateToUse); ?></div>
                                             </div>
                                         </div>

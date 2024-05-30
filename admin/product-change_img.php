@@ -25,7 +25,7 @@ if ($result_fetch_pro_name->num_rows > 0) {
 if(isset($_POST['save'])) {
     
     
-    $productFolder = "../upload/product/$ProName";
+    $productFolder = "../upload/product/$ProID";
     if (!file_exists($productFolder)) {
         mkdir($productFolder, 0777, true);
     }
