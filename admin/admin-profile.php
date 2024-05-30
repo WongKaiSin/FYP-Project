@@ -12,7 +12,6 @@ $adUser = $_SESSION["adUser"];
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
     // Get form data
-    $adEmail = $_POST["adEmail"];
     $adTel = $_POST["adTel"];
     $adAdd = $_POST["adAdd"];
     $adState = $_POST["adState"];
@@ -22,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
     $currentDateTime = date("Y-m-d H:i:s");
 
     // Perform update query
-    $sql = "UPDATE `admin` SET adEmail = '$adEmail', adTel = '$adTel', adAdd = '$adAdd', 
+    $sql = "UPDATE `admin` SET  adTel = '$adTel', adAdd = '$adAdd', 
     adState = '$adState', adCountry = '$adCountry', adPostcode = '$adPostcode', adCity = '$adCity', 
     AdminModifyDate = '$currentDateTime' WHERE adUser = '$adUser'";
     $result = $db_conn->query($sql);
@@ -98,21 +97,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatebtn"])) {
                             <form method="POST" action="admin-profile.php">
                                 <table class="table">
                                     <tbody>
-                                            <tr>
-                                            <th>UserName</th>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input id="inputText3" type="text" class="form-control" name="adUser" value="<?php echo $admindata["adUser"] ?>" readonly>
-                                                </div>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <th>Add Date</th>
                                             <td><input id="inputText3" type="text" class="form-control" name="AdminAddDate" value="<?php echo $admindata["AdminAddDate"] ?>" readonly></td>
                                         </tr>
                                         <tr>
                                             <th>Email <i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>
-                                            <td><input id="inputText3" type="email" class="form-control" name="adEmail" value="<?php echo $admindata['adEmail']; ?>" required></td>
+                                            <td><input id="inputText3" type="email" class="form-control" name="adEmail" value="<?php echo $admindata['adEmail']; ?>" readonly></td>
                                         </tr>
                                         <tr>
                                         <th>Phone Number  <small> (xxx-xxx xxxx)</small><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></th>

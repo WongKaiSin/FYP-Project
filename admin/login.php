@@ -53,7 +53,7 @@ $SettingCaptchaKey = "6Lf1TrQpAAAAADXJXMkOVukCcVTeEPYYocKwwhTE"; //v3
                 ?>
                 <form id="loginform" method="POST" action="login_p.php">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="adUser" id="username" type="text" placeholder="Enter UserName">
+                        <input class="form-control form-control-lg" name="adUser" id="username" type="email" placeholder="Enter Email">
                     </div>
                     <div class="form-group">
                         <input class="form-control form-control-lg" name="adPass" id="password" type="password" placeholder="Enter Password">

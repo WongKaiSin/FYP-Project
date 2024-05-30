@@ -13,29 +13,38 @@ if(isset($_POST['save'])) {
     $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
 
     // Construct the filename using the username and file extension
-    $newFilename = $adUser . '.' . $fileExt;
+    $sql = "SELECT adID FROM `admin` WHERE adUser = '$adUser'";
+    $result = $db_conn->query($sql);
 
-    // Move the uploaded file before inserting data into the database
-    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
-        
-        $sql = "UPDATE `admin` SET adLogo = '$newFilename' WHERE adUser = '$adUser'";
-        $result = $db_conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $adID = $row["adID"];
 
+        // Construct the new filename using the adID and the new file extension
+        $newFilename = $adID . '.' . $fileExt;
+
+        // Move the uploaded file before inserting data into the database
+        if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
+            $sql = "UPDATE `admin` SET adLogo = '$newFilename' WHERE adUser = '$adUser'";
+            $result = $db_conn->query($sql);
+
+            if ($result) {
+                // Query executed successfully
+                echo '<script type="text/javascript">
+                alert("Image uploaded successfully and database updated!");
+                window.location.href = "admin-profile.php";
+                </script>';
+                exit();
+            } else {
+                // Error occurred
+                echo "Error updating admin information: " . $db_conn->error;
+            }
+        } else {
+            echo "<h3>Failed to upload image!</h3>";
+        }
     } else {
-        echo "<h3>Failed to upload image!</h3>";
+        echo "<h3>No admin found with the specified username!</h3>";
     }
-} 
-
-if ($result) {
-    // Query executed successfully
-    echo '<script type="text/javascript">
-    alert("Image uploaded successfully and database updated!");
-    window.location.href = "admin-profile.php";
-    </script>';
-    exit();
-} else {
-    // Error occurred
-    echo "Error updating admin information: " . $db_conn->error;
 }
 ?>
 

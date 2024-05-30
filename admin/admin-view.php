@@ -181,10 +181,6 @@ function addAdmin(){
                                                                             <td><?php echo $row["adID"] ?></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>UserName</th>
-                                                                            <td><?php echo $row["adUser"] ?></td>
-                                                                        </tr>
-                                                                        <tr>
                                                                             <th>Email</th>
                                                                             <td><?php echo $row["adEmail"] ?></td>
                                                                         </tr>

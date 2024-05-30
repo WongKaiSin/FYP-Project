@@ -54,31 +54,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
 }
 
 
-/*if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["BtnPass"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["BtnPass"])) {
     $PassEmail = $_POST['email'];
 
+    // Check if the email exists in the database
     $check_query = mysqli_query($db_conn, "SELECT adID, adName, adEmail FROM admin WHERE adEmail='$PassEmail' AND adStatus='1'");
     $check_num = mysqli_num_rows($check_query);
 
-    if($check_num > 0) {
+    if ($check_num > 0) {
         $row = mysqli_fetch_assoc($check_query);
+        $adID = $row['adID'];
         $adName = $row['adName'];
         $adEmail = $row['adEmail'];
 
-        $message = "Dear ".$adName.",<br><br>
-					We received a request to reset your password for your account. <br><br>
-					You may use the new password, <strong>1234</strong> to login now and please change the password.<br><br><br>
-					Sincerely,<br>
-					London Bagel Museum <br><br>";
+        // Generate a new password
+        $new_pass = substr(str_shuffle('!@#$%*&abcdefghijklmnpqrstuwxyzABCDEFGHJKLMNPQRSTUWXYZ23456789'), 0, 8);
+        $hash_pass = $function->PassSign($adEmail, $new_pass);
 
-        // Send the email
-        $function->authSendEmail("weyiw64061@neixos.com", "Fitmate Webmaster", "kxn1102@gmail.com", "yoyooy", "Reset Password", $message);
+        // Update the database with the new password
+        $update_query = mysqli_query($db_conn, "UPDATE admin SET adPass='$hash_pass' WHERE adID='$adID'");
+        
+        if ($update_query) {
+            // Prepare the email content
+            $message = "Dear $adName,<br><br>
+                        We received a request to reset your password for your account. <br><br>
+                        You may use the new password, <strong>$new_pass</strong> to login now and please change the password.<br><br><br>
+                        Sincerely,<br>
+                        London Bagel Museum <br><br>";
 
-        echo '<script type="text/javascript">
-        alert("Password reset email sent successfully!");
-        window.location.href = "login.php";
-        </script>';
-        exit;
+            // Send the email
+            $function->authSendEmail("kxn1102@gmail.com", "London Bagel Museum", $adEmail, $adName, "Reset Password", $message);
+
+            echo '<script type="text/javascript">
+            alert("Password reset email sent successfully!");
+            window.location.href = "login.php";
+            </script>';
+            exit;
+        } else {
+            echo '<script type="text/javascript">
+            alert("Error updating password. Please try again.");
+            window.location.href = "forgot_pw.php";
+            </script>';
+            exit;
+        }
     } else {
         echo '<script type="text/javascript">
         alert("Email not found. Please enter a valid email address.");
@@ -86,9 +104,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginbtn"]))
         </script>';
         exit;
     }
-}*/
+}
 
-if (isset($_POST["BtnPass"])) {
+
+/*if (isset($_POST["BtnPass"])) {
     $PassEmail = $_POST['PassEmail'];
 
     // Check if the email exists in the database
@@ -127,7 +146,7 @@ if (isset($_POST["BtnPass"])) {
         </script>';
         exit;
     }
-}
+}*/
 ?>
 
 

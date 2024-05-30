@@ -8,7 +8,7 @@ $func = new Functions;
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     // Retrieve form data
-    $adUser = $_POST["adUser"];
+    $adUser = $_POST["adEmail"];
     $adName = $_POST["adName"];
     $adEmail = $_POST["adEmail"];
     $adTel = $_POST["adTel"];
@@ -21,44 +21,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
     $adPostcode = $_POST["adPostcode"];
     $currentDateTime = date("Y-m-d H:i:s");
 
-    $filename = $_FILES["adLogo"]["name"];
-    $tempname = $_FILES["adLogo"]["tmp_name"];
-    $folder = "../upload/admin/";
-
-    $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
-
-    // Construct the filename using the username and file extension
-    $newFilename = $adUser . '.' . $fileExt;
-
-    // Move the uploaded file before inserting data into the database
-    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
-
-        echo "<h3> Image uploaded successfully!</h3>";
 
         // Insert data into the database
-        $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode, adStatus, AdminAddDate, adLogo) 
-                VALUES ('$adUser', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode', '1', '$currentDateTime', '$newFilename')";
+        $sql = "INSERT INTO admin (adUser, adName, adEmail, adTel, adPass, adType, adAdd, adCountry, adState, adCity, adPostcode, adStatus, AdminAddDate) 
+            VALUES ('$adEmail', '$adName', '$adEmail', '$adTel', '$adPass', '$adType', '$adAdd', '$adCountry', '$adState', '$adCity', '$adPostcode', '1', '$currentDateTime')";
 
-        if ($db_conn->query($sql) === TRUE) {
-            
-            // Redirect after submission
-            echo '<script type="text/javascript">
-                    alert("'.$adName.' saved");
-                    window.location.href = "admin-view.php";
-                  </script>';
-            exit();
+    if ($db_conn->query($sql) === TRUE) {
+        // Get the last inserted adID
+        $adID = $db_conn->insert_id;
+
+        $filename = $_FILES["adLogo"]["name"];
+        $tempname = $_FILES["adLogo"]["tmp_name"];
+        $folder = "../upload/admin/";
+
+        $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+        $newFilename = $adID . '.' . $fileExt; // Use adID as the new filename
+
+        // Move the uploaded file
+        if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
+            echo "<h3> Image uploaded successfully!</h3>";
+
+            // Update the admin record with the profile picture filename
+            $sql_update = "UPDATE admin SET adLogo = '$newFilename' WHERE adID = '$adID'";
+            if ($db_conn->query($sql_update) === TRUE) {
+                echo '<script type="text/javascript">
+                        alert("' . $adName . ' saved");
+                        window.location.href = "admin-view.php";
+                      </script>';
+                exit();
+            } else {
+                echo "<h3>Error updating image: " . $db_conn->error . "</h3>";
+            }
         } else {
-            $error_message = "Error: " . $sql . "<br>" . $db_conn->error;
-            echo "<h3>$error_message</h3>";
+            echo "<h3>Failed to upload image!</h3>";
         }
     } else {
-        echo "<h3>Failed to upload image!</h3>";
+        echo "<h3>Error: " . $sql . "<br>" . $db_conn->error . "</h3>";
     }
 
     // Close the database connection
     $db_conn->close();
 }
 ?>
+
 
 
 <!doctype html>
@@ -130,10 +135,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["savebtn"])){
         <div class="card">
             <div class="card-body">
                 <form method="POST" action="admin-add.php" enctype="multipart/form-data"onsubmit="return checkPassword();">
-                    <div class="form-group">
-                        <label for="inputText3" class="col-form-label" >Admin Username</label>
-                        <input id="inputText3" type="text" class="form-control" name="adUser" required>
-                    </div>
+
                     <div class="form-group">
                         <label for="inputText3" class="col-form-label" >Admin Name</label>
                         <input id="inputText3" type="text" class="form-control" name="adName" required>
