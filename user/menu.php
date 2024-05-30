@@ -223,43 +223,59 @@ function search() {
               <i class="bi bi-search search-icon"></i>
             </div>
             <div id="product-display" class="product-display">
-              <?php
+            <?php
               if ($pro_query->num_rows > 0) {
-                // Output data of each row
-                while ($row = $pro_query->fetch_assoc()) {
-                  $ProID = $row['ProID']; // Fetching Product ID
-                  $ProUrl = $row['ProUrl']; // Fetching Product ID
-                  $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = $ProID";
-                  $img_query = $db_conn->query($img_sql);
+                  // Output data of each row
+                  while ($row = $pro_query->fetch_assoc()) {
+                      // Fetching Product ID
+                      $ProID = $row['ProID'];
 
-                  echo '<div class="product-item mb-3">
+                      // Fetching Product URL
+                      $ProUrl = $row['ProUrl'];
+
+                      // Fetching Product Name
+                      $ProName = $row['ProName'];
+
+                      // Fetching the first image associated with the product
+                      $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
+                      $image_url = ''; // Initialize image URL variable
+                      while ($img_row = $img_sql->fetch_assoc()) {
+                          $ImageName = $img_row['ImageName'];
+                          $ImageExt = $img_row['ImageExt'];
+                          $image_url = $ImageName . "." . $ImageExt;
+                      }
+
+                      echo '<div class="product-item mb-3">
                           <a href="'.$SiteUrl.'/user/menu-info.php?ProUrl='.$ProUrl.'">';
-                  if ($img_query->num_rows > 0) {
-                      $img_row = $img_query->fetch_assoc();
-                      $ImageName = $img_row['ImageName'];
-                      $ImageExt = $img_row['ImageExt'];
-                      $image_url = $SiteUrl . "/upload/product/" . $ImageName . "." . $ImageExt;
-                      echo "<img src='$image_url' class='img-fluid'>";
+
+                      if (!empty($image_url)) {
+                          // Show the fetched image
+                          echo "<img class='img-fluid' style='height:180px; width: 1000px;' src='../upload/product/$ProID/$image_url' alt='Card image cap'>";
+                      } else {
+                          // Provide a default image path if no image found
+                          echo "<img class='img-fluid' style='height: 180px; width: 1000px;' src='path_to_default_image' alt='Default Image'>";
+                      }
+
+                      echo "<p class='mt-2'>$ProName</p>";
+                      echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>";
+
+                      // Fetch and display average rating for this product
+                      $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
+                      $avg_rating_result = $db_conn->query($avg_rating_query);
+                      if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
+                          echo '<div class="star-rating-container">';
+                          echo displayStars($avg_rating_row['avg_rate']);
+                          echo '</div>';
+                      } else {
+                          echo '<span>No rating available</span>';
+                      }
+
+                      echo '</a></div>';
                   }
-                  echo "<p class='mt-2'>" . $row["ProName"] . "</p>";
-                  echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>"; 
-                  // Fetch and display average rating for this product
-                  $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
-                  $avg_rating_result = $db_conn->query($avg_rating_query);
-                  if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
-                    echo '<div class="star-rating-container">';
-                    echo displayStars($avg_rating_row['avg_rate']);
-                    echo '</div>';
-                  } else {
-                      echo '<span>No rating available</span>';
-                  }
-                  echo '  </a>
-                        </div>';
-                }
               } else {
-                echo "0 results";
+                  echo "0 results";
               }
-              ?>
+            ?>
             </div>
           </div>
         </div>
