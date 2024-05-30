@@ -47,9 +47,9 @@ class Functions
     {
         // tester using smtp
         $SettingEmailMethod = "SMTP";
-        $SettingSmtpHost = "s1364.securessl.net";
-        $SettingSmtpUser = "webmaster@fitmate.com.my";
-        $SettingSmtpPass = "Web2587!@#$";
+        $SettingSmtpHost = "smtp.gmail.com";
+        $SettingSmtpUser = "wongksin7@gmail.com";
+        $SettingSmtpPass = "vyoocfspfbaubsku";
         $SettingSmtpPort = "465";
 
         if($SettingEmailMethod == "mail")
