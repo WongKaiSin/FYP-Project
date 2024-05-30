@@ -6,7 +6,6 @@ $function = new Functions;
 
 $TITLE = "Create New Password";
 $SiteUrl = "http://localhost:80/FYP-Project/user";
-$SEO_TITLE = "$TITLE - $SiteTitle";
 
 $token = isset($_GET["token"]) ? $_GET["token"] : '';
 $content = "";
@@ -37,6 +36,7 @@ if ($check_num == 0) {
     if ($expiredTime < date("Y-m-d H:i:s")) {
         $error = 1;
         echo '<script>alert("The time is expired.")</script>';
+        exit();
     }
 }
 
