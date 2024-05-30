@@ -83,8 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["BtnPass"])) {
                         London Bagel Museum <br><br>";
 
             // Send the email
-            // $function->authSendEmail("kxn1102@gmail.com", "London Bagel Museum", $adEmail, $adName, "Reset Password", $message);
-            $function->authSendEmail("wongksin7@gmail.com", "London Bagel Museum", "davome4748@adrais.com", $adName, "Reset Password", $message);
+            $function->authSendEmail("wongksin7@gmail.com", "London Bagel Museum", $adEmail, $adName, "Reset Password", $message);
 
             echo '<script type="text/javascript">
             alert("Password reset email sent successfully!");
