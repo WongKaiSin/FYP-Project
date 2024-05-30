@@ -8,10 +8,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_category"])) {
     $catID = $_POST['catID'];
     $newCatName = $_POST['newCatName'];
     $currentDateTime = date("Y-m-d H:i:s");
-    $adUser = $_SESSION['adUser'];
+    $adName = $_SESSION["adName"];
 
     // Update category name in the category table
-    $sql_update_category = "UPDATE category SET catName = '$newCatName', catModifyDate = '$currentDateTime', catModifyPerson='$adUser' WHERE catID = '$catID'";
+    $sql_update_category = "UPDATE category SET catName = '$newCatName', catModifyDate = '$currentDateTime', catModifyPerson='$adName' WHERE catID = '$catID'";
     if ($db_conn->query($sql_update_category) === TRUE) {
         // Update category name in the product_cat table
         $sql_update_product_cat = "UPDATE product_cat SET CatName = '$newCatName' WHERE CatID = '$catID'";

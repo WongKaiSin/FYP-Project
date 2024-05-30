@@ -7,7 +7,6 @@ include("lib/db.php");
 // Retrieve the product ID from the URL
 $ProID = isset($_GET['ProID']) ? $_GET['ProID'] : null;
 $_SESSION["ProID"] = $ProID;
-$SiteUrl = "http://localhost:8080/FYP-Project";
 
 // Fetch product details from the database based on the product ID
 $query = "SELECT * FROM product WHERE ProID = '$ProID'";
@@ -24,16 +23,17 @@ if ($result && $result->num_rows > 0) {
     echo "Product not found!";
     exit;
 }
+
 // Handle form submission to update product stock
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
     $currentDateTime = date("Y-m-d H:i:s");
-    $adUser = $_SESSION['adUser'];
+    $adName = $_SESSION["adName"];
     // Validate and sanitize input data
 
     // Update product details in the database
-    $sql_update = "UPDATE product SET ProStock = '$stock', ProModifyDate='$currentDateTime', ProModifyPerson='$adUser' WHERE ProID = '$ProID'";
+    $sql_update = "UPDATE product SET ProStock = '$stock', ProModifyDate='$currentDateTime', ProModifyPerson='$adName' WHERE ProID = '$ProID'";
     if ($db_conn->query($sql_update) === TRUE) {
         // Redirect back to the product description page
         header("Location: product-desc.php?ProID=$ProID");
@@ -88,65 +88,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a href="product-change_img.php"><i class="m-r-10 mdi mdi-lead-pencil" style="color: #bebebe;"></i></a>
                                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                                <div class="carousel-inner">
-                                                    <?php
-                                                        $ProName = $product['ProName'];
-                                                        $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID");
-                                                        $first = true;
-                                                        while ($img_row = $img_sql->fetch_assoc()) {
-                                                            $ImageName = $img_row['ImageName'];
-                                                            $ImageExt = $img_row['ImageExt'];
-                                                            $image_url = $ImageName . "." . $ImageExt;
-                                                            
-                                                            ?>
-                                                            <div class="carousel-item <?php if ($first) { echo 'active'; $first = false; } ?>">
-                                                                <img class="d-block w-100" src="../upload/product/ProName/<?php echo $image_url; ?>" alt="Product image">
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                    ?>
-                                                </div>
-                                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+                                            <div class="carousel-inner">
+                                            <?php
+                                                $ProID = $_GET['ProID'];
+
+                                                $img_sql = "SELECT `ImageName`, `ImageExt` FROM product_image WHERE `ProID` = ".$ProID."";
+                                                $img_query = $db_conn->query($img_sql);
+
+                                                $first = true;
+                                                while ($img_row = $img_query->fetch_assoc()) {
+                                                    $ImageName = $img_row['ImageName'];
+                                                    $ImageExt = $img_row['ImageExt'];
+                                                    $image_url = "../upload/product/" . $product['ProName'] . "/" . $ImageName . "." . $ImageExt;
+                                                    //echo "Image URL: $image_url <br>"; // Debugging
+                                                ?>
+                                                    <div class="carousel-item <?php if ($first) { echo 'active'; $first = false; } ?>">
+                                                        <img class="d-block w-100" style="height: 300px; weight: 100%; margin-top:60px;" src="<?php echo $image_url; ?>" alt="Product image">
+                                                    </div>
+                                                <?php
+                                                }
+
+                                                // If no images found for the product, display placeholder image and alert user
+                                                if ($img_query->num_rows === 0) {
+                                                    echo "<img src='$SiteUrl/user/assets/img/no-image.png'>";
+                                                    echo '<script type="text/javascript">
+                                                        alert("No images found for the product with ID: ' . $ProID . ',Please add some image");
+                                                        window.location.href = "product-change_img.php";
+                                                    </script>';
+
+                                                }
+                                            ?>
                                             </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="col-md-8">
                                     <div class="tab-regular">
-                                <ul class="nav nav-tabs " id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true"><?php echo $product['ProName']; ?></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="desc-tab" data-toggle="tab" href="#desc" role="tab" aria-controls="desc" aria-selected="false">Description</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="add-info-tab" data-toggle="tab" href="#add-info" role="tab" aria-controls="add-info" aria-selected="false">Additional Info</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                            <th>Price</th>
-                                                            <td>RM <?php echo $product['ProPrice']; ?></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Cost</th>
-                                                            <td>RM <?php echo $product['ProCost']; ?></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Profit</th>
-                                                            <td>RM <?php echo $profit; ?></td>
-                                                        </tr>
+                                        <ul class="nav nav-tabs " id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true"><?php echo $product['ProName']; ?></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="desc-tab" data-toggle="tab" href="#desc" role="tab" aria-controls="desc" aria-selected="false">Description</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="add-info-tab" data-toggle="tab" href="#add-info" role="tab" aria-controls="add-info" aria-selected="false">Additional Info</a>
+                                            </li>
+                                        </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Price</th>
+                                                        <td>RM <?php echo $product['ProPrice']; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Cost</th>
+                                                        <td>RM <?php echo $product['ProCost']; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Profit</th>
+                                                        <td>RM <?php echo $profit; ?></td>
+                                                    </tr>
                                                         <th>Stock</th>
                                                             <td>
                                                                 <form class="form-inline" method="post" action="">
@@ -156,7 +168,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                                     <button type="submit" class="btn btn-primary btn-xs">Update Stock</button>
                                                                 </form>
                                                             </td>
-
                                                         <tr>
                                                             <th>Add Person</th>
                                                             <td><?php echo $product['ProAddPerson']; ?></td>

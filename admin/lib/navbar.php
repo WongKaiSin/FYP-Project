@@ -83,7 +83,16 @@ function timeElapsedString($datetime, $full = false) {
                                     <a href="product-desc.php?ProID=<?php echo $ProID; ?>" class="list-group-item list-group-item-action active">
                                         <div class="notification-info">
                                             <div class="notification-list-user-img">
-                                                <img src="../upload/product/<?php echo $productRow["ProUrl"]; ?>" alt="" class="user-avatar-md rounded-circle">
+                                            <?php
+                                                    $ProName = $productRow['ProName'];
+                                                    $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
+                                                    while ($img_row = $img_sql->fetch_assoc()) {
+                                                        $ImageName = $img_row['ImageName'];
+                                                        $ImageExt = $img_row['ImageExt'];
+                                                        $image_url = $ImageName . "." . $ImageExt;
+                                                    }
+                                                    ?>
+                                                <img src="../upload/product/<?php echo $ProName; ?>/<?php echo $image_url; ?>" alt="" class="user-avatar-md rounded-circle">
                                             </div>
                                             <div class="notification-list-user-block">
                                                 <span class="notification-list-user-name" style="color:red;"><?php echo $productRow["ProName"]; ?></span> needs to be restocked.

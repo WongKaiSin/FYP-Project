@@ -10,12 +10,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     // Retrieve form data
    
     $currentDateTime = date("Y-m-d H:i:s");
-    $adUser = $_SESSION['adUser'];
+    $adName = $_SESSION["adName"];
     $catName = $_POST["catName"];
 
     // Insert data into the database
     $sql = "INSERT INTO category (catAddPerson, catName, catAddDate) 
-            VALUES ('$adUser', '$catName', '$currentDateTime')";
+            VALUES ('$adName', '$catName', '$currentDateTime')";
 
 if ($db_conn->query($sql) === TRUE) {
     // Set success message

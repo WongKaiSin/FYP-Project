@@ -12,7 +12,7 @@ if(isset($_GET['catID']) && is_numeric($_GET['catID'])) {
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     // Retrieve form data
-    $adUser = $_SESSION['adUser'];
+    $adName = $_SESSION["adName"];
     $currentDateTime = date("Y-m-d H:i:s");
 
     $ProName = $_POST["ProName"];
@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
 
     // Insert data into the database
     $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
-            VALUES ('$ProName', '$adUser', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
+            VALUES ('$ProName', '$adName', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
 
     // Execute the insert query
     if ($db_conn->query($sql) === TRUE) {
@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
             if (!empty($filename) && move_uploaded_file($tempname, "$productFolder/$newFilename")) {
                 // Insert image information into the database
                 $image_sql = "INSERT INTO product_image (ProID, ImageName, ImageExt, ImgAddDate, ImgAddPerson) 
-                            VALUES ('$last_id', '$imagename', '$fileExt', '$currentDateTime', '$adUser')";
+                            VALUES ('$last_id', '$imagename', '$fileExt', '$currentDateTime', '$adName')";
 
                 // Execute the image insert query
                 if ($db_conn->query($image_sql) === FALSE) {

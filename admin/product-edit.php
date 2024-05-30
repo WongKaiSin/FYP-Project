@@ -25,8 +25,7 @@ if ($result && $result->num_rows > 0) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currentDateTime = date("Y-m-d H:i:s");
-    $adUser = $_SESSION['adUser'];
-    $newName = $_POST['newName'];
+    $adName = $_SESSION["adName"];
     $newPrice = $_POST['newPrice'];
     $newCost = $_POST['newCost'];
     $newDesc = $_POST['newDesc'];
@@ -46,12 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Update the product details in the product table
         $updateProductQuery = "UPDATE product 
-                                SET ProName='$newName', 
-                                    ProPrice='$newPrice', 
+                                
+                                SET ProPrice='$newPrice', 
                                     ProCost='$newCost', 
                                     ProDesc='$newDesc', 
                                     ProModifyDate='$currentDateTime', 
-                                    ProModifyPerson='$adUser', 
+                                    ProModifyPerson='$adName', 
                                     Ingredient='$newIngredient',
                                     Storage='$newStorage', 
                                     ShelfLife='$newShelfLife'
@@ -59,8 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Update the product details in the product_cat table
         $updateProductCatQuery = "UPDATE product_cat 
-                                    SET ProName='$newName', 
-                                        CatName='$newCategoryName', 
+                                      
+                                    SET CatName='$newCategoryName', 
                                         CatID='$newCategory' 
                                     WHERE ProID='$ProID'";
 
@@ -126,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <form method="post">
                                     <div class="form-group">
                                         <label for="newName">Product Name:</label>
-                                        <input type="text" class="form-control" id="newName" name="newName" value="<?php echo $product['ProName']; ?>">
+                                        <input type="text" class="form-control" id="newName" name="newName" value="<?php echo $product['ProName']; ?> " readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="newCategory">Category:</label>

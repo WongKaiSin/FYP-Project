@@ -4,7 +4,7 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 
-$adUser = $_SESSION['adUser'];
+$adName = $_SESSION["adName"];
 
 if (isset($_GET["del"])) {
     // Retrieve catID from request parameters
@@ -187,8 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <!-- Replace the src attribute with the actual image source -->
                                             <?php
                                                     $ProName = $productRow['ProName'];
-                                                    //$productFolder = "../upload/product/$ProName";
-                                                    $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND 'ImageName'=1");
+                                                    $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
                                                     while ($img_row = $img_sql->fetch_assoc()) {
                                                         $ImageName = $img_row['ImageName'];
                                                         $ImageExt = $img_row['ImageExt'];

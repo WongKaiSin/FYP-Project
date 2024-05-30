@@ -3,8 +3,13 @@ session_start();
 
 include("lib/head.php"); 
 include("lib/db.php");
-$ProID = $_SESSION["ProID"];
 
+// Retrieve the product ID from the session
+$ProID = $_SESSION["ProID"];
+$adName = $_SESSION["adName"];
+$currentDateTime = date("Y-m-d H:i:s");
+
+// Fetch the product name based on the ProID
 $sql_fetch_pro_name = "SELECT ProName FROM product WHERE ProID = '$ProID'";
 $result_fetch_pro_name = $db_conn->query($sql_fetch_pro_name);
 
@@ -16,47 +21,65 @@ if ($result_fetch_pro_name->num_rows > 0) {
     $ProName = ""; // Set a default value or handle error as needed
 }
 
+// Handle image upload and database update upon form submission
 if(isset($_POST['save'])) {
-   
-    $filename = $_FILES["ProUrl"]["name"];
-    $tempname = $_FILES["ProUrl"]["tmp_name"];
-    $folder = "../upload/product/";
+    
+    
+    $productFolder = "../upload/product/$ProName";
+    if (!file_exists($productFolder)) {
+        mkdir($productFolder, 0777, true);
+    }
 
-    $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+    $imageFiles = $_FILES["ProImg"];
 
-    // Construct the filename using the username and file extension
-    $newFilename = $ProName . '.' . $fileExt;
 
-    // Move the uploaded file before inserting data into the database
-    if (!empty($filename) && move_uploaded_file($tempname, $folder . $newFilename)) {
-        
-        $sql = "UPDATE `product` SET ProUrl = '$newFilename' WHERE ProID = '$ProID'";
-        $result = $db_conn->query($sql);
+    foreach ($imageFiles["tmp_name"] as $key => $tmp_name) {
+        $filename = $imageFiles["name"][$key];
+        $tempname = $tmp_name;
 
-    } else {
-        echo "<h3>Failed to upload image!</h3>";
+        $fileExt = pathinfo($filename, PATHINFO_EXTENSION);
+        // Construct the filename using a sequential number
+        $newFilename = ($key + 1) . '.' . $fileExt;
+        $imagename=$key + 1;
+
+        // Move the uploaded file before inserting data into the database
+        if (!empty($filename) && move_uploaded_file($tempname, "$productFolder/$newFilename")) {
+            // Insert image information into the database
+            $image_sql = "INSERT INTO product_image (ProID, ImageName, ImageExt, ImgAddDate, ImgAddPerson) 
+                        VALUES ('$ProID', '$imagename', '$fileExt', '$currentDateTime', '$adName')";
+
+            // Execute the image insert query
+            if ($db_conn->query($image_sql) === FALSE) {
+                $error_message = "Error: " . $image_sql . "<br>" . $db_conn->error;
+                // Handle the error
+            }
+        } else {
+            $error_message = "Error uploading image: $filename";
+            echo '<script type="text/javascript">
+            alert("Image uploaded unsuccessfully");
+            </script>';
+            header("Location: product-desc.php?ProID=$ProID");
+            // Handle the error
+        }
+    }
+
+    // If no errors occurred, redirect back to product description page
+    if (!isset($error_message)) {
+        echo '<script type="text/javascript">
+        alert("Image uploaded successfully and database updated!");
+        </script>';
+        header("Location: product-desc.php?ProID=$ProID");
+        exit();
     }
 } 
 
-if ($result) {
-    // Query executed successfully
-    echo '<script type="text/javascript">
-    alert("Image uploaded successfully and database updated!");
-    </script>';
-    header("Location: product-desc.php?ProID=$ProID");
-    exit();
-} else {
-    // Error occurred
-    echo "Error updating admin information: " . $db_conn->error;
-}
 ?>
-
 
 <!doctype html>
 <html lang="en">
 
 <head>
-    <title>Change <?php echo $ProName; ?> Image</title>
+    <title>Add <?php echo $ProName; ?> Image</title>
 </head>
 
 <body>
@@ -70,7 +93,7 @@ if ($result) {
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Change <?php echo $ProName; ?> Image</h2>
+                            <h2 class="pageheader-title">Add <?php echo $ProName; ?> Image</h2>
                         </div>
                     </div>
                 </div>
@@ -78,17 +101,20 @@ if ($result) {
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                            <form action="" method="POST" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="productPicture">Product Picture</label>
-                                    <input type="file" class="form-control-file" id="ProUrl" name="ProUrl" required>
-                                </div>               
-                                <button type="submit" name="save" class="btn btn-primary">Upload</button>
-                            </form>
-               
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="productPicture">Product Pictures</label>
+                                        <input type="file" class="form-control-file" id="ProImg" name="ProImg[]" multiple required>
+                                    </div>               
+                                    <button type="submit" name="save" class="btn btn-primary">Upload</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </body>
 
 </html>
