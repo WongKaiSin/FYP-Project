@@ -1,3 +1,23 @@
+<?php 
+session_start();
+include("lib/db.php"); // Assuming this file contains database connection
+include("lib/function.php");
+
+$function = new Functions;
+
+// Check for login error message
+if(isset($_SESSION['login_error'])) {
+    echo '<script>alert("' . $_SESSION['login_error'] . '")</script>';
+    unset($_SESSION['login_error']); // Remove the session variable after displaying the message
+}
+
+// Check for alerts
+if(isset($_SESSION['alert'])) {
+  echo '<script>alert("' . $_SESSION['alert'] . '")</script>';
+  unset($_SESSION['alert']); // Remove the session variable after displaying the message
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -196,13 +216,6 @@
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <div id="preloader"></div>
-
-  <?php
-    if (isset($_SESSION['alert'])) {
-        echo "<script>alert('{$_SESSION['alert']}');</script>";
-        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
-    }
-  ?>
 
 </body>
 </html>

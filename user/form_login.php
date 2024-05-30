@@ -46,9 +46,9 @@ if(isset($_POST["loginbtn"])) {
         header("Location: index.php");
         exit();
     } else {
-        $_SESSION['alert'] = 'Invalid username or password';
-        header("Location: registration.php");
-        exit();
+        $_SESSION['login_error'] = "Invalid username or password";
+    header("Location: registration.php");
+    exit();
     }
 }
 ?>
