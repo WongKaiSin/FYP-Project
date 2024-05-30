@@ -94,7 +94,7 @@ function timeElapsedString($datetime, $full = false) {
                                                 <img src="../upload/product/<?php echo $ProID; ?>/<?php echo $image_url; ?>" alt="" class="user-avatar-md rounded-circle">
                                             </div>
                                             <div class="notification-list-user-block">
-                                                <span class="notification-list-user-name" style="color:red;"><?php echo $productRow["ProID"]; ?></span> needs to be restocked.
+                                                <span class="notification-list-user-name" style="color:red;"><?php echo $productRow["ProName"]; ?></span>needs to be restocked.
                                                 <div class="notification-date"><?php echo timeElapsedString($dateToUse); ?></div>
                                             </div>
                                         </div>
