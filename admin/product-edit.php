@@ -26,6 +26,7 @@ if ($result && $result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currentDateTime = date("Y-m-d H:i:s");
     $adName = $_SESSION["adName"];
+    $newName = $_POST['newName'];
     $newPrice = $_POST['newPrice'];
     $newCost = $_POST['newCost'];
     $newDesc = $_POST['newDesc'];
@@ -45,30 +46,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Update the product details in the product table
         $updateProductQuery = "UPDATE product 
-                                
-                                SET ProPrice='$newPrice', 
-                                    ProCost='$newCost', 
-                                    ProDesc='$newDesc', 
-                                    ProModifyDate='$currentDateTime', 
-                                    ProModifyPerson='$adName', 
-                                    Ingredient='$newIngredient',
-                                    Storage='$newStorage', 
-                                    ShelfLife='$newShelfLife'
-                                WHERE ProID='$ProID'";
+                               SET ProName='$newName',
+                                   ProPrice='$newPrice', 
+                                   ProCost='$newCost', 
+                                   ProDesc='$newDesc', 
+                                   ProModifyDate='$currentDateTime', 
+                                   ProModifyPerson='$adName', 
+                                   Ingredient='$newIngredient',
+                                   Storage='$newStorage', 
+                                   ShelfLife='$newShelfLife'
+                               WHERE ProID='$ProID'";
 
         // Update the product details in the product_cat table
         $updateProductCatQuery = "UPDATE product_cat 
-                                      
-                                    SET CatName='$newCategoryName', 
-                                        CatID='$newCategory' 
-                                    WHERE ProID='$ProID'";
+                                  SET CatName='$newCategoryName', 
+                                      CatID='$newCategory' 
+                                  WHERE ProID='$ProID'";
 
         // Execute both queries
         if ($db_conn->query($updateProductQuery) === TRUE && $db_conn->query($updateProductCatQuery) === TRUE) {
             echo '<script type="text/javascript">
-            alert("Product updated successfully.");
-            window.location.href = "product-desc.php?ProID=' . $ProID . '";
-            </script>';
+                  alert("Product updated successfully.");
+                  window.location.href = "product-desc.php?ProID=' . $ProID . '";
+                  </script>';
             exit();
         } else {
             // Handle errors, if any
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <form method="post">
                                     <div class="form-group">
                                         <label for="newName">Product Name:</label>
-                                        <input type="text" class="form-control" id="newName" name="newName" value="<?php echo $product['ProName']; ?> " readonly>
+                                        <input type="text" class="form-control" id="newName" name="newName" value="<?php echo $product['ProName']; ?> " required>
                                     </div>
                                     <div class="form-group">
                                         <label for="newCategory">Category:</label>
@@ -149,30 +149,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group row">
                                         <div class="col-md-6">
                                             <label for="newPrice">Price:</label>
-                                            <input type="text" class="form-control" id="newPrice" name="newPrice" value="<?php echo $product['ProPrice']; ?>">
+                                            <input type="text" class="form-control" id="newPrice" name="newPrice" value="<?php echo $product['ProPrice']; ?>" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="newCost">Cost:</label>
-                                            <input type="text" class="form-control" id="newCost" name="newCost" value="<?php echo $product['ProCost']; ?>">
+                                            <input type="text" class="form-control" id="newCost" name="newCost" value="<?php echo $product['ProCost']; ?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-md-6">
                                             <label for="newStorage">Storage</label>
-                                            <input type="text" class="form-control" name="newStorage" value="<?php echo $product['Storage']; ?>">
+                                            <input type="text" class="form-control" name="newStorage" value="<?php echo $product['Storage']; ?>" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="newShelfLife">Shelf Life</label>
-                                            <input type="text" class="form-control" name="newShelfLife" value="<?php echo $product['ShelfLife']; ?>">
+                                            <input type="text" class="form-control" name="newShelfLife" value="<?php echo $product['ShelfLife']; ?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="newDesc">Description:</label>
-                                        <textarea class="form-control" id="newDesc" name="newDesc"><?php echo $product['ProDesc']; ?></textarea>
+                                        <textarea class="form-control" id="newDesc" name="newDesc" required><?php echo $product['ProDesc']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="newDesc">Ingredient:</label>
-                                        <textarea class="form-control" id="newIngredient" name="newIngredient"><?php echo $product['Ingredient']; ?></textarea>
+                                        <textarea class="form-control" id="newIngredient" name="newIngredient" required><?php echo $product['Ingredient']; ?></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>
