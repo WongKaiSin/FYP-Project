@@ -16,7 +16,7 @@ function showSlides(n) {
   let i;
   let slides = document.getElementsByClassName("mySlides");
   let dots = document.getElementsByClassName("demo");
-  let captionText = document.getElementById("caption");
+//   let captionText = document.getElementById("caption");
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -29,11 +29,8 @@ function showSlides(n) {
   if (slides[slideIndex - 1]) {
     slides[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " active";
-    captionText.innerHTML = dots[slideIndex - 1].alt;
+    // captionText.innerHTML = dots[slideIndex - 1].alt;
   }
-//   slides[slideIndex-1].style.display = "block";
-//   dots[slideIndex-1].className += " active";
-//   captionText.innerHTML = dots[slideIndex-1].alt;
 }
 /*----- END Image Slider -----*/
 

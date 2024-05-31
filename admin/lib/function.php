@@ -219,5 +219,20 @@ class Functions
     }
     // END Email
 
+    // custom upload file (up to 5 only)
+    function customUploadFile($field, $placeholder="", $accept="")
+    {
+        $accept = (!empty($accept) ? $accept : "image/gif, image/jpeg, image/jpg, image/png");
+        
+        $file = "<div class='file_box tooltip' data-field='".$field."' title='Click to browse file'>
+                    <div class=\"file_text\" id=\"".$field."_text\">".$placeholder."</div>
+                    <div class=\"file_btn\"><input type=\"button\" value=\"Browse...\"></div>
+                </div>
+                <div class=\"file_hidden\">
+                    <input type=\"file\" class=\"btn_upload\" name=\"".$field."\" id=\"".$field."\" accept=\"".$accept."\">
+                </div>";
+        
+        return $file;								  
+    }
 }
 ?>
