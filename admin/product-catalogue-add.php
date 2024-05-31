@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $cataName = $_POST["cataName"];
 
     // Insert data into the database
-    $sql = "INSERT INTO catalogue (cataAddPerson, cataName, cataDate) 
+    $sql = "INSERT INTO catalogue (cataPerson, cataName, cataDate) 
             VALUES ('$adName', '$cataName', '$currentDateTime')";
 
 if ($db_conn->query($sql) === TRUE) {
