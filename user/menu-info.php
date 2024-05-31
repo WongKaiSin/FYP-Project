@@ -2,6 +2,7 @@
 require_once("lib/db.php");
 $SiteUrl = "http://localhost:80/FYP-Project";
 $VarHide = "";
+$img_lay = "";
 
 if(isset($_GET["ProUrl"]))
   $ProUrl = $_GET["ProUrl"];
@@ -50,18 +51,13 @@ if($pro_query->num_rows > 0)
 
         $img_lay .="<div class='mySlides'>
                       <div class='numbertext'>".$j." / ".$img_num."</div>
-                      <img src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%'>
+                      <img src='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt' style='width:100%'>
                     </div>";
         $j++;
       }
         $img_lay .="<!-- Next and previous buttons -->
                     <a class='prev' onclick='plusSlides(-1)'>&#10094;</a>
                     <a class='next' onclick='plusSlides(1)'>&#10095;</a>
-                  
-                    <!-- Image text -->
-                    <div class='caption-container'>
-                      <p id='caption'></p>
-                    </div>
                   
                     <!-- Thumbnail images -->
                     <div class='slide-rw'>";
@@ -75,7 +71,7 @@ if($pro_query->num_rows > 0)
         $ImageExt = $img_row["ImageExt"];
 
           $img_lay .="<div class='slide-clmn'>
-                        <img class='demo cur' src='$SiteUrl/upload/product/$ImageName.$ImageExt' style='width:100%' onclick='currentSlide(".$j.")' alt='".$j."'>
+                        <img class='demo cur' src='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt' style='width:100%' onclick='currentSlide(".$j.")'>
                       </div>";
         $j++;
       }
@@ -88,8 +84,8 @@ if($pro_query->num_rows > 0)
         $ImageName = $img_row["ImageName"];
         $ImageExt = $img_row["ImageExt"];
 
-        $img_lay .= " <a href='$SiteUrl/upload/product/$ImageName.$ImageExt'>
-                        <img src='$SiteUrl/upload/product/$ImageName.$ImageExt'>
+        $img_lay .= " <a href='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt'>
+                        <img src='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt'>
                       </a>";
       }
     }

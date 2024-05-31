@@ -570,7 +570,7 @@ a.icon-save img
 {
     position: absolute;
     display: inline-block;
-    content: url(/assets/images/icon-plus.svg);
+    content: url(/user/assets/img/icon-plus.svg);
     transform: translateY(-20%) rotate(0deg); 
     top: 39%;
     right: 20px;
