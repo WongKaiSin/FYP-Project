@@ -6,7 +6,7 @@ include("lib/db.php");
 
 $adName = $_SESSION["adName"];
 
-if (isset($_GET["del"])) {
+if (isset($_GET["del"])isset($_GET["catID"])) {
     // Retrieve catID from request parameters
     $catID = $_GET['catID']; 
 
@@ -21,21 +21,54 @@ if (isset($_GET["del"])) {
         
     } else {
         // If there are no products, proceed with deletion
-        $sql_delete = "UPDATE category SET isUp = 0 WHERE catID = '$catID'";
-        if ($db_conn->query($sql_delete) === TRUE) {
-            // Redirect back to the product list page
-            header("Location: product-view.php");
-            exit();
+        $category_delete = "UPDATE category SET isUp = 0 WHERE catID = '$catID'";
+        if ($db_conn->query($category_delete) === TRUE) {
+            
+            $cata_delete = "UPDATE category_cata SET isUp = 0 WHERE catID = '$catID'";
+            
+            if ($db_conn->query($sql_delete_product) === TRUE) {
+                header("Location: product-view.php");
+                exit();
+            } else {
+                echo "Error deleting product: " . $db_conn->error;
+            }
         } else {
             // Handle errors, if any
             echo "Error deleting category: " . $db_conn->error;
         }
     }
 }
-    
+
+if (isset($_GET["del"]) && isset($_GET["cataID"])) {
+    // Retrieve cataID from request parameters
+    $cataID = $_GET['cataID'];
+
+    // Check if there are categories associated with this catalogue
+    $categoryResult = $db_conn->query("SELECT COUNT(*) as total FROM category_cata WHERE isUp = 1 AND cataID = '$cataID'");
+    $categoryRow = $categoryResult->fetch_assoc();
+    $totalCategories = $categoryRow['total'];
+
+    if ($totalCategories > 0) {
+        // If there are categories, prevent deletion
+        echo "<script>alert('Cannot delete catalogue. There are categories associated with it.');</script>";
+    } else {
+        // If there are no categories, proceed with deletion
+        $cata_delete = "UPDATE catalogue SET isUp = 0 WHERE cataID = '$cataID'";
+        if ($db_conn->query($cata_delete) === TRUE) {
+            // Redirect back to the product list page
+            header("Location: product-view.php");
+            exit();
+        } else {
+            // Handle errors, if any
+            echo "Error deleting catalogue: " . $db_conn->error;
+        }
+    }
+}
+
 
 
 ?>
+
 <script type="text/javascript">
     // Function to filter products based on selected category
 function filterProducts() {
@@ -103,10 +136,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* CSS for filter sidebar */
         .filter-sidebar {
-            width: 20%;
+            width: 30%;
             float: right;
-            position: fixed; /* Fix the sidebar position */
+            padding-left: 25px;
+            padding-top: 150px;
+            /*position: fixed; /* Fix the sidebar position */
             right: 30px; /* Align the sidebar to the right */
+            /*overflow: auto;
+            height: 60%;*/
            
         }
         .clearfix::after {
@@ -119,6 +156,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .text-black {
             color: black;
+        }
+        .button-group{
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -154,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="product-list-container">
                         <?php
                             // Fetch and display category names
-                            mysqli_select_db($db_conn,"bagel");
                             $categoryResult = $db_conn->query("SELECT * FROM category WHERE isUp=1");
                             while($categoryRow = $categoryResult->fetch_assoc()) {
 
@@ -162,14 +201,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 //add delete edit button
                                 echo '<h3>' . $categoryRow["catName"] . 
-                                '<a href="product-add.php?catID='.$catID .'"   style="padding-left: 10px;"><i class="m-r-10 mdi mdi-plus-circle-outline"></i></a>|
-                                <a href="product-category-edit.php?catID='.$catID.'"   style="padding: 0px;"><i class="m-r-10 mdi mdi-lead-pencil"></i></a>|
-                                <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="padding: 0px;"><i class="m-r-10 mdi mdi-delete-forever"></i></a></h3>';
+                                '<a href="product-add.php?catID='.$catID .'"   style="padding-left: 10px;"><i class="mdi mdi-plus-box-outline"></i></a>
+                                <a href="product-category-edit.php?catID='.$catID.'"   style="padding: 0px;"><i class="mdi mdi-table-edit"></i></a>
+                                <a href="product-view.php?del=1&catID='.$catID.'" onclick="return confirmation();"" style="padding: 0px;"><i class="mdi mdi-delete-empty"></i></a></h3>';
                                 
                                 
                                 
                                 // Fetch and display products for each category
-                                mysqli_select_db($db_conn,"bagel");
                                 $productResult = $db_conn->query("SELECT * FROM product_cat pc ,product p WHERE p.ProID=PC.ProID AND p.isUp=1 AND CatID = " . $catID );
                                 echo '<div class="row">';
                                 while($productRow = $productResult->fetch_assoc()) {
@@ -216,29 +254,43 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         ?>
                     </div>
+                    
                     <div class="filter-sidebar">
-                            <div class="product-sidebar">
-                                <div class="product-sidebar-widget">
-                                    <h4 class="product-sidebar-widget-title">Category</h4>
-                                    <?php
-                                    // Fetch and display category names
-                                    mysqli_select_db($db_conn,"bagel");
-                                    $categoryResult = $db_conn->query("SELECT * FROM category WHERE isUp=1");
-                                    while($categoryRow = $categoryResult->fetch_assoc()) {
-                                        $catID = $categoryRow["catID"];
-                                        echo '<div class="custom-control custom-radio">';
-                                        echo '<input type="radio" class="custom-control-input category-filter" name="category" id="cat-'.$catID.'" data-catid="'.$catID.'">';
-                                        echo '<label class="custom-control-label" for="cat-'.$catID.'">'.$categoryRow["catName"].'</label>';
-                                        echo '</div>';
-  
-                                    }
-                                ?>
-                                <div class="product-sidebar-widget">
-                                    <a href="product-category-add.php" class="btn btn-outline-light">Add Category</a>
-                                    <button class="btn btn-outline-light" id="resetFilterBtn">Clear All</button>
-                                </div>
-                            </div>
+    <div class="product-sidebar">
+        <div class="product-sidebar-widget">
+            <h2 class="product-sidebar-widget-title">Catalogue</h2>
+            <?php 
+            // Fetch and display unique category names with associated catalogues
+            $cataResult = $db_conn->query("SELECT * FROM catalogue WHERE isUp=1");
+            while ($cataRow = $cataResult->fetch_assoc()) {
+                $cataID = $cataRow["cataID"];
+            ?>
+                <h5><?php echo $cataRow["cataName"]; ?>
+                    <a href="product-category-add.php?cataID=<?php echo $cataID; ?>" style="padding-left: 10px;"><i class="far fa-plus-square"></i></a>
+                    <a href="product-catalogue-edit.php?cataID=<?php echo $cataID; ?>" style="padding: 0px;"><i class="far fa-edit"></i></a>
+                    <a href="product-view.php?del=1&cataID=<?php echo $cataID; ?>" onclick="return confirmation();" style="padding: 0px;"><i class="far fa-trash-alt"></i></a>
+                </h5>
+                <?php 
+                // Fetch and display categories associated with the current catalogue
+                $categoryResult = $db_conn->query("SELECT * FROM category_cata WHERE isUp=1 AND cataID='$cataID'");
+                while ($categoryRow = $categoryResult->fetch_assoc()) {?>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input category-filter" name="category" id="cat-<?php echo $categoryRow["catID"]; ?>" data-catid="<?php echo $categoryRow["catID"]; ?>">
+                        <label class="custom-control-label" for="cat-<?php echo $categoryRow["catID"]; ?>"><?php echo $categoryRow["catName"]; ?></label>
                     </div>
+                <br/>
+            <?php 
+
+            }
+            } ?>
+            <div class="button-group">
+                <a href="product-catalogue-add.php" class="btn btn-outline-light">Add Catalogue</a>
+                <button class="btn btn-outline-light" id="resetFilterBtn">Clear All</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 </div>
             </div>
         </div>

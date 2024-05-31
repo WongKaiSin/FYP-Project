@@ -10,15 +10,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_category"])) {
     $currentDateTime = date("Y-m-d H:i:s");
     $adName = $_SESSION["adName"];
 
-    // Update category name in the category table
     $sql_update_category = "UPDATE category SET catName = '$newCatName', catModifyDate = '$currentDateTime', catModifyPerson='$adName' WHERE catID = '$catID'";
     if ($db_conn->query($sql_update_category) === TRUE) {
         // Update category name in the product_cat table
         $sql_update_product_cat = "UPDATE product_cat SET CatName = '$newCatName' WHERE CatID = '$catID'";
         if ($db_conn->query($sql_update_product_cat) === TRUE) {
-            // Redirect back to the product list page
-            header("Location: product-view.php");
-            exit();
+            // Update category name in the category_cata table
+            $sql_update_catalogue = "UPDATE category_cata SET catName = '$newCatName' WHERE cataID = '$catID'";
+            if ($db_conn->query($sql_update_catalogue) === TRUE) {
+                // Redirect back to the product list page
+                header("Location: product-view.php");
+                exit();
+            } else {
+                echo "Error updating category_cata table: " . $db_conn->error;
+            }
         } else {
             echo "Error updating product_cat table: " . $db_conn->error;
         }

@@ -4,11 +4,8 @@ session_start();
 include("lib/head.php"); 
 include("lib/db.php");
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
-    
-
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])) {
     // Retrieve form data
-   
     $currentDateTime = date("Y-m-d H:i:s");
     $adName = $_SESSION["adName"];
     $catName = $_POST["catName"];
@@ -17,25 +14,43 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $sql = "INSERT INTO category (catAddPerson, catName, catAddDate) 
             VALUES ('$adName', '$catName', '$currentDateTime')";
 
-if ($db_conn->query($sql) === TRUE) {
-    // Set success message
-    $success_message = "New record created successfully";
-    
-    // Redirect after submission
-    echo '<script type="text/javascript">
-                alert("'.$catName.' saved");
-                window.location.href = "product-view.php";
-          </script>';
-    exit();
-} else {
-    
-    $error_message = "Error: " . $sql . "<br>" . $db_conn->error;
-}
+    if ($db_conn->query($sql) === TRUE) {
+        $new_catID = $db_conn->insert_id;
 
-// Close the database connection
-$db_conn->close();
-}
+        // Fetch cataID from GET parameters
+        if (isset($_GET['cataID']) && is_numeric($_GET['cataID'])) {
+            $cataID = $_GET['cataID'];
+        } else {
+            // Handle if cataID is not set or not numeric
+            $error_message = "Invalid catalogue ID";
+            // Redirect or display an error message as needed
+        }
 
+        $sql_fetch_cata_name = "SELECT CataName FROM catalogue WHERE cataID = '$cataID'";
+        $result_fetch_cata_name = $db_conn->query($sql_fetch_cata_name);
+
+        if ($result_fetch_cata_name->num_rows > 0) {
+            // Fetch CatName
+            $row = $result_fetch_cata_name->fetch_assoc();
+            $CataName = $row["CataName"];
+            $sql_add_cata = "INSERT INTO category_cata (catID, cataID, cataName, catName, isUp) 
+                             VALUES ('$new_catID', '$cataID', '$CataName', '$catName', 1)";
+            if ($db_conn->query($sql_add_cata) === TRUE) {
+                echo '<script type="text/javascript">
+                        alert("'.$catName.' saved");
+                        window.location.href = "product-view.php";
+                      </script>';
+                exit();
+            } else {
+                echo "Error adding category: " . $db_conn->error;
+            }
+        } else {
+            echo "Error adding category: " . $db_conn->error;
+        }
+    } else {
+        echo "Error adding category: " . $db_conn->error;
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -76,7 +91,7 @@ $db_conn->close();
                         <div class="card">
                             <div class="card-body">
                         <!-- Add your form for adding a new product here -->
-                            <form action="product-category-add.php" method="POST">
+                            <form action="product-category-add.php<?php if(isset($_GET['cataID'])) echo '?cataID='.$_GET['cataID']; ?>" method="POST">
                             <div class="form-group">
                             <label for="inputText3" class="col-form-label" >Category Name</label>
                             <input id="inputText3" type="text" class="form-control" name="catName" required>
