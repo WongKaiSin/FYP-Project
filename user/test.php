@@ -1,20 +1,134 @@
+<?php
+include("lib/db.php");
+$SiteUrl = "http://localhost:80/FYP-Project";
+
+// Define the displayStars() function
+function displayStars($rating) {
+    $output = '';
+    if ($rating > 0) {
+        // Calculate stars only if the rating is available
+        $fullStars = intval($rating); // Full stars
+        $halfStar = $rating - $fullStars; // Half star
+
+        // Full stars
+        for ($i = 0; $i < $fullStars; $i++) {
+            $output .= '<span class="fa fa-star checked"></span>';
+        }
+
+        // Half star
+        if ($halfStar >= 0.5) {
+            $output .= '<span class="fa fa-star-half-o checked"></span>';
+        }
+
+        // Empty stars
+        $emptyStars = 5 - ceil($rating);
+        if ($emptyStars > 0) {
+            for ($i = 0; $i < $emptyStars; $i++) {
+                $output .= '<span class="fa fa-star"></span>';
+            }
+        }
+    } else {
+        // Display no rating if the average rating is not available
+        $output .= '<span>No rating available</span>';
+    }
+
+    return $output;
+}
+
+if (isset($_GET['CatID'])) {
+    $category = $_GET['CatID'];
+    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID, p.ProUrl
+                                FROM product_cat pc
+                                JOIN product p ON pc.ProID = p.ProID 
+                                WHERE pc.CatID = '$category' AND p.isUp = 1");
+} else {
+    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID , p.ProUrl
+                                FROM product_cat pc
+                                JOIN product p ON pc.ProID = p.ProID 
+                                WHERE p.isUp = 1");
+}
+?>
+
+<script>
+function search() {
+    // Declare variables
+    var input, filter, productDisplay, productItems, productName, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    productDisplay = document.getElementById("product-display");
+    productItems = productDisplay.getElementsByClassName("product-item");
+
+    // Loop through all product items, and hide those who don't match the search query
+    for (i = 0; i < productItems.length; i++) {
+        productName = productItems[i].getElementsByTagName("p")[0]; // Assuming the first <p> tag contains the product name
+        if (productName) {
+            txtValue = productName.textContent || productName.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                productItems[i].style.display = "";
+            } else {
+                productItems[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title>Customer Registration | London Bagel Museum</title>
-  <script>
-  function togglePasswordVisibility(inputId) {
-    var x = document.getElementById(inputId);
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
+  <title>Menu | London Bagel Museum</title>
+  <style>
+     .search-container {
+        position: relative;
+        display: flex;
+        justify-content: end;
+        margin-bottom: 20px;
     }
-  }
-</script>
+    .search-input {
+        width: 50%;
+        padding: 10px 15px;
+        border-radius: 25px;
+        border: 2px solid #ccc;
+        transition: all 0.3s ease;
+    }
+    .search-input:focus {
+        border-color: #ec2727;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        outline: none;
+    }
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 1.2em;
+        transition: color 0.3s ease;
+    }
+    .search-input:focus + .search-icon {
+        color: #000000;
+        
+    }
+
+    .star-rating-container {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        width: 100%;
+    }
+
+    .star-rating-container .checked {
+        color: orange;
+    }
+
+    .star-rating-container span {
+        color: #c5c5c5;
+        font-size: 16px;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -36,158 +150,130 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Sample Inner Page</h2>
+          <h2>Menu</h2>
           <ol>
             <li><a href="index.php">Home</a></li>
-            <li>Sample Inner Page</li>
+            <li>Menu</li>
           </ol>
         </div>
 
       </div>
     </div><!-- End Breadcrumbs -->
 
-    <section id="registration" class="registration">
+    <section class="sample-page">
+      <div class="section-header">
+        <h2>London Bagel Museum Menu</h2>
+        <p>Check Our <span>Menu</span></p>
+      </div>
       <div class="container" data-aos="fade-up">
-        <div class="row g-0">
+        <div class="row"> <!-- Wrap the sidebar and product display in a row -->
+          <!-- Sidebar -->
+          <div class="col-lg-3">
+            <!-- Sidebar content -->
+            <aside class="product_list">
+              <ul class='menu'>
+                <li class="dropdown">
+                  <a href="?">All Products</a>
+                </li>
+              </ul>
+            </aside>
 
-        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
-
-          <li class="nav-item">
-            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-              <h4>Login</h4>
-            </a>
-          </li><!-- End tab nav item -->
-
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-              <h4>Sign up</h4>
-            </a>
-          </li><!-- End tab nav item -->
-        </ul>
-
-        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
-
-        <div class="tab-pane fade active show" id="menu-starters">
-    <div class="tab-header text-center">
-        <p>Already Have An Account?</p>
-        <h3>Login</h3>
-    </div>
-
-    <div class="row gy-5">
-        <div class="col-lg-6">
-            <div class="login-img" style="background-image: url(assets/img/login.jpg);" data-aos="zoom-out" data-aos-delay="200">
-                <!-- Image here -->
-            </div>
-        </div>
-        
-        <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-        <form action="form_login.php" method="post" role="form" class="login-form" data-aos="fade-up" data-aos-delay="100">
-          <div class="row gy-4">
-              <div class="col-md-12">
-                  <div class="form-group">
-                      <label for="MemberEmail"><b>Email</b></label>
-                      <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" data-rule="email" data-msg="Please enter a valid email">
-                      <div class="validate"></div>
-                  </div>
-              </div>
-
-              <div class="col-md-12">
-                  <div class="form-group">
-                      <label for="MemberPass"><b>Password</b></label>
-                      <div class="password-input">
-                          <input type="password" name="MemberPass" class="form-control" id="MemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
-                          <span class="toggle-password" onclick="togglePasswordVisibility('MemberPass')">Show Password</span>
-                      </div>
-                      <div class="validate"></div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="forgot-password">
-              <a href="forgot-password.php">Forgot Password?</a>
-          </div>
-
-          <div class="text-center">
-              <button type="submit" name="loginbtn" class="btn btn-primary">Login</button>
-          </div>
-      </form>
-
-        </div><!-- End Form -->
-    </div><!-- End Login Content -->
-</div>
-
-<div class="tab-pane fade" id="menu-breakfast">
-    <div class="tab-header text-center">
-        <p>New Customer? Please Create An Account</p>
-        <h3 style="color: #ec2727;">Sign Up</h3>
-    </div>
-
-    <div class="row gy-5">
-        <div class="col-lg-6">
-            <div class="login-img" style="background-image: url(assets/img/login1.jpg);" data-aos="zoom-out" data-aos-delay="200">
-                <!-- Image here -->
-            </div>
-        </div>
-
-        <div class="col-lg-6 d-flex align-items-center reservation-form-bg">
-            <form action="form_signup.php" method="post" role="form" class="signup-form" data-aos="fade-up" data-aos-delay="100">
-                <div class="row gy-4">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="MemberEmail"><b>Email</b></label>
-                            <input type="email" class="form-control" name="MemberEmail" id="MemberEmail" placeholder="Please Enter Your Email" required>
-                            <div class="validate"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                          <label for="SignupMemberPass"><b>Password</b></label>
-                          <div class="password-input">
-                              <input type="password" name="MemberPass" class="form-control" id="SignupMemberPass" placeholder="Please Enter Your Password" data-rule="minlen:4" data-msg="Please enter at least 4 characters">
-                              <span class="toggle-password" onclick="togglePasswordVisibility('SignupMemberPass')">Show Password</span>
-                          </div>
-                          <div class="validate"></div>
-                      </div>
-                  </div>
-
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <label for="CfmPass"><b>Confirm Password</b></label>
-                          <div class="password-input">
-                               <input type="password" name="CfmPass" class="form-control" id="CfmPass" placeholder="Please Enter Confirm Password" required>
-                              <span class="toggle-password" onclick="togglePasswordVisibility('CfmPass')">Show Password</span>
-                          </div>
-                          <div class="validate"></div>
-                      </div>
-                  </div>
-
+            <?php
+            // Fetch and display catalogue names
+            $catalogue_query = $db_conn->query("SELECT CatCataID, cataName FROM category_cata");
+            if ($catalogue_query->num_rows > 0) {
+                while ($catalogue_row = $catalogue_query->fetch_assoc()) {
+                    echo '<aside class="product_list">';
+                    echo '<ul class="menu">';
                     
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="MemberName"><b>Name</b></label>
-                            <input type="text" name="MemberName" class="form-control" id="MemberName" placeholder="Please Enter Your Name" required>
-                            <div class="validate"></div>
-                        </div>
-                    </div>
+                    $CatCataID = $catalogue_row['CatCataID'];
+                    $cataName = $catalogue_row['cataName'];
+                    
+                    echo '<li class="dropdown">';
+                    echo '<a href="?CatCataID='.$CatCataID.'">'.$cataName.'<i class="bi bi-chevron-down dropdown-indicator"></i></a>';
+                    
+                    // Fetch and display category names for the current catalogue
+                    $category_query = $db_conn->query("SELECT CatID, catName FROM category_cata WHERE CatCataID = '$CatCataID'");
+                    if ($category_query->num_rows > 0) {
+                        echo '<ul class="dropdown-menu">';
+                        while ($category_row = $category_query->fetch_assoc()) {
+                            $CatID = $category_row['CatID'];
+                            $catName = $category_row['catName'];
+                            echo '<li><a href="?CatID='.$CatID.'">'.$catName.'</a></li>';
+                        }
+                        echo '</ul>';
+                    }
+                    echo '</li>';
+                    
+                    echo '</ul>';
+                    echo '</aside>';
+                }
+            }
+            ?>
+        </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="MemberPhone"><b>Phone Number</b></label>
-                            <input type="text" class="form-control" name="MemberPhone" id="MemberPhone" placeholder="Please Enter Your Phone Number" required>
-                            <div class="validate"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" name="signupbtn" class="btn btn-primary">Sign Up</button>
-                </div>
-            </form>
-        </div><!-- End Form -->
-    </div><!-- End Sign Up Content -->
-</div>
+          <!-- Product Display -->
+          <div class="col-lg-9">
+            <div class="search-container">
+              <input type="text" class="form-control search-input" id="myInput" onkeyup="search()" placeholder="Search..">
+              <i class="bi bi-search search-icon"></i>
+            </div>
+            <div id="product-display" class="product-display">
+            <?php
+              if ($pro_query->num_rows > 0) {
+                  // Output data of each row
+                  while ($row = $pro_query->fetch_assoc()) {
+                      // Fetching Product ID
+                      $ProID = $row['ProID'];
 
-        </div><!-- End tab content -->
+                      // Fetching Product URL
+                      $ProUrl = $row['ProUrl'];
+
+                      // Fetching Product Name
+                      $ProName = $row['ProName'];
+
+                      // Fetching the first image associated with the product
+                      $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
+                      $image_url = ''; // Initialize image URL variable
+                      while ($img_row = $img_sql->fetch_assoc()) {
+                          $ImageName = $img_row['ImageName'];
+                          $ImageExt = $img_row['ImageExt'];
+                          $image_url = $ImageName . "." . $ImageExt;
+                      }
+
+                      echo '<div class="product-item mb-3">
+                          <a href="'.$SiteUrl.'/user/menu-info.php?ProUrl='.$ProUrl.'">';
+
+                      if (!empty($image_url)) {
+                          // Show the fetched image
+                          echo "<img class='img-fluid' style='height:180px; width: 1000px;' src='../upload/product/$ProID/$image_url' alt='Card image cap'>";
+                      } else {
+                          // Provide a default image path if no image found
+                          echo "<img class='img-fluid' style='height: 180px; width: 1000px;' src='path_to_default_image' alt='Default Image'>";
+                      }
+
+                      echo "<p class='mt-2'>$ProName</p>";
+                      echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>";
+
+                      // Fetch and display average rating for this product
+                      $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
+                      $avg_rating_result = $db_conn->query($avg_rating_query);
+                      if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
+                          echo '<div class="star-rating-container">';
+                          echo displayStars($avg_rating_row['avg_rate']);
+                          echo '</div>';
+                      } else {
+                          echo '<span>No rating available</span>';
+                      }
+
+                      echo '</a></div>';
+                  }
+              } else {
+                  echo "0 results";
+              }
+            ?>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -199,12 +285,9 @@
 
   <div id="preloader"></div>
 
-  <?php
-    if (isset($_SESSION['alert'])) {
-        echo "<script>alert('{$_SESSION['alert']}');</script>";
-        unset($_SESSION['alert']); // Remove the alert message from session after displaying it
-    }
-  ?>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

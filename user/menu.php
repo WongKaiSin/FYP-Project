@@ -35,17 +35,31 @@ function displayStars($rating) {
     return $output;
 }
 
+$pro_query = null; // Initialize $pro_query outside the if statement
+
 if (isset($_GET['CatID'])) {
-    $category = $_GET['CatID'];
-    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID, p.ProUrl
-                                FROM product_cat pc
-                                JOIN product p ON pc.ProID = p.ProID 
-                                WHERE pc.CatID = '$category' AND p.isUp = 1");
-} else {
+    $category = $db_conn->real_escape_string($_GET['CatID']);
     $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID , p.ProUrl
-                                FROM product_cat pc
-                                JOIN product p ON pc.ProID = p.ProID 
-                                WHERE p.isUp = 1");
+                                  FROM product_cat pc
+                                  JOIN product p ON pc.ProID = p.ProID 
+                                  WHERE pc.CatID = $category AND p.isUp = 1");
+} else {
+    // Handle the case when 'CatID' is not provided in the URL
+    // For example, you might want to display all products
+    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID , p.ProUrl
+                                  FROM product_cat pc
+                                  JOIN product p ON pc.ProID = p.ProID 
+                                  WHERE p.isUp = 1");
+}
+
+$catalogue_categories = []; // Initialize variable to avoid undefined variable error
+
+// Fetch catalogue categories if available
+if (isset($db_conn)) {
+    $catalogue_categories_query = $db_conn->query("SELECT * FROM category_cata WHERE isUp = 1");
+    while ($row = $catalogue_categories_query->fetch_assoc()) {
+        $catalogue_categories[$row['cataName']][] = $row;
+    }
 }
 ?>
 
@@ -178,42 +192,25 @@ function search() {
               </ul>
             </aside>
 
-            <aside class="product_list">
-              <ul class='menu'>
-                <li class="dropdown">
-                  <a href="#">Food<i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="?CatID=2">Bagel</a></li>
-                    <li><a href="?CatID=3">Sandwich</a></li>
-                    <li><a href="?CatID=5">Cream Cheese</a></li> <!-- Changed CatID from 3 to 5 -->
-                  </ul>
-                </li>
-              </ul>
-            </aside>
-
-            <aside class="product_list">
-              <ul class='menu'>
-                <li class="dropdown">
-                  <a href="#">Homemade Soup<i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="?CatID=4">Soup</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </aside>
-
-            <aside class="product_list">
-              <ul class='menu'>
-                <li class="dropdown">
-                  <a href="#">Drinks<i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="?CatID=1">Coffee</a></li>
-                    <li><a href="?CatID=6">Non-Coffee</a></li> <!-- Changed CatID from blank to 6 -->
-                    <li><a href="?CatID=7">Tea</a></li> <!-- Added CatID 7 for Tea -->
-                  </ul>
-                </li>
-              </ul>
-            </aside>
+            <?php
+              // Displaying grouped catalogues and categories
+              foreach ($catalogue_categories as $cataName => $categories) {
+                  echo '<aside class="product_list">';
+                  echo '<ul class="menu">';
+                  echo '<li class="dropdown">';
+                  echo '<a href="#">' . $cataName . '<i class="bi bi-chevron-down dropdown-indicator"></i></a>';
+                  echo '<ul class="dropdown-menu">';
+                  foreach ($categories as $category) {
+                      $CatID = $category['catID'];
+                      $catName = $category['catName'];
+                      echo '<li><a href="?CatID='.$CatID.'">'.$catName.'</a></li>';
+                  }
+                  echo '</ul>';
+                  echo '</li>';
+                  echo '</ul>';
+                  echo '</aside>';
+              }
+            ?>
           </div>
 
           <!-- Product Display -->
