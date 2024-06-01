@@ -4,22 +4,37 @@ include("lib/function.php"); // Corrected the file name
 
 $func = new Functions();
 
-$email = "wong"; // Change to a valid email
-$pass = "kai"; // Change to a valid password
+$sql = "SELECT ProID, ProName, ProUrl FROM `product`";
+$query = $db_conn -> query($sql);
 
-$done = $func->PassSign($email, $pass);
+while($row = $query->fetch_assoc())
+{
+    $ProID = $row["ProID"];
+    $ProName = $row["ProName"];
+    $ProUrl = $row["ProUrl"];
 
-// var_dump('location: '.$_SERVER['DOCUMENT_ROOT']."/FYP-Project/admin/login.php");
-// header("location: ../user/menu-info.php");
+    echo $ProID." ".$ProName." ".$ProUrl."<br>";
 
-echo basename($_SERVER["SCRIPT_FILENAME"])."<br>";
-echo $_SERVER['DOCUMENT_ROOT']."/FYP-Project/<br>";
+    if(isset($ProUrl))
+    {
+        $ProUrl = strtolower($func->convertToURL($ProName));
+        echo $ProUrl."<br>";
+    }
 
-echo "Email: ". $email."<br>";
-echo "Pass: ".$pass."<br>";
-echo "Hashed password: ".$done."<br>";
+    $add = "UPDATE product SET ProUrl=? WHERE ProID=?";
+    $stmt = $db_conn->prepare($add);
 
-header("Location: ../user/upload/product/1.jpeg");
-?>
+    // Bind parameters to the placeholders
+    $stmt->bind_param("si", $ProUrl, $ProID);  // "si" means string and integer
 
-<!-- <script>location="<?echo $_SERVER['DOCUMENT_ROOT']."/FYP-Project/upload/product/1.jpeg" ?>"</script> -->
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "Record updated successfully";
+    } else {
+        echo "Error updating record: " . $stmt->error;
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+
+}
