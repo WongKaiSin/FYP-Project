@@ -314,7 +314,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt="">
                 <h4>Americcano</h4>
                 <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
+                water and espresso
                 </p>
                 <p class="price">
                   RM 5.00
@@ -325,7 +325,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt="">
                 <h4>Cappuccino</h4>
                 <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
+                espresso, steamed milk, steamed milk foam
                 </p>
                 <p class="price">
                   RM 6.00
@@ -336,7 +336,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt="">
                 <h4>Espresso</h4>
                 <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
+                espresso, water
                 </p>
                 <p class="price">
                   RM 5.00
