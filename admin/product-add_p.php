@@ -1,6 +1,9 @@
 <?php
 session_start();
 include("lib/db.php");
+include("lib/function.php");
+
+$func = new Functions;
 
 if(isset($_GET['catID']) && is_numeric($_GET['catID'])) {
     $catID = $_GET['catID'];
@@ -24,11 +27,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save"])){
     $Ingredient = $_POST["Ingredient"];
     $stock= $_POST["stock"];
 
-    
+    $ProUrl = strtolower($func->convertToURL($ProName));
 
     // Insert data into the database
-    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock) 
-            VALUES ('$ProName', '$adName', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock')";
+    $sql = "INSERT INTO product (ProName, ProAddPerson, ProCost, ProPrice, Storage, ShelfLife, ProDesc, Ingredient, ProAddDate, ProStock, ProUrl) 
+            VALUES ('$ProName', '$adName', '$ProCost', '$ProPrice', '$Storage', '$ShelfLife', '$ProDesc', '$Ingredient','$currentDateTime','$stock', '$ProUrl')";
 
     // Execute the insert query
     if ($db_conn->query($sql) === TRUE) {
