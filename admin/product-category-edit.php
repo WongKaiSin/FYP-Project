@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_category"])) {
         $sql_update_product_cat = "UPDATE product_cat SET CatName = '$newCatName' WHERE CatID = '$catID'";
         if ($db_conn->query($sql_update_product_cat) === TRUE) {
             // Update category name in the category_cata table
-            $sql_update_catalogue = "UPDATE category_cata SET catName = '$newCatName' WHERE cataID = '$catID'";
+            $sql_update_catalogue = "UPDATE category_cata SET catName = '$newCatName' WHERE catID = '$catID'";
             if ($db_conn->query($sql_update_catalogue) === TRUE) {
                 // Redirect back to the product list page
                 header("Location: product-view.php");

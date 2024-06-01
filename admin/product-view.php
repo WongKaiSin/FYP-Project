@@ -6,7 +6,7 @@ include("lib/db.php");
 
 $adName = $_SESSION["adName"];
 
-if (isset($_GET["del"])isset($_GET["catID"])) {
+if (isset($_GET["del"]) && isset($_GET["catID"])) {
     // Retrieve catID from request parameters
     $catID = $_GET['catID']; 
 
@@ -26,7 +26,7 @@ if (isset($_GET["del"])isset($_GET["catID"])) {
             
             $cata_delete = "UPDATE category_cata SET isUp = 0 WHERE catID = '$catID'";
             
-            if ($db_conn->query($sql_delete_product) === TRUE) {
+            if ($db_conn->query($cata_delete) === TRUE) {
                 header("Location: product-view.php");
                 exit();
             } else {
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <script type="text/javascript">
     function confirmation() {
-        return confirm("Do you want to delete this category?");
+        return confirm("Do you want to delete?");
     }
 </script>
 <body>
