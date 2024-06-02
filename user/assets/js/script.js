@@ -178,4 +178,26 @@ $(document).ready(function() {
       }
   });
   /*** END product quantity control ***/
+
+    var url = "http://localhost:80/FYP-Project/user/lib/location/melaka.json";
+    $.getJSON(url, function(data) {
+        // console.log(data);
+        // Do something with the JSON data
+        populateDropdown(data);
+    });
 });
+
+/*** Get Melaka Location ***/
+function populateDropdown(melakaData) {
+    const dropdown = document.getElementById('Postcode');
+    if (dropdown && melakaData.city) {
+        melakaData.city.forEach(city => {
+            city.postcode.forEach(postcode => {
+                const option = document.createElement('option');
+                option.value = postcode;
+                option.textContent = `${city.name} - ${postcode}`;
+                dropdown.appendChild(option);
+            });
+        });
+    }
+}

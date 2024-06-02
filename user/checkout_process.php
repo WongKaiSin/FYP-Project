@@ -8,9 +8,9 @@ $func = new Functions;
 if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 {
 	$ShippingFee = $_POST["ShippingFee"];
-	$checkout .= checkCart($ShippingFee);
+	$checkout .= $func->checkCart($ShippingFee);
 	
-	$cart_query = mysqli_query($db_conn, "SELECT * FROM js_store_cart WHERE UserID='$UserID' ORDER BY CartID DESC");
+	$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE MemberID='$MemberID' ORDER BY CartID DESC");
 	$cart_row = mysqli_fetch_array($cart_query);
 	
 	$CartID = $cart_row["CartID"];

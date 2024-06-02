@@ -99,18 +99,16 @@ $cart_num = mysqli_num_rows($cart_query);
                 else
                 {
                     // address field
-                    $ShipName = stripslashes($_POST["ShipName"]);
-                    $ShipEmail = stripslashes($_POST["ShipEmail"]);
-                    $ShipPhoneCode = stripslashes($_POST["ShipPhoneCode"]);
-                    $ShipPhone = stripslashes($_POST["ShipPhone"]);
-                    $ShipAdd = stripslashes($_POST["ShipAdd"]);
-                    $ShipAdd2 = stripslashes($_POST["ShipAdd2"]);
-                    $ShipCity = stripslashes($_POST["ShipCity"]);
-                    $ShipPostcode = stripslashes($_POST["ShipPostcode"]);
-                    $ShipCountry = $_POST["ShipCountry"];
-                    $ShipState = stripslashes($_POST["ShipState"]);
+                    $AddName = stripslashes($_POST["Name"]);
+                    $MemEmail = stripslashes($_POST["Email"]);
+                    $AddPhone = stripslashes($_POST["Phone"]);
+                    $AddAddress = stripslashes($_POST["Address"]);
+                    $AddCity = stripslashes($_POST["City"]);
+                    $AddPostcode = stripslashes($_POST["Postcode"]);
+                    $AddCountry = $_POST["Country"];
+                    $AddState = stripslashes($_POST["State"]);
                     $ShipNew = $_POST["ShipNew"];
-                    $BillDiff = $_POST["BillDiff"];
+                    // $BillDiff = $_POST["BillDiff"];
                     
                     // $ShipCountryName = getLocationName($ShipCountry);
                     // $ShipStateName = getLocationName($ShipState);
@@ -123,12 +121,12 @@ $cart_num = mysqli_num_rows($cart_query);
                                 "<div class=\"row mb-20\">
                                     <div class=\"col large-6 medium-6 small-12\">
                                         <h6 class=\"cart-title\">Delivery Address</h6>
-                                        $ShipName
-                                        <br>$ShipAdd,
-                                        <br>$ShipPostcode $ShipCity,
-                                        <br>$ShipStateName, $ShipCountryName
-                                        <br>$ShipPhoneCode".$ShipPhone."
-                                        <br>$ShipEmail
+                                        $AddName
+                                        <br>$AddAddress,
+                                        <br>$AddPostcode $AddCity,
+                                        <br>$AddState, $AddCountry
+                                        <br>".$AddPhone."
+                                        <br>$MemEmail
                                     </div>
                                 </div>
                                 <span class='hide-for-large'><h6 class=\"cart-title\">Products</h6></span>
@@ -144,18 +142,14 @@ $cart_num = mysqli_num_rows($cart_query);
                                     <tbody>";
                             
                         $no = 1;	
-                        while ($item_row = mysqli_fetch_array($item_query)) 
+                        while($item_row = mysqli_fetch_array($item_query)) 
                         {	
                             $CartProID = $item_row["CartProID"];
                             $ProID = $item_row["ProID"];
-                            $ProName = stripslashes($item_row["ProName"]);
-                            $ProSku = stripslashes($item_row["ProSku"]);
-                            $ProVarID = $item_row["ProVarID"];
-                            $ProVarName = stripslashes($item_row["ProVarName"]);
+                            // $ProName = stripslashes($item_row["ProName"]);
                             $ProPrice = $item_row["ProPrice"];
                             $ProQty = $item_row["ProQty"];
                             $ProTotal = $item_row["ProTotal"];
-                            $ProRemarks = stripslashes($item_row["ProRemarks"]);
                             
                             echo "<tr>
                                     <td><img src='".$func->productPic($ProID)."' class='img-fluid'></td>

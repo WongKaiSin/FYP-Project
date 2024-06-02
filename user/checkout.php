@@ -42,11 +42,10 @@ else
   $AddPhone = "";
   $AddAddress = "";
   $AddCity = "";
-  $AddPostcode = "";
+  $AddPostcode = "77300";
   $AddCountry = "";
   $AddState = "";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -56,34 +55,6 @@ else
   <?php include("lib/head.php"); ?>
   <title>Checkout</title>
 
-  <script>
-    $(document).ready(function() {
-            var url = "http://localhost:80/FYP-Project/user/lib/location/melaka.json";
-            $.getJSON(url, function(data) {
-                // console.log(data);
-                // Do something with the JSON data
-                populateDropdown(data);
-            });
-        });
-
-        function populateDropdown(melakaData) {
-            const dropdown = document.getElementById('Postcode');
-            if (dropdown && melakaData.city) {
-                melakaData.city.forEach(city => {
-                    city.postcode.forEach(postcode => {
-                        const option = document.createElement('option');
-                        option.value = postcode;
-                        option.textContent = `${city.name} - ${postcode}`;
-                        dropdown.appendChild(option);
-                    });
-                });
-            }
-        }
-
-        // Call the function to populate the dropdown once the DOM is fully loaded
-        // document.addEventListener('DOMContentLoaded', populateDropdown);
-
-  </script>
 </head>
 
 <body>
@@ -181,14 +152,13 @@ else
                     <input type=\"text\" name=\"City\" placeholder=\"Enter City\" value=\"$AddCity\" required>
                     <br>
                     <label>Postcode</label>
-                    <div id=\"result\"></div>
-                    <select id=\"Postcode\">
-                        <option value=\"\">Select Postcode</option>
+                    <select id=\"Postcode\" name=\"Postcode\" value=\"$AddPostcode\">
+                        <option value=\"$AddPostcode\">Select Postcode</option>
                     </select>
                     <br>
                     <label>State</label>
                     <span id=\"ShipStateBox\">
-                    <input type=\"text\" name=\"ShipState\" id=\"ShipState\" placeholder=\"Enter State\" value=\"$AddState\" required>
+                    <input type=\"text\" name=\"State\"  placeholder=\"Enter State\" value=\"$AddState\" required>
                     </span>
                     <br>
                     <label>Country</label>
