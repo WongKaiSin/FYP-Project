@@ -55,6 +55,35 @@ else
 <head>
   <?php include("lib/head.php"); ?>
   <title>Checkout</title>
+
+  <script>
+    $(document).ready(function() {
+            var url = "http://localhost:80/FYP-Project/user/lib/location/melaka.json";
+            $.getJSON(url, function(data) {
+                // console.log(data);
+                // Do something with the JSON data
+                populateDropdown(data);
+            });
+        });
+
+        function populateDropdown(melakaData) {
+            const dropdown = document.getElementById('Postcode');
+            if (dropdown && melakaData.city) {
+                melakaData.city.forEach(city => {
+                    city.postcode.forEach(postcode => {
+                        const option = document.createElement('option');
+                        option.value = postcode;
+                        option.textContent = `${city.name} - ${postcode}`;
+                        dropdown.appendChild(option);
+                    });
+                });
+            }
+        }
+
+        // Call the function to populate the dropdown once the DOM is fully loaded
+        // document.addEventListener('DOMContentLoaded', populateDropdown);
+
+  </script>
 </head>
 
 <body>
@@ -152,10 +181,9 @@ else
                     <input type=\"text\" name=\"City\" placeholder=\"Enter City\" value=\"$AddCity\" required>
                     <br>
                     <label>Postcode</label>
-                    <input type=\"text\" name=\"Postcode\" placeholder=\"Enter Postcode\" value=\"$AddPostcode\" required>
-
+                    <div id=\"result\"></div>
                     <select id=\"Postcode\">
-                        <!-- Options will be populated here by JavaScript -->
+                        <option value=\"\">Select Postcode</option>
                     </select>
                     <br>
                     <label>State</label>
@@ -225,30 +253,7 @@ else
 
 </body>
 
-<script>
-  // Import the JSON data
-  // import melakaData from './lib/melaka.json' assert { type: 'json' };
-  const melakaData = require('lib/melaka.json');
 
-  function populateDropdown() {
-      const dropdown = document.getElementById('Postcode');
-      if (dropdown && melakaData.city) {
-          melakaData.city.forEach(city => {
-              city.postcode.forEach(postcode => {
-                  const option = document.createElement('option');
-                  option.value = postcode;
-                  option.textContent = postcode;
-                  dropdown.appendChild(option);
-              });
-          });
-      }
-  }
-
-  // Call the function to populate the dropdown once the DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', populateDropdown);
-
-
-</script>
 </html>
 
 <?php $db_conn->close();?>
