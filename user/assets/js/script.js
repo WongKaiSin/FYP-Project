@@ -194,7 +194,7 @@ function populateDropdown(melakaData) {
         melakaData.city.forEach(city => {
             city.postcode.forEach(postcode => {
                 const option = document.createElement('option');
-                option.value = postcode;
+                option.value = `${city.name} - ${postcode}`;
                 option.textContent = `${city.name} - ${postcode}`;
                 dropdown.appendChild(option);
             });

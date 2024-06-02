@@ -11,6 +11,7 @@ require_once("./lib/function.php");
 
 $SiteUrl = "http://localhost:80/FYP-Project";
 $func = new Functions;
+$ShippingFee = 0.00;
 
 $MemberID = $_SESSION["MemberID"];
 $CurrCart = $_SESSION["Cart"];
@@ -103,18 +104,21 @@ $cart_num = mysqli_num_rows($cart_query);
                     $MemEmail = stripslashes($_POST["Email"]);
                     $AddPhone = stripslashes($_POST["Phone"]);
                     $AddAddress = stripslashes($_POST["Address"]);
-                    $AddCity = stripslashes($_POST["City"]);
-                    $AddPostcode = stripslashes($_POST["Postcode"]);
+                    // $AddCity = stripslashes($_POST["City"]);
+                    $AddState = $_POST["State"];
                     $AddCountry = $_POST["Country"];
-                    $AddState = stripslashes($_POST["State"]);
                     $ShipNew = $_POST["ShipNew"];
+
+                    $stapost = explode(" - ",$_POST["StateAndPostcode"]); // $stapost[0] = city, $stapost[1] = postcode
+                    $AddPostcode = $stapost[1];
+                    $AddCity = $stapost[0];
                     // $BillDiff = $_POST["BillDiff"];
                     
                     // $ShipCountryName = getLocationName($ShipCountry);
                     // $ShipStateName = getLocationName($ShipState);
                     
                     // $OrderRemarks = stripslashes($_POST["OrderRemarks"]);
-                    // $PaymentMethod = $_POST["PaymentMethod"];
+                    $PaymentMethod = $_POST["PaymentMethod"];
                     // END address field
                     
                     echo $func->checkoutStep(3).
@@ -129,6 +133,7 @@ $cart_num = mysqli_num_rows($cart_query);
                                         <br>$MemEmail
                                     </div>
                                 </div>
+                                <br>
                                 <span class='hide-for-large'><h6 class=\"cart-title\">Products</h6></span>
                                 <table class=\"table-listing table-item\">
                                     <thead>
@@ -150,6 +155,10 @@ $cart_num = mysqli_num_rows($cart_query);
                             $ProPrice = $item_row["ProPrice"];
                             $ProQty = $item_row["ProQty"];
                             $ProTotal = $item_row["ProTotal"];
+
+                            $pro_query = mysqli_query($db_conn, "SELECT ProName FROM product WHERE ProID='$ProID'") ;
+                            $pro_row = mysqli_fetch_array($pro_query);
+                            $ProName = stripslashes($pro_row["ProName"]);
                             
                             echo "<tr>
                                     <td><img src='".$func->productPic($ProID)."' class='img-fluid'></td>
@@ -230,25 +239,22 @@ $cart_num = mysqli_num_rows($cart_query);
                 if($CartTotal > 0)
                     $BtnText = "Proceed with Payment";
                     
-                    echo "<form id=\"checkoutForm\" method=\"post\" action=\"$SiteUrl/checkout-process/\">
-                                    <input type=\"hidden\" name=\"ShipName\" value=\"".$func->checkInput($ShipName)."\">
-                                    <input type=\"hidden\" name=\"ShipEmail\" value=\"".$func->checkInput($ShipEmail)."\">
-                                    <input type=\"hidden\" name=\"ShipPhoneCode\" value=\"".$func->checkInput($ShipPhoneCode)."\">
-                                    <input type=\"hidden\" name=\"ShipPhone\" value=\"".$func->checkInput($ShipPhone)."\">
-                                    <input type=\"hidden\" name=\"ShipAdd\" value=\"".$func->checkInput($ShipAdd)."\">
-                                    <input type=\"hidden\" name=\"ShipAdd2\" value=\"".$func->checkInput($ShipAdd2)."\">
-                                    <input type=\"hidden\" name=\"ShipPostcode\" value=\"".$func->checkInput($ShipPostcode)."\">
-                                    <input type=\"hidden\" name=\"ShipCity\" value=\"".$func->checkInput($ShipCity)."\">
-                                    <input type=\"hidden\" name=\"ShipState\" value=\"".$func->checkInput($ShipState)."\">
-                                    <input type=\"hidden\" name=\"ShipCountry\" value=\"".$func->checkInput($ShipCountry)."\">
-                                    <input type=\"hidden\" name=\"ShipNew\" value=\"$ShipNew\">
-                                    <input type=\"hidden\" name=\"OrderRemarks\" value=\"".$func->checkInput($OrderRemarks)."\">
-                                    <input type=\"hidden\" name=\"PaymentMethod\" value=\"$PaymentMethod\">
-                                    <input type=\"hidden\" name=\"ShippingFee\" value=\"$ShippingFee\">
-                                    <input type=\"hidden\" name=\"Checkout\" value=\"1\">
-                                    <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline pull-left\">Modify Address</button>
-                                    <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button pull-right\">$BtnText</button>
-                                </form>";
+                    echo "<form id=\"checkoutForm\" method=\"post\" action=\"$SiteUrl/user/checkout-process/\">
+                            <input type=\"hidden\" name=\"ShipName\" value=\"".$func->checkInput($AddName)."\">
+                            <input type=\"hidden\" name=\"ShipEmail\" value=\"".$func->checkInput($MemEmail)."\">
+                            <input type=\"hidden\" name=\"ShipPhone\" value=\"".$func->checkInput($AddPhone)."\">
+                            <input type=\"hidden\" name=\"ShipAdd\" value=\"".$func->checkInput($AddAddress)."\">
+                            <input type=\"hidden\" name=\"ShipPostcode\" value=\"".$func->checkInput($AddPostcode)."\">
+                            <input type=\"hidden\" name=\"ShipCity\" value=\"".$func->checkInput($AddCity)."\">
+                            <input type=\"hidden\" name=\"ShipState\" value=\"".$func->checkInput($AddState)."\">
+                            <input type=\"hidden\" name=\"ShipCountry\" value=\"".$func->checkInput($AddCountry)."\">
+                            <input type=\"hidden\" name=\"ShipNew\" value=\"$ShipNew\">
+                            <input type=\"hidden\" name=\"PaymentMethod\" value=\"$PaymentMethod\">
+                            <input type=\"hidden\" name=\"ShippingFee\" value=\"$ShippingFee\">
+                            <input type=\"hidden\" name=\"Checkout\" value=\"1\">
+                            <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline pull-left\">Modify Address</button>
+                            <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button pull-right\">$BtnText</button>
+                        </form>";
                 }
             }
         }

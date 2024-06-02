@@ -148,21 +148,16 @@ else
                     <label>Address</label>
                     <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
                     <br>
-                    <label>City</label>
-                    <input type=\"text\" name=\"City\" placeholder=\"Enter City\" value=\"$AddCity\" required>
-                    <br>
-                    <label>Postcode</label>
+                    <label>City and Postcode</label>
                     <select id=\"Postcode\" name=\"Postcode\" value=\"$AddPostcode\">
                         <option value=\"$AddPostcode\">Select Postcode</option>
                     </select>
                     <br>
                     <label>State</label>
-                    <span id=\"ShipStateBox\">
-                    <input type=\"text\" name=\"State\"  placeholder=\"Enter State\" value=\"$AddState\" required>
-                    </span>
+                    <input type=\"text\" name=\"State\" value=\"$AddState\" placeholder=\"Melaka\" required>
                     <br>
                     <label>Country</label>
-                    <input type=\"text\" name=\"Country\" placeholder=\"Enter Country\" value=\"$AddCountry\" required>
+                    <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
                     <br>
                     
                     <input type=\"checkbox\" name=\"ShipNew\" id=\"ShipNew\" value=\"1\"".$func->displayChecked($ShipNew, "1").">

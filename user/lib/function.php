@@ -271,7 +271,7 @@ class Functions
             $ImageName = $img_row["ImageName"];
             $ImageExt = $img_row["ImageExt"];
             
-            $img = $SiteUrl."/upload/product/".$ImageName.".".$ImageExt;
+            $img = $SiteUrl."/upload/product/".$ProID."/".$ImageName.".".$ImageExt;
         }
         
         return $img;

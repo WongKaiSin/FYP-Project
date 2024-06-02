@@ -51,6 +51,6 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/script.js?v=43"></script>
+<script src="assets/js/script.js?v=44"></script>
 
 
