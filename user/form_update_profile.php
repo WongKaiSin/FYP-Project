@@ -15,12 +15,14 @@ if (isset($_POST['BtnUpdateProfile'])) {
     $MemberName = $_POST["MemberName"];
     $MemberPhone = $_POST["MemberPhone"];
     $AddAddress = $_POST["AddAddress"];
-    $AddPostcode = $_POST["AddPostcode"];
-    $AddCity = $_POST["AddCity"];
     $AddState = $_POST["AddState"];
     $AddCountry = $_POST["AddCountry"];
     $MemberEmail = $_SESSION["MemberEmail"];
     $MemberID = $_SESSION['MemberID'];
+
+    $stapost = explode("-",$_POST["StateAndPostcode"]);
+    $AddPostcode = $stapost[1];
+    $AddCity = $stapost[0];
 
     // Update user's profile in the database
     $sql = "UPDATE member SET MemberName = '$MemberName', MemberPhone = '$MemberPhone' WHERE MemberID = '$MemberID'";
