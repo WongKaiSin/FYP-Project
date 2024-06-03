@@ -42,9 +42,9 @@ else
   $AddPhone = "";
   $AddAddress = "";
   $AddCity = "";
-  $AddPostcode = "77300";
-  $AddCountry = "";
-  $AddState = "";
+  $AddPostcode = "";
+  $AddCountry = "Malaysia";
+  $AddState = "Melaka";
 }
 ?>
 
@@ -149,7 +149,7 @@ else
                     <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
                     <br>
                     <label>City and Postcode</label>
-                    <select id=\"Postcode\" name=\"Postcode\" value=\"$AddPostcode\">
+                    <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddPostcode\" required>
                         <option value=\"$AddPostcode\">Select Postcode</option>
                     </select>
                     <br>

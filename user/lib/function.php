@@ -65,11 +65,17 @@ class Functions
         return str_replace('"', "&quot;", $variable);
     }
 
-    //
+    // Check a and b are equal
     function displayChecked($val_a, $val_b)
     {
         if($val_a == $val_b)
             return " checked";
+    }
+
+    // Check number decimal
+    function formatNumber($value, $decimal='2')
+    {
+        return number_format($value, $decimal);
     }
 
     // Forgot password
@@ -339,6 +345,56 @@ class Functions
         }
         
         return $CheckStock;
+    }
+
+    function checkCart($shipping='0')
+    {
+        $func = new Functions;
+        global $db_conn, $MemberID, $CurrCart;
+        
+        $CartSql = "";
+        if($MemberID > 0)
+            $CartSql = " OR MemberID='$MemberID'";
+        
+        $cart_query = mysqli_query($db_conn, "SELECT CartID, CartSubtotal FROM cart WHERE (CartSession='".$CurrCart."'".$CartSql.") ORDER BY CartID DESC");
+        $cart_num = mysqli_num_rows($cart_query);
+        
+        if($cart_num > 0)
+        {
+            $cart_row = mysqli_fetch_array($cart_query);
+            
+            $CartID = $cart_row["CartID"];
+            $CartSubtotal = $cart_row["CartSubtotal"];
+            
+            $item_query = mysqli_query($db_conn, "SELECT CartProID, ProID, ProPrice, ProQty, ProTotal FROM cart_product WHERE CartID='$CartID'");
+            $item_num = mysqli_num_rows($item_query);
+            
+            if($item_num > 0)
+            {
+                while ($item_row = mysqli_fetch_array($item_query)) 
+                {	
+                    $CartProID = $item_row["CartProID"];
+                    $ProID = $item_row["ProID"];
+                    $ProPrice = $item_row["ProPrice"];
+                    $ProQty = $item_row["ProQty"];
+                    $ProTotal = $item_row["ProTotal"];
+                    
+                    $pro_query = mysqli_query($db_conn, "SELECT ProPrice FROM product WHERE ProID='$ProID'");
+                    $pro_row = mysqli_fetch_array($pro_query);
+
+                    $CheckPrice = $pro_row["ProPrice"];
+                                            
+                    if($CheckPrice != $ProPrice)
+                    {
+                        $NewTotal = $CheckPrice * $ProQty;
+                        
+                        mysqli_query($db_conn, "UPDATE cart_product SET ProPrice='$CheckPrice', ProTotal='$NewTotal' WHERE CartProID='$CartProID'");
+                    }
+                }
+                
+                $func->updateCartTotal($CartID, $shipping);
+            }
+        }
     }
     // END Cart
 
