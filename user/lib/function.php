@@ -83,6 +83,12 @@ class Functions
     {
         return str_rot13(base64_encode($var));
     }
+    
+    // For iPay88
+    function iPay88_signature($source) 
+	{ 
+		return hash('sha256', $source); 
+	} 
 
     // Email
     function authSendEmail($from, $namefrom, $to, $nameto, $subject, $message, $cc='', $attachment='')

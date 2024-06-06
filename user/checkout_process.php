@@ -93,10 +93,15 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		
 		// address
 		// mysqli_query($db_conn, "INSERT INTO js_store_order_address (OrderID, BillName, BillPhone, BillEmail, BillAdd, BillAdd2, BillPostcode, BillCity, BillState, BillCountry, ShipName, ShipPhone, ShipEmail, ShipAdd, ShipAdd2, ShipPostcode, ShipCity, ShipState, ShipCountry) VALUES ('$OrderID', '$BillName', '$BillPhone', '$BillEmail', '$BillAdd', '$BillAdd2', '$BillPostcode', '$BillCity', '$BillStateName', '$BillCountryName', '$ShipName', '$ShipPhone', '$ShipEmail', '$ShipAdd', '$ShipAdd2', '$ShipPostcode', '$ShipCity', '$ShipStateName', '$ShipCountryName')");
-		
+		$ship_query = mysqli_query($db_conn, "SELECT * FROM member_address WHERE MemberID='$MemberID' AND AddAddress!='' ORDER BY AddressAddDate DESC");
+		$ship_num = mysqli_num_rows($ship_query);
+
+		if($ship_num == "0")
+			mysqli_query($db_conn, "INSERT INTO member_address (MemberID, AddName, AddPhone, AddAddress, AddPostcode, AddCity, AddState, AddCountry, AddressAddDate) VALUES ('$MemberID', '$ShipName', '$ShipPhone', '$ShipAdd', '$ShipPostcode', '$ShipCity', '$ShipState', '$ShipCountry', NOW())");
+
 		if($ShipNew == "1")
 		{
-			mysqli_query($db_conn, "INSERT INTO member_address (MemberID, AddType, AddName, AddPhone, AddEmail, AddAddress, AddAddress2, AddPostcode, AddCity, AddState, AddCountry, strAddDate) VALUES ('$MemberID', 'shipping', '$ShipName', '$ShipPhone', '$ShipEmail', '$ShipAdd', '$ShipAdd2', '$ShipPostcode', '$ShipCity', '$ShipState', '$ShipCountry', NOW())");
+			mysqli_query($db_conn, "UPDATE member_address SET MemberID='$MemberID', AddName='$ShipName', AddPhone='$ShipPhone', AddAddress='$ShipAdd', AddPostcode='$ShipPostcode', AddCity='$ShipCity', AddState='$ShipState', AddCountry='$ShipCountry', AddressAddDate=NOW() WHERE MemberID='$MemberID'");
 		}
 		// END address
 		
@@ -127,7 +132,7 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 						<h3>Products</h3>
 						<table cellpadding='0' cellspacing='0' style='width:100%'>";
 						
-		$item_query = mysqli_query($db_conn, "SELECT * FROM js_store_order_products WHERE OrderID='$OrderID'");	  
+		$item_query = mysqli_query($db_conn, "SELECT * FROM order_product WHERE OrderID='$OrderID'");	  
 		
 		$OrderItems = "";
 		$no=1;
@@ -135,48 +140,26 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		{	
 			$ProID = $item_row["ProID"];
 			$ProName = stripslashes($item_row["ProName"]);
-			$ProSku = stripslashes($item_row["ProSku"]);
-			$ProVarID = $item_row["ProVarID"];
-			$ProVar = stripslashes($item_row["ProVar"]);
 			$ProPrice = $item_row["ProPrice"];
 			$ProQty = $item_row["ProQty"];
 			$ProTotal = $item_row["ProTotal"];
-			$ProRemarks = stripslashes($item_row["ProRemarks"]);
 			
-			$OrderItems .= "<br>".$no.". $ProName <em>(Color: $ProVar)</em>";
+			$OrderItems .= "<br>".$no.". $ProName";
 			
 			$OrderDetail .= "<tr>
 								<td width='80px' style='border-bottom:1px solid #DDD; padding:7px; padding-left:0px'>
-									<img src='".$func->productPic($ProVarID, $ProVar, "S")."' style='width:80px'>
+									<img src='".$func->productPic($ProID)."' style='width:80px'>
 								</td>
 								<td style='border-bottom:1px solid #DDD; padding:7px; padding-right:0px'>
 									<strong>".$ProName."</strong><br>
 									<span style='display:block; color:#777; margin-bottom:10px; line-height:1.4; font-size:12px'>";
-				
-					if(!empty($ProVarID))			  
-						$OrderDetail .= "Size: $ProVarID<br>";
-						
-						$OrderDetail .= "Color: $ProVar";
-
-					if($ProSku == "preorder")
-						$OrderDetail .= "<br><span style='color:red'>* Pre-Order</span>";
 
 					$OrderDetail .= "</span>
 										<span style='color:red'>".$func->formatNumber($ProPrice)."</span><br>
 										Quantity: $ProQty";
-										
-				if(!empty($ProRemarks))
-				{
-					$OrderDetail .= "<div style='font-size:12px; margin-top:10px'>
-										<strong>Remarks:</strong><br>
-										".nl2br($ProRemarks)."
-									</div>";
-				}
-
 					
 			$OrderDetail .= "</td>
 							</tr>";
-			
 			$no++;
 		}				
 						
