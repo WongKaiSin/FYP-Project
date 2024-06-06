@@ -15,8 +15,8 @@ $MemberPhone = "";
 $AddAddress = "";
 $AddPostcode = "";
 $AddCity = "";
-$AddState = "";
-$AddCountry = "";
+$AddState = "Melaka";
+$AddCountry = "Malaysia";
 
 // Fetch user profile information from the database
 $MemberID = $_SESSION['MemberID'];
@@ -105,16 +105,13 @@ $db_conn->close();
                         <label for="AddAddress"><b>Address</b></label>
                         <input type="text" class="form-control" name="AddAddress" id="AddAddress" placeholder="Please Enter Your Address"value="<?php echo $AddAddress; ?>" required>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 form-group">
-                            <label for="AddPostcode"><b>Postcode</b></label>
-                            <input type="text" name="AddPostcode" class="form-control" id="AddPostcode" placeholder="Please Enter Your Postcode"value="<?php echo $AddPostcode; ?>" required>
-                        </div>
-                        <div class="col-lg-6 form-group">
-                            <label for="AddCity"><b>City</b></label>
-                            <input type="text" name="AddCity" class="form-control" id="AddCity" placeholder="Please Enter Your City"value="<?php echo $AddCity; ?>" required>
-                        </div>
+                    <div class="form-group">
+                            <label for="AddCity"><b>City & Postcode</b></label>
+                            <select id="Postcode" name="StateAndPostcode" value="$AddPostcode" class="form-control" required>
+                            <option value="<?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?>"><?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?></option>
+                            </select>
                     </div>
+                    
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label for="AddState"><b>State</b></label>
