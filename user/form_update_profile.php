@@ -20,7 +20,7 @@ if (isset($_POST['BtnUpdateProfile'])) {
     $MemberEmail = $_SESSION["MemberEmail"];
     $MemberID = $_SESSION['MemberID'];
 
-    $stapost = explode("-",$_POST["StateAndPostcode"]);
+    $stapost = explode(" - ",$_POST["StateAndPostcode"]);
     $AddPostcode = $stapost[1];
     $AddCity = $stapost[0];
 

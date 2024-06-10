@@ -1,16 +1,22 @@
 <?php
+session_start();
+
 require_once("lib/db.php");
 require_once("lib/function.php");
 
 $SiteUrl = "http://localhost:80/FYP-Project";
 $func = new Functions;
 
+$MemberID = $_SESSION["MemberID"];
+
 if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 {
 	$ShippingFee = $_POST["ShippingFee"];
-	$checkout .= $func->checkCart($ShippingFee);
+	$checkout = $func->checkCart($ShippingFee);
 	
 	$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE MemberID='$MemberID' ORDER BY CartID DESC");
+	$cart_num = mysqli_num_rows($cart_query);
+
 	$cart_row = mysqli_fetch_array($cart_query);
 	
 	$CartID = $cart_row["CartID"];
@@ -21,7 +27,7 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 	
 	if($CheckStock == 0)
 	{
-		$checkout .= "<script>
+		echo "<script>
 						  alert('One or more product is out of stock.');
 						  self.location='$SiteUrl/user/cart.php'
 					  </script>";
@@ -29,7 +35,7 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 
 	if($CartSubtotal > 0)
 	{
-		$checkout .= "<p class='text-center'>
+		echo "<p class='text-center'>
 							Please wait while your transaction is being processing...<br>
 							Please do not refresh the page or click back button while waiting this transaction, <br />
 							else this transaction will be interrupted.
@@ -44,7 +50,7 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		$ShipPostcode = addslashes($_POST["ShipPostcode"]);
 		$ShipCountry = $_POST["ShipCountry"];
 		$ShipState = addslashes($_POST["ShipState"]);
-		$ShipNew = $_POST["ShipNew"];
+		$orderType = $_POST["orderType"];
 		
 		$PaymentMethod = $_POST["PaymentMethod"];
 		// END address field
@@ -60,7 +66,6 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 			$PaymentUser = $payment_row["PaymentUser"];
 			$PaymentKey = $payment_row["PaymentKey"];
 			$PaymentCurr = $payment_row["PaymentCurr"];
-			$PaymentRequest = $payment_row["PaymentRequest"];
 			$PaymentResponse = $payment_row["PaymentResponse"];
 		}
 	
@@ -68,11 +73,16 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		if($CartTotal > 0)
 			$OrderStatus = "Preparing";
 	
-		mysqli_query($db_conn, "INSERT INTO order (MemberID, OrderSubtotal, OrderShipping, OrderTotal, OrderStatus, PaymentID, OrderPaymentName, OrderDate) VALUES ('$MemberID', '$CartSubtotal', '$ShippingFee', '$CartTotal', '$OrderStatus', '$PaymentMethod', '$PaymentName', NOW())");
+		// Prepare the statement
+		$stmt = $db_conn->prepare("INSERT INTO `order` (`MemberID`, `OrderType`, `OrderSubtotal`, `OrderShipping`, `OrderTotal`, `OrderStatus`, `PaymentID`, `OrderDate`) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+		$stmt->bind_param("iidddsi", $MemberID, $orderType, $CartSubtotal, $ShippingFee, $CartTotal, $OrderStatus, $PaymentMethod);
+		$stmt->execute();
+		$stmt->close();
+
 		$OrderID = mysqli_insert_id($db_conn);
 		
 		$OrderNo = date("Ymd")."-".str_pad($OrderID, 5, "0", STR_PAD_LEFT); 
-		mysqli_query($db_conn, "UPDATE order SET OrderNo='$OrderNo' WHERE OrderID='$OrderID'");
+		mysqli_query($db_conn, "UPDATE `order` SET `OrderNo`='$OrderNo' WHERE `OrderID`='$OrderID'");
 		
 		$item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE CartID='$CartID'") ;
 		while($item_row = mysqli_fetch_array($item_query)) 
@@ -99,15 +109,8 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		if($ship_num == "0")
 			mysqli_query($db_conn, "INSERT INTO member_address (MemberID, AddName, AddPhone, AddAddress, AddPostcode, AddCity, AddState, AddCountry, AddressAddDate) VALUES ('$MemberID', '$ShipName', '$ShipPhone', '$ShipAdd', '$ShipPostcode', '$ShipCity', '$ShipState', '$ShipCountry', NOW())");
 
-		if($ShipNew == "1")
-		{
-			mysqli_query($db_conn, "UPDATE member_address SET MemberID='$MemberID', AddName='$ShipName', AddPhone='$ShipPhone', AddAddress='$ShipAdd', AddPostcode='$ShipPostcode', AddCity='$ShipCity', AddState='$ShipState', AddCountry='$ShipCountry', AddressAddDate=NOW() WHERE MemberID='$MemberID'");
-		}
+		mysqli_query($db_conn, "UPDATE member_address SET MemberID='$MemberID', AddName='$ShipName', AddPhone='$ShipPhone', AddAddress='$ShipAdd', AddPostcode='$ShipPostcode', AddCity='$ShipCity', AddState='$ShipState', AddCountry='$ShipCountry', AddressAddDate=NOW() WHERE MemberID='$MemberID'");
 		// END address
-		
-		
-		// mysqli_query($db_conn, "INSERT INTO js_store_order_status (OrderID, StatusName, StatusDate) VALUES ('$OrderID', '$OrderStatus', NOW())");
-		// $StatusID = mysqli_insert_id($db_conn);
 			
 				
 		// delete from cart
@@ -115,61 +118,69 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		mysqli_query($db_conn, "DELETE FROM cart WHERE CartID='$CartID'");
 		// END delete from cart
 		
-		// redirect to payment page
-		// ORDER DETAIL
-		$OrderAdd = stripslashes($ShipAdd).", ";
-							
-		$OrderAdd .= "$ShipPostcode ".stripslashes($ShipCity).", $ShipStateName, $ShipCountryName";
-		
-		$OrderDate = date("jS F Y, g:i a");
-		$OrderDetail = "<hr style='border:0px; border-bottom:2px dashed #DDD'>
-						<h3>Below Order will be Delivered to</h3>
-						".stripslashes($ShipName)."<br>
-						".$OrderAdd."
-						<br>Phone: $ShipPhone
-						<br>Email Address: $ShipEmail<br><br>
-						<hr style='border:0px; border-bottom:2px dashed #DDD'>
-						<h3>Products</h3>
-						<table cellpadding='0' cellspacing='0' style='width:100%'>";
-						
-		$item_query = mysqli_query($db_conn, "SELECT * FROM order_product WHERE OrderID='$OrderID'");	  
-		
-		$OrderItems = "";
-		$no=1;
-		while ($item_row = mysqli_fetch_array($item_query)) 
-		{	
-			$ProID = $item_row["ProID"];
-			$ProName = stripslashes($item_row["ProName"]);
-			$ProPrice = $item_row["ProPrice"];
-			$ProQty = $item_row["ProQty"];
-			$ProTotal = $item_row["ProTotal"];
-			
-			$OrderItems .= "<br>".$no.". $ProName";
-			
-			$OrderDetail .= "<tr>
-								<td width='80px' style='border-bottom:1px solid #DDD; padding:7px; padding-left:0px'>
-									<img src='".$func->productPic($ProID)."' style='width:80px'>
-								</td>
-								<td style='border-bottom:1px solid #DDD; padding:7px; padding-right:0px'>
-									<strong>".$ProName."</strong><br>
-									<span style='display:block; color:#777; margin-bottom:10px; line-height:1.4; font-size:12px'>";
 
-					$OrderDetail .= "</span>
-										<span style='color:red'>".$func->formatNumber($ProPrice)."</span><br>
-										Quantity: $ProQty";
-					
-			$OrderDetail .= "</td>
-							</tr>";
-			$no++;
-		}				
+		// For delivery
+		if($orderType == 0)
+		{
+			// ORDER DETAIL
+			$OrderAdd = stripslashes($ShipAdd).", ";
+								
+			$OrderAdd .= "$ShipPostcode ".stripslashes($ShipCity).", $ShipStateName, $ShipCountryName";
+			
+			$OrderDate = date("jS F Y, g:i a");
+			$OrderDetail = "<hr style='border:0px; border-bottom:2px dashed #DDD'>
+							<h3>Below Order will be Delivered to</h3>
+							".stripslashes($ShipName)."<br>
+							".$OrderAdd."
+							<br>Phone: $ShipPhone
+							<br>Email Address: $ShipEmail<br><br>
+							<hr style='border:0px; border-bottom:2px dashed #DDD'>
+							<h3>Products</h3>
+							<table cellpadding='0' cellspacing='0' style='width:100%'>";
+							
+			$item_query = mysqli_query($db_conn, "SELECT * FROM order_product WHERE OrderID='$OrderID'");	  
+			
+			$OrderItems = "";
+			$no=1;
+			while ($item_row = mysqli_fetch_array($item_query)) 
+			{	
+				$ProID = $item_row["ProID"];
+				$ProName = stripslashes($item_row["ProName"]);
+				$ProPrice = $item_row["ProPrice"];
+				$ProQty = $item_row["ProQty"];
+				$ProTotal = $item_row["ProTotal"];
+				
+				$OrderItems .= "<br>".$no.". $ProName";
+				
+				$OrderDetail .= "<tr>
+									<td width='80px' style='border-bottom:1px solid #DDD; padding:7px; padding-left:0px'>
+										<img src='".$func->productPic($ProID)."' style='width:80px'>
+									</td>
+									<td style='border-bottom:1px solid #DDD; padding:7px; padding-right:0px'>
+										<strong>".$ProName."</strong><br>
+										<span style='display:block; color:#777; margin-bottom:10px; line-height:1.4; font-size:12px'>";
+
+						$OrderDetail .= "</span>
+											<span style='color:red'>".$func->formatNumber($ProPrice)."</span><br>
+											Quantity: $ProQty";
 						
-		$OrderDetail .= "</table>";
-		// END ORDER DETAIL
-		
-		$OrderAmount = "RM ".$CartTotal;
-		
-		// $custom_msg = $OrderNo."######".$StatusID."######".$OrderDetail."######".$OrderItems."######".$OrderAdd."######".$OrderAmount."######".stripslashes($OrderRemarks);
-		$custom_msg = $OrderNo."######".$OrderID."######".$OrderDetail."######".$OrderItems."######".$OrderAdd."######".$OrderAmount."######".stripslashes($OrderRemarks);
+				$OrderDetail .= "</td>
+								</tr>";
+				$no++;
+			}				
+							
+			$OrderDetail .= "</table>";
+			// END ORDER DETAIL
+			
+			$OrderAmount = "RM ".$CartTotal;
+			
+			// $custom_msg = $OrderNo."######".$StatusID."######".$OrderDetail."######".$OrderItems."######".$OrderAdd."######".$OrderAmount."######".stripslashes($OrderRemarks);
+			$custom_msg = $OrderNo."######".$OrderID."######".$OrderDetail."######".$OrderItems."######".$OrderAdd."######".$OrderAmount;
+		}
+		// End delivery send email
+
+
+		// redirect to payment page
 		if($CartTotal > 0)
 		{
 			if($payment_num > 0)
@@ -184,7 +195,7 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 			
 			if(!empty($payment_form))
 			{			
-				$checkout .= $payment_form.
+				echo $payment_form.
 								"<script type='text/javascript'>
 									$(document).ready(function()
 									{
@@ -193,15 +204,11 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 								</script>";
 			}
 			else
-				$checkout .= "<script>self.location='$SiteUrl/checkout-complete/$OrderID/'</script>";
+				echo "<script>self.location='$SiteUrl/user/checkout-complete.php?OrderID=$OrderID'</script>";
 		}
 		else
 		{
-			// send email (do not need payment)
-			// $func->send_email(23, $UserName, $UserEmail, $custom_msg);
-			// END send email (do not need payment)
-			
-			$checkout .= "<script>self.location='$SiteUrl/checkout-complete/$OrderID/'</script>";
+			echo "<script>self.location='$SiteUrl/user/checkout-complete.php?OrderID=$OrderID'</script>";
 		}
 		// END redirect to payment page
 	}
@@ -213,9 +220,9 @@ else
 		
 if($error == 1)
 {
-	$checkout .= "<script>
+	echo "<script>
 					  alert('An error has occurred during the transaction. Please try again.');
-					  self.location='$SiteUrl/cart/'
+					  self.location='cart.php'
 				  </script>";
 }
 

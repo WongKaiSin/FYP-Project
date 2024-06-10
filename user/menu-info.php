@@ -214,6 +214,7 @@ if($pro_query->num_rows > 0)
   <div id="preloader"></div>
 
 </body>
+<script src="./assets/js/slide.js"></script>
 <script>
   var domain = "https://localhost:80/FYP-Project/";
   $(document).ready(function() {

@@ -2,6 +2,8 @@
 include("lib/db.php");
 $SiteUrl = "http://localhost:80/FYP-Project";
 
+<option value="<?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?>"><?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?></option>
+
 // Define the displayStars() function
 function displayStars($rating) {
     $output = '';

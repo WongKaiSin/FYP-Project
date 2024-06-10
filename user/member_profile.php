@@ -107,8 +107,8 @@ $db_conn->close();
                     </div>
                     <div class="form-group">
                             <label for="AddCity"><b>City & Postcode</b></label>
-                            <select id="Postcode" name="StateAndPostcode" value="$AddPostcode" class="form-control" required>
-                            <option value="<?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?>"><?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?></option>
+                            <select id="Postcode" name="StateAndPostcode" class="form-control" required>
+                            <option>Select City and Postcode</option>
                             </select>
                     </div>
                     
@@ -147,6 +147,10 @@ $db_conn->close();
         unset($_SESSION['alert']); 
     }
   ?>
+
+  <script>
+    loadLocation(<?php echo $AddPostcode;?>);
+  </script>
 
 </body>
 </html>

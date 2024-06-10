@@ -47,7 +47,6 @@ $cart_num = mysqli_num_rows($cart_query);
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
@@ -71,6 +70,22 @@ $cart_num = mysqli_num_rows($cart_query);
 
     <section class="sample-page <?=$none?>">
       <div class="container" data-aos="fade-up">
+            
+        <!--  Set the ordertype button  -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Type</h1>
+                    </div>
+                    <div class='modal-footer' id='popOutMenu'>
+                        <button type="button" class='btn btn-secondary orderButton' data-order-type='Delivery' data-bs-dismiss="modal">Delivery</button>
+                        <button type="button" class='btn btn-primary orderButton' data-order-type='Takeaway' data-bs-dismiss="modal">Takeaway</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END Set the ordertype button  -->
 
         <!--  Form to cart-process  -->
         <form action="cart_process.php" method="post">
@@ -148,10 +163,6 @@ $cart_num = mysqli_num_rows($cart_query);
                                     <td>
                                         <a style='cursor:default'><strong><?=$ProName?></strong></a><br>
                                         <span class='text-small'></span>
-                                        <div class='listing-remarks-box'>
-                                            Remarks:<br>
-                                            <textarea name='remarks[$CartProID]'></textarea>
-                                        </div>
                                     </td>
                                     <td class='text-right'>
                                         <span class='d-lg-none'><strong>Price:</strong> RM</span>
@@ -180,8 +191,7 @@ $cart_num = mysqli_num_rows($cart_query);
                                 $no++;
                             }
                         }
-                    }
-                ?>
+                echo '
                 </tbody>
             </table>
             <div class="row button-box">
@@ -201,7 +211,7 @@ $cart_num = mysqli_num_rows($cart_query);
                     <table class="table-totals">
                         <thead>
                             <tr>
-                                <th colspan='2'>Cart Totals (RM)</th>
+                                <th colspan="2">Cart Totals (RM)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -214,10 +224,15 @@ $cart_num = mysqli_num_rows($cart_query);
                                 <td><?=$CartTotal?></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>';
+                }
+                    ?>
                     <?php
                     if($NoStock == 0)			  
-                        echo "<a href='checkout.php' class='button width-100'>Proceed to Checkout</a>";
+                        echo "<form action='checkout.php' method='post'>
+                                <input type='hidden' name='orderType' id='orderTypeInput'>
+                                <button type='submit' name='BtnCheck' class='button width-100'>Proceed to Checkout</button>
+                            </form>";
                     else
                         echo "<strong style='color:red'>One or more product is out of stock, please remove the product to proceed.</strong>";
                     ?>
@@ -239,6 +254,20 @@ $cart_num = mysqli_num_rows($cart_query);
 </body>
 
 <script>
+    $(document).ready(function() {
+        // Automatically show the modal when the page loads
+        $('#staticBackdrop').modal('show');
+    });
+
+    document.querySelectorAll('.orderButton').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var orderType = this.getAttribute('data-order-type');
+            // Hide the pop-out menu
+            // document.getElementById('popOutMenu').classList.add('hidden');
+            
+            document.getElementById('orderTypeInput').value = orderType;
+        });
+    });
 
     $(document).ready(function(){
         $('[data-title]').tooltip(); 

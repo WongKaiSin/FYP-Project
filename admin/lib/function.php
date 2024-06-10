@@ -160,9 +160,9 @@ class Functions
                                 <div style='border-bottom:1px dashed #000000; margin:5px 0px'></div>
                                 <span style='font-size:11px'>
                                     For enquiry, please contact us at:<br>
-                                    Address: 33 Ubi Avenue 3, Tower B #08-09 Vertex, Singapore 408868.<br>
-                                    Tel: +65 9036 1829<br>
-                                    Email: hello@ikiitravel.com
+                                    Address: 40, Jln KSB 11, Taman Kota Syahbandar, 75200 Melaka.<br>
+                                    Tel: +60 11-319 1008<br>
+                                    Email: londonbagelmuseum@gmail.com
                                 </span>
                             </td>
                         </tr>

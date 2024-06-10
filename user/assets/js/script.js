@@ -1,38 +1,4 @@
-/*----- Image Slider -----*/
-let slideIndex = 1;
-showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("demo");
-//   let captionText = document.getElementById("caption");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-
-  if (slides[slideIndex - 1]) {
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    // captionText.innerHTML = dots[slideIndex - 1].alt;
-  }
-}
-/*----- END Image Slider -----*/
 
 function addCommas(number) {
   number += '';
@@ -178,26 +144,32 @@ $(document).ready(function() {
       }
   });
   /*** END product quantity control ***/
-
-    var url = "http://localhost:80/FYP-Project/user/lib/location/melaka.json";
-    $.getJSON(url, function(data) {
-        // console.log(data);
-        // Do something with the JSON data
-        populateDropdown(data);
-    });
 });
 
-/*** Get Melaka Location ***/
-function populateDropdown(melakaData) {
-    const dropdown = document.getElementById('Postcode');
-    if (dropdown && melakaData.city) {
-        melakaData.city.forEach(city => {
-            city.postcode.forEach(postcode => {
-                const option = document.createElement('option');
-                option.value = `${city.name} - ${postcode}`;
-                option.textContent = `${city.name} - ${postcode}`;
-                dropdown.appendChild(option);
+function loadLocation(selectedCode = '') {
+
+    var url = "http://localhost:80/FYP-Project/user/lib/location/melaka.json";
+     $.getJSON(url, function(melakaData) {
+         
+        
+        const dropdown = document.getElementById('Postcode');
+        if (dropdown && melakaData.city) {
+            melakaData.city.forEach(city => {
+                city.postcode.forEach(postcode => {
+                    const option = document.createElement('option');
+
+                    if (postcode === selectedCode.toString()) {
+                        option.selected = true;
+                    }
+
+                    option.value = `${city.name} - ${postcode}`;
+                    option.textContent = `${city.name} - ${postcode}`;
+                    dropdown.appendChild(option);
+                });
             });
-        });
-    }
+        }
+
+
+    });
+
 }

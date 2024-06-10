@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['MemberID'])) {
+if(!isset($_SESSION['MemberID'])) {
   header("Location: registration.php");
   exit();
 }
@@ -11,11 +11,11 @@ require_once("./lib/function.php");
 
 $SiteUrl = "http://localhost:80/FYP-Project";
 $func = new Functions;
+$Select = "";
 
 $MemberID = $_SESSION["MemberID"];
 $CurrCart = $_SESSION["Cart"];
 $MemEmail = $_SESSION['MemberEmail'];
-$ShipNew = 0;
 
 $cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE MemberID='$MemberID' AND CartAddDate=(SELECT MAX(CartAddDate) FROM cart WHERE MemberID='$MemberID')");
 $cart_num = mysqli_num_rows($cart_query);
@@ -34,6 +34,7 @@ if($ship_num > 0)
     $AddPostcode = $func->checkInput($ship_row["AddPostcode"]);
     $AddCountry = $func->checkInput($ship_row["AddCountry"]);
     $AddState = $func->checkInput($ship_row["AddState"]);
+    $Select = " selected";
   }
 }
 else
@@ -45,6 +46,32 @@ else
   $AddPostcode = "";
   $AddCountry = "Malaysia";
   $AddState = "Melaka";
+}
+
+
+if(isset($_POST["BtnCheck"]))
+  $OrderType = $_POST["orderType"];  // 0 = delivery, 1 = take away
+
+else if(isset($_POST["BtnModifyAdd"]))
+{
+  $OrderType = $_POST["orderType"];
+  $AddName = $func->checkInput($_POST["ShipName"]);
+  $MemEmail = $func->checkInput($_POST["ShipEmail"]);
+  $AddPhone = $func->checkInput($_POST["ShipPhone"]);
+  $AddAddress = $func->checkInput($_POST["ShipAdd"]);
+  $AddCity = $func->checkInput($_POST["ShipCity"]);
+  $AddPostcode = $func->checkInput($_POST["ShipPostcode"]);
+  $AddCountry = $func->checkInput($_POST["ShipCountry"]);
+  $AddState = $func->checkInput($_POST["ShipState"]);
+  
+  $ShippingFee = $_POST["ShippingFee"];
+  $PaymentMethod = $_POST["PaymentMethod"];
+}
+
+else
+{
+  header("Location: cart.php");
+  exit;
 }
 ?>
 
@@ -115,23 +142,9 @@ else
                       self.location='$SiteUrl/user/cart.php'
                     </script>";
             }
-                        
-            if(isset($_POST["BtnModifyAdd"]))
-            {
-              $AddName = $func->checkInput($_POST["AddName"]);
-              $AddPhone = $func->checkInput($_POST["AddPhone"]);
-              $AddAddress = $func->checkInput($_POST["AddAddress"]);
-              $AddCity = $func->checkInput($_POST["AddCity"]);
-              $AddPostcode = $func->checkInput($_POST["AddPostcode"]);
-              $AddCountry = $func->checkInput($_POST["AddCountry"]);
-              $AddState = $func->checkInput($_POST["AddState"]);
-              $ShipNew = $_POST["ShipNew"];
-              
-              $PaymentMethod = $_POST["PaymentMethod"];
-            }
 
         echo $func->checkoutStep(2);
-        echo '<form method="post" action="'.$SiteUrl.'/user/checkout-review.php">
+        echo '<form method="post" action="checkout-review.php">
                 <div class="row">
                   <div class="col large-6 medium-6 small-12">
                     <h6 class="cart-title">Delivery Address</h6>';
@@ -149,8 +162,8 @@ else
                     <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
                     <br>
                     <label>City and Postcode</label>
-                    <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddPostcode\" required>
-                        <option value=\"$AddPostcode\">Select Postcode</option>
+                    <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddCity - $AddPostcode\" required>
+                        <option>Select Postcode</option>
                     </select>
                     <br>
                     <label>State</label>
@@ -158,14 +171,10 @@ else
                     <br>
                     <label>Country</label>
                     <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
-                    <br>
-                    
-                    <input type=\"checkbox\" name=\"ShipNew\" id=\"ShipNew\" value=\"1\"".$func->displayChecked($ShipNew, "1").">
-                    <label for=\"ShipNew\" class=\"mt-10\">Save as New Address</label>
                   </div>
 
                   <div class=\"col large-12 medium-12 small-12 mt-10\">
-                    <h6 class=\"cart-title\">Payment Method</h6>";
+                  <h6 class=\"cart-title\">Payment Method</h6>";
               
         //payment options
         $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
@@ -199,6 +208,7 @@ else
                       
           echo "</div>
               </div>
+              <input type='hidden' name='orderType' value='".$OrderType."'>
               <button type=\"submit\" name=\"BtnCheckout\" class=\"button pull-right\">Continue</button>
             </form>";
               
@@ -216,8 +226,10 @@ else
 
   <div id="preloader"></div>
 
+  <script>
+    loadLocation(<?php echo $AddPostcode;?>);
+  </script>
 </body>
-
 
 </html>
 

@@ -36,7 +36,7 @@ if(isset($_POST["loginbtn"])) {
         else
         {
             // update cart
-            mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
+            // mysqli_query($db_conn, "UPDATE cart SET MemberID='$MemberID' WHERE CartSession='$CurrCart'");
             mysqli_query($db_conn, "UPDATE cart SET CartSession='$CurrCart' WHERE MemberID='$MemberID'");
         }
         

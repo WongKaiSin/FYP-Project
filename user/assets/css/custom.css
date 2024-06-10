@@ -802,8 +802,8 @@ a.icon-save img
 
 .navi.active, .navi.active > div
 {
-	border-color:#58585A;
-	background:#58585A;
+	border-color:var(--color-primary);
+	background:var(--color-primary);
 	color:#FFF;
 }
 
@@ -986,3 +986,39 @@ h6.cart-title
 	background: #666;
 }
 /*** END custom checkbox/radio ***/
+
+
+/***  pop out order type  ***/
+.hidden {
+    display: none;
+}
+
+#popOutMenu {
+	/* z-index: 99;
+	position: relative;
+	top: 300px; */
+	/* display: flex; */
+    /* justify-content: center; */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.orderButton {
+    display: inline;
+    margin: 10px 10px;
+    padding: 10px;
+    width: 45%;
+    box-sizing: border-box;
+    border: none;
+    background-color: var(--color-primary);
+    color: white;
+    cursor: pointer;
+}
+
+.orderButton:hover {
+    background-color: #ec2727;
+}
+
+/***  END pop out order type  ***/

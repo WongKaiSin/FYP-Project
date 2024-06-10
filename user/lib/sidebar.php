@@ -10,7 +10,7 @@
     <h1>My Orders</h1>
     <ul class='menu'>
         <li><a href="member_bookinglist.php">Booking</a></li>
-        <li><a href="<?php echo $SiteUrl ?>/my-confirmed-orders">Order History</a></li>
+        <li><a href="member_order.php">Order History</a></li>
     </ul>
 </aside>
 

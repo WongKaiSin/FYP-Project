@@ -5,7 +5,13 @@ $func = new Functions;
 //$OrderFinalTotal='0.10'; //for testing
 $DomainName = $_SERVER['HTTP_HOST'];
 
-if($PaymentMethod == 1) // ipay88
+if($PaymentMethod == 1)
+{
+	header("Location: $SiteUrl/user/checkout-complete.php?orderid=$OrderID");
+  	exit();
+}
+
+if($PaymentMethod == 2) // ipay88
 {
 	$AmountTmp = str_replace(".", "", str_replace(",", "", $OrderFinalTotal));
 	$Signature = $func->iPay88_signature($PaymentKey . $PaymentUser . $OrderID . $AmountTmp . $PaymentCurr);
@@ -27,7 +33,8 @@ if($PaymentMethod == 1) // ipay88
 						<input type=\"hidden\" name=\"BackendURL\" value=\"$SiteUrl/backend_response.php\">
 					 </form>";
 }
-else if($PaymentMethod == 2) // paypal
+
+else if($PaymentMethod == 3) // paypal
 {
 	$ResponseURL = $SiteUrl.$PaymentResponse;
 	
@@ -45,26 +52,13 @@ else if($PaymentMethod == 2) // paypal
 						<input type=\"hidden\" name=\"lc\" value=\"US\">
 						<input type=\"hidden\" name=\"bn\" value=\"PP-BuyNowBF\">
 						<input type=\"hidden\" name=\"return\" value=\"".$ResponseURL."\">
-						<input type=\"hidden\" name=\"cancel_return\" value=\"$SiteUrl/checkout-complete/$OrderID/\">
+						<input type=\"hidden\" name=\"cancel_return\" value=\"$SiteUrl/checkout-complete.php?orderid=$OrderID\">
 						<input type=\"hidden\" name=\"notify_url\" value=\"".$ResponseURL."\" />
 						<input type=\"hidden\" name=\"rm\" value=\"2\">
 					</form>";
 }
-else if($PaymentMethod == 5) // senangpay (customize)
-{
-	$securehash = md5($PaymentKey.urldecode($OrderNo).urldecode($OrderFinalTotal).urldecode($OrderID));
 
-	$payment_form = "<form method=\"post\" name=\"paymentForm\" id=\"PaymentForm\" action=\"https://app.senangpay.my/payment/$PaymentUser\">
-						<input type=\"hidden\" name=\"detail\" value=\"$OrderNo\">
-						<input type=\"hidden\" name=\"amount\" value=\"$OrderFinalTotal\">
-						<input type=\"hidden\" name=\"order_id\" value=\"$OrderID\">
-						<input type=\"hidden\" name=\"name\" value=\"$BillName\">
-						<input type=\"hidden\" name=\"email\" value=\"$BillEmail\">
-						<input type=\"hidden\" name=\"phone\" value=\"$BillPhone\">
-						<input type=\"hidden\" name=\"hash\" value=\"$securehash\">
-					</form>";
-}
-else if($PaymentMethod == 6) // enets (customize)
+else if($PaymentMethod == 4) // enets (customize)
 {
 	$AmountTmp = str_replace(".", "", str_replace(",", "", $OrderFinalTotal));
 

@@ -209,8 +209,8 @@ class Functions
                                 <span style='font-size:11px'>
                                     For enquiry, please contact us at:<br>
                                     Address: 33 Ubi Avenue 3, Tower B #08-09 Vertex, Singapore 408868.<br>
-                                    Tel: +65 9036 1829<br>
-                                    Email: hello@ikiitravel.com
+                                    Tel: +60 12 123 1234<br>
+                                    Email: wongksin7@gmail.com
                                 </span>
                             </td>
                         </tr>

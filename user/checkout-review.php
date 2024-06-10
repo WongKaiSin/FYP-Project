@@ -17,7 +17,6 @@ $MemberID = $_SESSION["MemberID"];
 $CurrCart = $_SESSION["Cart"];
 $MemEmail = $_SESSION['MemberEmail'];
 
-
 $cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE MemberID='$MemberID' AND CartAddDate=(SELECT MAX(CartAddDate) FROM cart WHERE MemberID='$MemberID')");
 $cart_num = mysqli_num_rows($cart_query);
 
@@ -102,7 +101,11 @@ $cart_num = mysqli_num_rows($cart_query);
                 $AddAddress = stripslashes($_POST["Address"]);
                 $AddState = $_POST["State"];
                 $AddCountry = $_POST["Country"];
-                $ShipNew = $_POST["ShipNew"];
+                $orderType = $_POST["orderType"];
+
+                // if order type is delivery (0)
+                if($orderType == 0)
+                    $ShippingFee = 10.00;
 
                 $stapost = explode(" - ",$_POST["StateAndPostcode"]); // $stapost[0] = city, $stapost[1] = postcode
                 $AddPostcode = $stapost[1];
@@ -215,36 +218,36 @@ $cart_num = mysqli_num_rows($cart_query);
                     echo "</div>
                             </div>";
             
-            if(!empty($OrderRemarks))
-            {				  
-                echo "<div class=\"row mb-20\">
-                                <div class=\"col large-12 medium-12 small-12\">
-                                    <h6 class=\"cart-title\">Order's Remarks</h6>
-                                    <div class='payment-desc-box' style='margin-left:0px'>".nl2br($OrderRemarks)."</div>
-                                </div>
-                            </div>";
-            }
-            
-            $BtnText = "Proceed";
-            if($CartTotal > 0)
-                $BtnText = "Proceed with Payment";
+                if(!empty($OrderRemarks))
+                {				  
+                    echo "<div class=\"row mb-20\">
+                                    <div class=\"col large-12 medium-12 small-12\">
+                                        <h6 class=\"cart-title\">Order's Remarks</h6>
+                                        <div class='payment-desc-box' style='margin-left:0px'>".nl2br($OrderRemarks)."</div>
+                                    </div>
+                                </div>";
+                }
                 
-                echo "<form id=\"checkoutForm\" method=\"post\" action=\"$SiteUrl/user/checkout-process/\">
-                        <input type=\"hidden\" name=\"ShipName\" value=\"".$func->checkInput($AddName)."\">
-                        <input type=\"hidden\" name=\"ShipEmail\" value=\"".$func->checkInput($MemEmail)."\">
-                        <input type=\"hidden\" name=\"ShipPhone\" value=\"".$func->checkInput($AddPhone)."\">
-                        <input type=\"hidden\" name=\"ShipAdd\" value=\"".$func->checkInput($AddAddress)."\">
-                        <input type=\"hidden\" name=\"ShipPostcode\" value=\"".$func->checkInput($AddPostcode)."\">
-                        <input type=\"hidden\" name=\"ShipCity\" value=\"".$func->checkInput($AddCity)."\">
-                        <input type=\"hidden\" name=\"ShipState\" value=\"".$func->checkInput($AddState)."\">
-                        <input type=\"hidden\" name=\"ShipCountry\" value=\"".$func->checkInput($AddCountry)."\">
-                        <input type=\"hidden\" name=\"ShipNew\" value=\"$ShipNew\">
-                        <input type=\"hidden\" name=\"PaymentMethod\" value=\"$PaymentMethod\">
-                        <input type=\"hidden\" name=\"ShippingFee\" value=\"$ShippingFee\">
-                        <input type=\"hidden\" name=\"Checkout\" value=\"1\">
-                        <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline pull-left\">Modify Address</button>
-                        <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button pull-right\">$BtnText</button>
-                    </form>";
+                $BtnText = "Proceed";
+                if($CartTotal > 0)
+                    $BtnText = "Proceed with Payment";
+                    
+                    echo "<form id=\"checkoutForm\" method=\"post\" action=\"checkout-process.php\">
+                            <input type='hidden' name='orderType' value='".$orderType."'>
+                            <input type=\"hidden\" name=\"ShipName\" value=\"".$func->checkInput($AddName)."\">
+                            <input type=\"hidden\" name=\"ShipEmail\" value=\"".$func->checkInput($MemEmail)."\">
+                            <input type=\"hidden\" name=\"ShipPhone\" value=\"".$func->checkInput($AddPhone)."\">
+                            <input type=\"hidden\" name=\"ShipAdd\" value=\"".$func->checkInput($AddAddress)."\">
+                            <input type=\"hidden\" name=\"ShipPostcode\" value=\"".$func->checkInput($AddPostcode)."\">
+                            <input type=\"hidden\" name=\"ShipCity\" value=\"".$func->checkInput($AddCity)."\">
+                            <input type=\"hidden\" name=\"ShipState\" value=\"".$func->checkInput($AddState)."\">
+                            <input type=\"hidden\" name=\"ShipCountry\" value=\"".$func->checkInput($AddCountry)."\">
+                            <input type=\"hidden\" name=\"PaymentMethod\" value=\"$PaymentMethod\">
+                            <input type=\"hidden\" name=\"ShippingFee\" value=\"$ShippingFee\">
+                            <input type=\"hidden\" name=\"Checkout\" value=\"1\">
+                            <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline pull-left\">Modify Address</button>
+                            <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button pull-right\">$BtnText</button>
+                        </form>";
             }
         }
         
@@ -259,6 +262,14 @@ $cart_num = mysqli_num_rows($cart_query);
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <div id="preloader"></div>
+
+  <script>
+    $(document).on('click touchstart', '#BtnModifyAdd', function()
+	{
+        $("#checkoutForm").attr("action", window.location.origin + "/FYP-Project/user/checkout.php");
+		$("#checkoutForm").submit();
+	});
+  </script>
 
 </body>
 </html>

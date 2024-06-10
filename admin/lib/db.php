@@ -2,7 +2,7 @@
 $dbName = 'bagel';
 $dbServer = 'localhost';
 $dbUser = 'root';
-$dbPass = '';
+$dbPass = 'root';
 
 $db_conn = mysqli_connect($dbServer, $dbUser, $dbPass, $dbName) or die("Connection not available.");
 mysqli_query($db_conn, "SET NAMES utf8") or die("Set names wrong.");
