@@ -102,19 +102,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
                                 <div>
                                     <select id="statusDropdown" name="new_status">
                                         <?php 
-                                        // Output the appropriate status options based on the current status
-                                        if ($row['OrderStatus'] == "Complete") { 
-                                            echo $statusOptions["Complete"];
-                                        } elseif ($row['OrderStatus'] == "Shipping") { 
-                                            echo $statusOptions["Shipping"];
-                                            echo $statusOptions["Complete"];
-                                        } elseif ($row['OrderStatus'] == "Cancel") { 
-                                            echo $statusOptions["Cancel"];
-                                        } elseif ($row['OrderStatus'] == "Preparing") { 
-                                            echo $statusOptions["Preparing"];
-                                            echo $statusOptions["Shipping"];
-                                            echo $statusOptions["Cancel"];
-                                        } 
+                                        
+                                        if($row['OrderType']==0){
+                                            // Output the appropriate status options based on the current status
+                                            if ($row['OrderStatus'] == "Complete") { 
+                                                echo $statusOptions["Complete"];
+                                            } elseif ($row['OrderStatus'] == "Shipping") { 
+                                                echo $statusOptions["Shipping"];
+                                                echo $statusOptions["Complete"];
+                                            } elseif ($row['OrderStatus'] == "Cancel") { 
+                                                echo $statusOptions["Cancel"];
+                                            } elseif ($row['OrderStatus'] == "Preparing") { 
+                                                echo $statusOptions["Preparing"];
+                                                echo $statusOptions["Shipping"];
+                                                echo $statusOptions["Cancel"];
+                                            } 
+                                        }
+
+                                        else{
+                                            if ($row['OrderStatus'] == "Complete") { 
+                                                echo $statusOptions["Complete"];
+                                            } elseif ($row['OrderStatus'] == "Cancel") { 
+                                                echo $statusOptions["Cancel"];
+                                            } elseif ($row['OrderStatus'] == "Preparing") { 
+                                                echo $statusOptions["Preparing"];
+                                                echo $statusOptions["Complete"];
+                                                echo $statusOptions["Cancel"];
+                                            } 
+                                        }
+                                        
                                         ?>
                                     </select>
                                 </div>

@@ -112,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['status'])) {
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">OrderNumber</th>
+                                        <th scope="col">OrderType</th>
                                         <th scope="col">User Name</th>
                                         <th scope="col">Phone</th>
                                         <th scope="col">Payment Type</th>
@@ -145,6 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['status'])) {
                                 <tr onclick="window.location='order-desc.php?OrderID=<?php echo $row['OrderID']; ?>';" style="cursor: pointer;">
                                     <td scope="row"><?php echo $status; ?></td>
                                     <td><?php echo $row['OrderNo']; ?></td>
+                                    <td><?php echo ($row['OrderType'] == 0) ? 'Delivery' : 'Pick-up'; ?></td>
                                     <td><?php echo $row['AddName']; ?></td>
                                     <td><?php echo $row['AddPhone']; ?></td>
                                     <td><?php echo $row['PaymentName']; ?></td>
