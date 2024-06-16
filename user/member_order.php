@@ -4,11 +4,9 @@ include("lib/db.php");
 require_once("lib/function.php");
 
 $func = new Functions;
+$msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
 
 $SiteUrl = "http://localhost:80/FYP-Project";
-
-$OrderID = (isset($_GET['OrderID']) ? $_GET["OrderID"] : "");
-$msg = (isset($_GET['msg']) ? $_GET["msg"] : "");
 
 if(isset($_SESSION['MemberID'])) {
     $MemberID = $_SESSION['MemberID'];
@@ -113,9 +111,6 @@ if(isset($_SESSION['MemberID'])) {
                             {
                               $avg_rate = $rate_row['avg_rate'];
 
-                              // if (is_null($avg_rate)) {
-                              //   $avg_rate = 0;
-                              // }
                               if ($avg_rate !== null)
                               {
                                 echo '<div class="star-rating-container">';
@@ -211,22 +206,20 @@ if(isset($_SESSION['MemberID'])) {
                                     $prate_stmt->execute();
                                     $prate_result = $prate_stmt->get_result();
 
-                                    if($prate_result && $prate_result->num_rows > 0)
+                                    if($prate_result && $prate_row = $prate_result->fetch_assoc())
                                     {
-                                        $prate_row = $prate_result->fetch_assoc();
                                         $rate = $prate_row["RevRate"];
                                     }
                                     else {
-                                        $rate = 0;
+                                        $rate = NULL;
                                     }
 
                                     $prate_stmt->close();
                                 }
                                 
                                 else {
-                                    $rate = 0;
+                                    $rate = NULL;
                                 }
-
 
                                 echo "<tr>
                                         <td>".$counter."</td>
@@ -235,16 +228,21 @@ if(isset($_SESSION['MemberID'])) {
                                         <td>".$ProQty."</td>
                                         <td>".$ProTotal."</td>
                                         <td>
-                                          <div class='star-rating-container'>
-                                            ".$func->displayStars($rate)."
-                                          </div>
+                                          <div class='star-rating-container'>";
+                                            if ($rate !== null){
+                                              echo $func->displayStars($rate);
+                                            }
+              
+                                            else{
+                                              echo '<span>No rating available</span>';
+                                            }
+                                    echo "</div>
                                         </td>
                                       </tr>";
                                 $counter++;
                               }
-                            echo '    
-                                 ';
-                            echo '    </tbody>
+
+                                echo '</tbody>
                                     </table>
                                   </div>
 
@@ -255,25 +253,19 @@ if(isset($_SESSION['MemberID'])) {
                                           <th>Pay Via</th>
                                         </tr>
                                         <tr>
-                                          <td>
-                                            '.$PaymentName.'
-                                          </td>
+                                          <td>'.$PaymentName.'</td>
                                         </tr>
                                         <tr>
                                           <th>Service Type</th>
                                         </tr>
                                         <tr>
-                                          <td>
-                                            '.$OrderName.'
-                                          </td>
+                                          <td>'.$OrderName.'</td>
                                         </tr>
                                         <tr>
                                           <th>Review Comment</th>
                                         </tr>
                                         <tr>
-                                          <td>
-                                            '.$OrderCom.'
-                                          </td>
+                                          <td>'.$OrderCom.'</td>
                                         </tr>
                                       </thead>
                                     </table>
@@ -300,7 +292,11 @@ if(isset($_SESSION['MemberID'])) {
                                     </table>
                                   </div>
                                   <div class="modal-footer" style="justify-content: center">';
-
+                                  if($OrderType == 0)
+                                  {
+                                    echo '<button type="button" class="btn btn-primary orderButton" data-bs-target="#exampleModalToggle3_'.$OrderID.'" data-bs-toggle="modal">Check Address</button>';
+                                  }
+                                  
                                   if($Approval == NULL)
                                   {
                                     echo '<button type="button" class="btn btn-primary orderButton" data-bs-target="#exampleModalToggle2_'.$OrderID.'" data-bs-toggle="modal">Make Review</button>';
@@ -382,24 +378,15 @@ if(isset($_SESSION['MemberID'])) {
                                           <div class='star-rating-container'>
                                             <div class='star-rating'>";
 
-                                              // for ($i = 1; $i <= 5; $i++) {
-                                              //   $checked = ($i == $rate) ? "checked" : "";
-                                              //   echo "<div class='form-check form-check-inline'>
-                                              //           <input class='form-check-input star-rating-rb' type='radio' name='srate-{$OrderID}-{$ProID}' id='srate{$i}_{$OrderID}{$ProID}' value='{$i}' {$checked}/>
-                                              //           <label class='form-check-label' for='srate{$i}_{$OrderID}{$ProID}'>";
-                                              //           for($x = 1; $x<=$i; $x++){
-                                              //             echo "★";
-                                              //           }
-                                              //     echo "</label>
-                                              //         </div>";
-                                              // }
-
-                                              for ($i = 1; $i <= 5; $i++)
-                                              {
+                                              for ($i = 1; $i <= 5; $i++) {
                                                 $checked = ($i == $rate) ? "checked" : "";
                                                 echo "<div class='form-check form-check-inline'>
-                                                        <input type='radio' id='srate{$i}_{$OrderID}{$ProID}' name='srate-{$OrderID}-{$ProID}' value='{$i}' {$checked}/>
-                                                        <label for='srate{$i}_{$OrderID}{$ProID}'><span class='fa fa-star'></span></label>
+                                                        <input class='form-check-input star-rating-rb' type='radio' name='srate-{$OrderID}-{$ProID}' id='srate{$i}_{$OrderID}{$ProID}' value='{$i}' {$checked}/>
+                                                        <label class='form-check-label' for='srate{$i}_{$OrderID}{$ProID}'>";
+                                                        for($x = 1; $x<=$i; $x++){
+                                                          echo "★";
+                                                        }
+                                                  echo "</label>
                                                       </div>";
                                               }
 
@@ -415,17 +402,147 @@ if(isset($_SESSION['MemberID'])) {
                                     Review Comment:<br>
                                     <textarea style="width: 100%;" id="textreview" name="textreview" rows="5" placeholder="Write your comment."></textarea>
                                     <button class="btn btn-primary orderButton float-end">Submit Review</button>
-                                  </form>';
-                                  
-                                  
-                                  
-                                  echo '
+                                  </form>
+
                                   </div>
 
                                   <div class="modal-footer">
                                     <button class="btn btn-primary orderButton float-start" data-bs-target="#exampleModalToggle_'.$OrderID.'" data-bs-toggle="modal">Back</button>
                                   </div>
                                
+                                </div>
+                              </div>
+                            </div>';
+
+                      echo '<div class="modal fade" id="exampleModalToggle3_'.$OrderID.'" tabindex="-1" aria-labelledby="exampleModalToggleLabel3_'.$OrderID.'" aria-hidden="true">
+                              <div class="modal-dialog modal-xl modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalToggleLabel3_'.$OrderID.'">'.$OrderNo.' ('.$OrderStatus.')</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">';
+                              if(isset($msg))
+                              {
+                                  echo "<h6>Thank you For Ordering! Please Wait For a While...</h6>";
+                              }
+
+
+                              echo '<table class="table table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th scope="col">#</th>
+                                              <th scope="col">Food Name</th>
+                                              <th scope="col">Price</th>
+                                              <th scope="col">Quantity</th>
+                                              <th scope="col">SubTotal</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>';
+
+                              $add_sql = "SELECT `AddName`, `AddPhone`, `AddAddress`, `AddPostcode`, `AddCity`, `AddState`, `AddCountry`  
+                              FROM `member_address` WHERE `MemberID` = ?";
+                              $add_stmt = $db_conn->prepare($add_sql);
+                              $add_stmt->bind_param("i", $MemberID);
+                              $add_stmt->execute();
+                              $add_result = $add_stmt->get_result();
+                              $add_row = $add_result->fetch_assoc();
+
+                              $Address = "".$add_row["AddAddress"].", ".$add_row["AddPostcode"].", ".$add_row["AddCity"].", ".$add_row["AddState"].", ".$add_row["AddCountry"].".";
+                              $Name = $add_row["AddName"];
+                              $Phone = $add_row["AddPhone"];
+
+                              $pro_sql = "SELECT `ProID`, `ProName`, `ProUrl`, `ProPrice`, `ProQty`, `ProTotal`
+                              FROM `order_product` WHERE `OrderID` = ?";
+                              $pro_stmt = $db_conn->prepare($pro_sql);
+                              $pro_stmt->bind_param("i", $OrderID);
+                              $pro_stmt->execute();
+                              $pro_result = $pro_stmt->get_result();
+                              $counter = 1;
+
+                              while($pro_row = $pro_result->fetch_assoc())
+                              {
+                                $ProID = $pro_row['ProID'];
+                                $ProName = $pro_row['ProName'];
+                                $ProUrl = $pro_row['ProUrl'];
+                                $ProPrice = $pro_row['ProPrice'];
+                                $ProQty = $pro_row['ProQty'];
+                                $ProTotal = $pro_row['ProTotal'];
+
+                                echo "<tr>
+                                        <td>".$counter."</td>
+                                        <td>".$ProName."</td>
+                                        <td>".$ProPrice."</td>
+                                        <td>".$ProQty."</td>
+                                        <td>".$ProTotal."</td>
+                                      </tr>";
+                                $counter++;
+                              }
+
+                                echo '</tbody>
+                                    </table>
+                                  </div>
+
+                                  <div class=" total-box">
+                                    <table class="float-start">
+                                      <thead>
+                                        <tr>
+                                          <th>Pay Via</th>
+                                        </tr>
+                                        <tr>
+                                          <td>'.$PaymentName.'</td>
+                                        </tr>
+                                        <tr>
+                                          <th>Service Type</th>
+                                        </tr>
+                                        <tr>
+                                          <td>'.$OrderName.'</td>
+                                        </tr>
+                                        <tr>
+                                          <th>Recipient Information</th>
+                                        </tr>
+                                        <tr>
+                                          <td>'.$Name.'</td>
+                                        </tr>
+                                        <tr>
+                                          <td>'.$Phone.'</td>
+                                        </tr>
+                                        <tr>
+                                          <td>'.$Address.'</td>
+                                        </tr>
+                                      </thead>
+                                    </table>
+                                    <table class="table-listing table-item float-end">
+                                      <thead>
+                                        <th>
+                                            Total
+                                        </th>
+                                      </thead>
+                                      <tbody>
+                                        <tr class="total-row">
+                                            <td colspan="4" class="text-right">Subtotal</td>
+                                            <td class="text-right"><strong><span class="d-lg-none">RM </span>'.$OrderSubtotal.'</strong></td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td colspan="4" class="text-right">Shipping Fee</td>
+                                            <td class="text-right"><span class="d-lg-none">RM </span>'.$OrderShipping.'</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td colspan="4" class="text-right"><strong>Total</strong></td>
+                                            <td class="text-right"><strong><span class="d-lg-none">RM </span>'.$OrderTotal.'</strong></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="modal-footer" style="justify-content: center">
+                                  <button type="button" class="btn btn-primary orderButton" data-bs-target="#exampleModalToggle_'.$OrderID.'" data-bs-toggle="modal">Back</button>';
+
+                                  if($Approval == NULL)
+                                  {
+                                    echo '<button type="button" class="btn btn-primary orderButton" data-bs-target="#exampleModalToggle2_'.$OrderID.'" data-bs-toggle="modal">Make Review</button>';
+                                  }
+
+                            echo '</div>
                                 </div>
                               </div>
                             </div>';
@@ -436,6 +553,16 @@ if(isset($_SESSION['MemberID'])) {
                         echo "0 results";
                       }
 
+                      if($OrderID = (isset($_GET['OrderID']) ? $_GET["OrderID"] : ""))
+                      {
+                        echo "<script>
+                                $(document).ready(function() {
+                                    // Automatically show the modal when the page loads
+                                    $('#exampleModalToggle3_$OrderID').modal('show');
+
+                                });
+                              </script>";
+                      }
                     ?>
                     </div>
                 </div>
@@ -448,17 +575,5 @@ if(isset($_SESSION['MemberID'])) {
   <?php include("lib/footer.php"); ?>
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <div id="preloader"></div>
-  <script>
-    // $(document).ready(function() {
-    //     $('#exampleModal_$OrderID').on('show.bs.modal', function(event) {
-    //         var button = $(event.relatedTarget); // Button that triggered the modal
-    //         var orderID = button.data('order-id'); // Extract info from data-* attributes
-            
-    //         // Update the modal's content.
-    //         var modalOrderID = $('#modalOrderID');
-    //         modalOrderID.text(orderID);
-    //     });
-    // });
-  </script>
 </body>
 </html>

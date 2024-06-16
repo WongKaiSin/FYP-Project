@@ -255,8 +255,6 @@ $cart_num = mysqli_num_rows($cart_query);
     document.querySelectorAll('.Type').forEach(function(button) {
         button.addEventListener('click', function() {
             var orderType = this.getAttribute('data-order-type');
-            // Hide the pop-out menu
-            // document.getElementById('popOutMenu').classList.add('hidden');
             
             document.getElementById('orderTypeInput').value = orderType;
         });

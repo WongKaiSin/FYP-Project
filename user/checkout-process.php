@@ -241,11 +241,11 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 								</script>";
 			}
 			else
-				echo "<script>self.location='$SiteUrl/user/checkout-complete.php?OrderID=$OrderID'</script>";
+				echo "<script>self.location='$SiteUrl/user/member_order.php?OrderID=$OrderID&msg=complete'</script>";
 		}
 		else
 		{
-			echo "<script>self.location='$SiteUrl/user/checkout-complete.php?OrderID=$OrderID'</script>";
+			echo "<script>self.location='$SiteUrl/user/member_order.php?OrderID=$OrderID&msg=complete'</script>";
 		}
 		// END redirect to payment page
 	}

@@ -90,7 +90,7 @@ $cart_num = mysqli_num_rows($cart_query);
             if($item_num == 0)
             {
                 echo "Your shopping cart is empty.<br><br>
-                        <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+                        <button type='button' class=\"button is-outline orderButton\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
             }
             else
             {
@@ -236,8 +236,8 @@ $cart_num = mysqli_num_rows($cart_query);
                             <input type=\"hidden\" name=\"PaymentMethod\" value=\"$PaymentMethod\">
                             <input type=\"hidden\" name=\"ShippingFee\" value=\"$ShippingFee\">
                             <input type=\"hidden\" name=\"Checkout\" value=\"1\">
-                            <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline pull-left\">Modify Address</button>
-                            <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button pull-right\">$BtnText</button>
+                            <button type=\"submit\" name=\"BtnModifyAdd\" id=\"BtnModifyAdd\" class=\"button is-outline orderButton flaot-start\">Modify Address</button>
+                            <button type=\"submit\" name=\"BtnCheckout\" id=\"BtnFinalCheckout\" class=\"button orderButton float-end\">$BtnText</button>
                         </form>";
             }
         }
