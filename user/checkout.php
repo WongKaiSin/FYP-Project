@@ -151,79 +151,96 @@ else
             }
 
         echo $func->checkoutStep(2);
-        echo '<div class="row checkout-box">
-                <div class="col-lg-5 checkout-summary-info-box">
-                  <div class="checkout-summary-detail-box">
-                    <h6 class=\"cart-title\">Payment Method</h6>
-                    <table class=\"item-box\">
-                      <tbody>
-                      </tbody>
-                    </table>
-                    <div class=\"total-main-box\">
-                      <table class=\"total-box\">
-                        <thead>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                <div class="row checkout-summary-mobile">
-                  <div class="col-7>
-                    <i class="fa fa-file-text"></i>Show order summary
-                    <i class="fa fa-angle-down"></i>
-                  </div>
-                  <div class="col-5 text-right"><span id="mobile-final-total"></span></div>
-                </div>
-              </div>
-              <div class="col-lg-7 checkout-summary-form-box">
 
-                  <form method="post" action="checkout-review.php" class="cart-form">
+        echo '
+
+                <form method="post" action="checkout-review.php" class="cart-form">';
+
+            echo '<div class="checkout-box row">
+                    <div class="checkout-summary-info-box col-lg-5">
+                      <div class="checkout-summary-detail-box">
+                        <h6 class="cart-title">Payment Method</h6>';
+                        
+                          //payment options
+                          $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
+                          $payment_num = mysqli_num_rows($payment_query);
+                          
+                          if($payment_num > 0)
+                          {
+                            $no_payment = 1;
+                            while($payment_row = mysqli_fetch_array($payment_query))
+                            {
+                              $PaymentID = $payment_row["PaymentID"];
+                              $PaymentName = stripslashes($payment_row["PaymentName"]);
+                              $PaymentDesc = stripslashes($payment_row["PaymentDesc"]);
+                              
+                              if(empty($PaymentMethod) && $no_payment == 1)
+                                $PaymentMethod = $PaymentID;
+                              
+                              echo "<div class=\"col-sm-12 mb-20\">
+                                      <input type=\"radio\" name=\"PaymentMethod\" id='radio_$PaymentID' value=\"$PaymentID\"".$func->displayChecked($PaymentID, $PaymentMethod)." class=\"payment-choice\" />
+                                      <label for='radio_$PaymentID'>$PaymentName</label>";
+                          
+                              if($PaymentDesc)
+                                echo "<div id=\"payment-".$PaymentID."\" class='payment-desc-box".((empty($PaymentMethod) && $no_payment == 1) || (!empty($PaymentMethod) && $PaymentMethod == $PaymentID) ? '' : ' hide')."'>".$PaymentDesc."</div>";
+                                        
+                              echo "</div>";
+                            
+                              $no_payment++;
+                            }
+                          }
+                          //payment options	
+
+                echo '</div>
+                    </div>
+                  ';
+
+            echo '<div class="col-lg-7 checkout-summary-form-box">
                     <div class="row checkout-row">
                       <div class="col-12">
                         <h6 class="cart-title">Recipient Information</h6>';
 
                   echo "<div class=\"row\">
                           <div class=\"col-md-12\">
-                            <div class=\"form-group input-row\">
+                            <div class=\"mb-3 input-row\">
                               <label class=\"input\">Name</label>
                               <input type=\"text\" name=\"Name\" placeholder=\"Enter Name\" required value=".$AddName." >
                             </div>
                           </div>
                           <div class=\"col-md-6\">
-                            <div class=\"form-group input-row\">
+                            <div class=\"mb-3 input-row\">
                               <label class=\"input\">Email</label>
                               <input type=\"email\" name=\"Email\" placeholder=\"Enter Email\" value=\"$MemEmail\" required>
                           </div>
                           </div>
                           <div class=\"col-12\">
-                            <div class=\"form-group input-row\">
+                            <div class=\"mb-3 input-row\">
                               <label class=\"input\">Phone</label>
                               <input type=\"text\" name=\"Phone\" placeholder=\"Enter Phone\" value=\"$AddPhone\" required>
                             </div>
                           </div>
                           <div class=\"col-12\">
-                            <div class=\"form-group input-row\">
+                            <div class=\"mb-3 input-row\">
                               <label class=\"input\">Address</label>
                               <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
                             </div>
                           </div>
                           <div class=\"col-12\">
-                            <div class=\"form-group input-row\">
-                              <label class=\"input\">City and Postcode</label>
+                            <div class=\"mb-3 input-row\">
+                              <label class=\"input active\">City and Postcode</label><br>
                               <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddCity - $AddPostcode\" required>
                                   <option>Select Postcode</option>
                               </select>
                             </div>
                           </div>
                           <div class=\"col-sm-6\">
-                            <div class=\"form-group input-row\">
+                            <div class=\"mb-3 input-row\">
                               <label class=\"input\">State</label>
                               <input type=\"text\" name=\"State\" value=\"$AddState\" placeholder=\"Melaka\" required>
                             </div>
                           </div>
                             <div class=\"col-sm-6\">
-                              <div class=\"form-group input-row\">
+                              <div class=\"mb-3 input-row\">
                                 <label class=\"input \">Country</label>
                                 <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
                               </div>
@@ -232,42 +249,8 @@ else
                         </div>
                       </div>
                     </div>
-
-                    <div class=\"col-lg-12 col-md-12 col-sm-12 mt-10\">
-                    <h6 class=\"cart-title\">Payment Method</h6>";
-                  
-            //payment options
-            $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
-            $payment_num = mysqli_num_rows($payment_query);
-            
-            if($payment_num > 0)
-            {
-              $no_payment = 1;
-              while($payment_row = mysqli_fetch_array($payment_query))
-              {
-                $PaymentID = $payment_row["PaymentID"];
-                $PaymentName = stripslashes($payment_row["PaymentName"]);
-                $PaymentDesc = stripslashes($payment_row["PaymentDesc"]);
-                
-                if(empty($PaymentMethod) && $no_payment == 1)
-                  $PaymentMethod = $PaymentID;
-                
-                echo "<div class=\"col-sm-12 mb-20\">
-                        <input type=\"radio\" name=\"PaymentMethod\" id='radio_$PaymentID' value=\"$PaymentID\"".$func->displayChecked($PaymentID, $PaymentMethod)." class=\"payment-choice\" />
-                        <label for='radio_$PaymentID'>$PaymentName</label>";
-            
-                if($PaymentDesc)
-                  echo "<div id=\"payment-".$PaymentID."\" class='payment-desc-box".((empty($PaymentMethod) && $no_payment == 1) || (!empty($PaymentMethod) && $PaymentMethod == $PaymentID) ? '' : ' hide')."'>".$PaymentDesc."</div>";
-                          
-                echo "</div>";
-              
-                $no_payment++;
-              }
-            }
-            //payment options	
-                          
-              echo "</div>
                   </div>
+                  
                   <input type='hidden' name='orderType' value='".$OrderType."'>
                   <button type=\"submit\" name=\"BtnCheckout\" class=\"button float-end orderButton\">Continue</button>
                 </form>
@@ -289,6 +272,55 @@ else
 
   <script>
     loadLocation(<?php echo $AddPostcode;?>);
+
+    // input
+    setTimeout(function(){
+      $(".input-row input").each(function() {
+        if ($(this).val() != "" && $(this).attr("type") != "checkbox") {
+          $(this).click();
+        }
+      })
+    });
+
+    $(document).on('click', '#select-all', function(e) {
+      let toggle = e.target.getAttribute("data-flag");
+      toggle = toggle == "true" ? true : false;
+      toggle = !toggle;
+      e.target.setAttribute("data-flag", toggle);
+      $("input[type=checkbox]").each(function(index, element) {
+        if (toggle === true) {
+          if (e.target.value == element.id) {
+            element.checked = true;
+          }
+        }
+
+        if (toggle === false) {
+          if (e.target.value == element.id) {
+            element.checked = false;
+          }
+        }
+
+      });
+    });
+
+    $(document).on('click keyup change', '.input-row input, .input-row textarea, .input-row select', function() {
+      var value = $(this).val();
+
+      if ($(this).parent().is("span")) {
+        if (value != "") {
+          $(this).parent().prev().addClass("active");
+        } else {
+          $(this).parent().prev().removeClass("active");
+        }
+      } else {
+        if (value != "") {
+          $(this).prev().addClass("active");
+        } else {
+          $(this).prev().removeClass("active");
+        }
+      }
+    });
+    // END input
   </script>
 </body>
 

@@ -882,7 +882,6 @@ h6.cart-title
 }
 
 /****   Input checkout   ****/
-/*****    INPUT    *****/
 :focus
 {
 	outline: 0;
@@ -898,21 +897,10 @@ input, textarea
 	background: #F7F8FA;
 }
 
-input:focus, textarea:focus,
-.select2-container--open .select2-selection--single .select2-selection__rendered
+input:focus, textarea:focus
 {
 	border: 0px;
 	outline: 0;
-}
-
-button:focus, .select2-container--default .select2-selection--single .select2-selection__rendered,
-.btn-secondary:not(:disabled):not(.disabled).active:focus,
-.btn-secondary:not(:disabled):not(.disabled):active:focus,
-.show>.btn-secondary.dropdown-toggle:focus
-{
-	border: 0px;
-	outline: 0;
-	box-shadow: none;
 }
 
 textarea
@@ -955,7 +943,8 @@ textarea
 	padding:12px 15px 13px 15px;
 }
 
-.input-row label.input.active + input, .input-row label.input.active + span input
+.input-row label.input.active + input, 
+.input-row label.input.active + span input
 {
 	padding-top: 22px;
 	padding-bottom: 3px;
@@ -972,101 +961,9 @@ textarea
 	padding-top: 23px;
 	padding-bottom: 3.5px;
     border: 0px;
-}
-
-.radio-box
-{
-    background: #F7F8FA;
-    padding: 2px 15px 3px 15px;
-    border-radius: 5px;
-}
-
-.radio-box > label:first-child
-{
-    width: 100%;
-    margin: 0px;
-    color: #666;
-    font-size: 14px;
-}
-
-.radio-box [type="radio"] + label:before
-{
-    top:2.5px;
-}
-
-.radio-box [type="radio"] + label:after
-{
-    top:6.5px;
-}
-
-.radio-box [type="radio"] + label
-{
-    margin-bottom: 0px;
-    color: #000;
-    font-size: 15px;
-}
-
-.radio-box [type="radio"] + label:last-child
-{
-    margin-left: 30px;
 }
 /***** END INPUT *****/
 
-
-.input-row
-{
-	position:relative;
-}
-
-.input-row label.input
-{
-	position: absolute;
-	font-size: 14px;
-	width: 100%;
-	top: 3px;
-	left:0px;
-	color: #666;
-	padding: 0px 16px;
-	transition: all 0.2s ease-out;
-	pointer-events:none;
-	opacity:0;
-	font-weight: 400;
-	z-index:9;
-    max-height: 20px;
-    overflow: hidden;
-}
-
-.input-row label.input.active
-{
-	transform: none;
-	opacity:1;
-}
-
-.input-row input,
-.input-row .select2-container--default .select2-selection--single .select2-selection__rendered
-{
-	padding:12px 15px 13px 15px;
-}
-
-.input-row label.input.active + input, .input-row label.input.active + span input
-{
-	padding-top: 22px;
-	padding-bottom: 3px;
-}
-
-.input-row label.input.active + textarea
-{
-    padding-top: 25px;
-}
-
-.input-row label.input.active ~ .select2-container--default .select2-selection--single .select2-selection__rendered,
-.input-row label.input.active + span .select2-container--default .select2-selection--single .select2-selection__rendered
-{
-	padding-top: 23px;
-	padding-bottom: 3.5px;
-    border: 0px;
-}
-/****   END Input checkout   ****/
 
 /****   Checkout Summary   ****/
 
@@ -1157,35 +1054,9 @@ textarea
     font-size: 14px;
 }
 
-.checkout-summary-info-box table.item-box td
-{
-    padding: 5px 7px;
-}
-
-.checkout-summary-info-box .store-box label,
-.checkout-summary-info-box table.item-box td.store-notes
+.checkout-summary-info-box .store-box label
 {
     font-size: 13px;
-}
-
-.checkout-summary-info-box table.item-box tr.store-separator td
-{
-    padding: 10px;
-}
-
-.checkout-summary-info-box table.item-box tr.cart-items td
-{
-    padding: 10px 7px;
-}
-
-.checkout-summary-info-box table.item-box tr.cart-items td:first-child
-{
-    border-right: 0px;
-}
-
-.checkout-summary-info-box table.item-box tr.cart-items td:last-child
-{
-    border-left: 0px;
 }
 
 .checkout-summary-info-box .item-product-image
