@@ -279,46 +279,18 @@ class Functions
         $img = "";
         if($img_row = $result->fetch_assoc())
         {
-            // Access the data in $img_row
             $ImageName = $img_row["ImageName"];
             $ImageExt = $img_row["ImageExt"];
             
-            // Use $ImageName and $ImageExt as needed
-            // echo "Image Name: $ImageName\n";
-            // echo "Image Extension: $ImageExt\n";
             $img = $SiteUrl."/upload/product/".$ProID."/".$ImageName.".".$ImageExt;
         }
         
         else
         {
             $img = "$SiteUrl/images/no-image.jpg";
-            // Handle the case where no rows were returned
-            // echo "No image found for the given ProID.\n";
         }
         $stmt->close();
 
-
-        // $img_query = mysqli_query($db_conn, "SELECT ImageName,ImageExt FROM product_image WHERE ProID='$ProID'");
-        // $img_row = mysqli_fetch_array($img_query);
-        // $img_num = mysqli_num_rows($img_query);
-
-        // $img = "$SiteUrl/images/no-image.jpg";
-
-        // if($img_num > 1)
-        // {
-        //     $img_row = mysqli_fetch_array($img_query);
-            
-        //     $ImageName = $img_row["ImageName"];
-        //     $ImageExt = $img_row["ImageExt"];
-            
-        //     $img = $SiteUrl."/upload/product/".$ProID."/".$ImageName.".".$ImageExt;
-        // }
-
-        // else if($img_num == 1)
-        // {
-
-        // }
-        
         return $img;
     }
 
@@ -473,6 +445,56 @@ class Functions
         }
 
         return $output;
+    }
+
+    // For review
+    function CalcReviewRate($ProID, $type='')
+    {
+        global $db_conn;
+
+        $ExtraSql = "`ProID`=?";
+        $rate_sql = "SELECT `RevRate` FROM `review_rate` WHERE ".$ExtraSql." AND `Approval`=1";
+        $rate_stmt = $db_conn->prepare($rate_sql);
+        $rate_stmt->bind_param("i", $ProID);
+        $rate_stmt->execute();
+        $rate_result = $rate_stmt->get_result();
+        $rate_num = $rate_result->num_rows;
+
+        $rate = [];
+        $RateAvg = 0;
+        $RateAvgWidth = 0;
+        $TotalReview = $rate_num;
+                
+        if($rate_num > 0)
+        {
+            while($rate_row = $rate_result->fetch_assoc())
+            {
+                $rate_rows[] = $rate_row;
+            }
+            
+            foreach($rate_rows as $each)
+            {
+                $ReviewsRate = $each['RevRate'];
+                if (!isset($rate[$ReviewsRate])) {
+                    $rate[$ReviewsRate] = 0;
+                }
+                $rate[$ReviewsRate] += 1;
+            }
+
+            if(!empty($rate))
+            {
+                $TotalRate = 0;
+                foreach($rate as $rating => $num)
+                {
+                    $TotalRate += ($rating*$num);
+                }
+
+                $RateAvg = round($TotalRate / $TotalReview, 1);
+                $RateAvgWidth = round((($TotalRate / $TotalReview) * pow(100,2))/500, 2);
+            }
+        }
+        
+        return ["rate" => $rate, "TotalReview" => $TotalReview, "RateAvg" => $RateAvg, "RateAvgWidth" => $RateAvgWidth];
     }
 }
 ?>

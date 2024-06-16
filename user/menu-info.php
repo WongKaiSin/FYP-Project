@@ -1,5 +1,9 @@
 <?php
 require_once("lib/db.php");
+require_once("lib/function.php");
+
+$func = new Functions;
+
 $SiteUrl = "http://localhost:80/FYP-Project";
 $VarHide = "";
 $img_lay = "";
@@ -97,6 +101,11 @@ if($pro_query->num_rows > 0)
   }
   $img_lay .="</div>";
   // End Image
+
+  // For Rating
+  $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
+  $avg_rating_result = $db_conn->query($avg_rating_query);
+  // End Rating
 }
 ?>
 
@@ -107,11 +116,7 @@ if($pro_query->num_rows > 0)
   <?php include("lib/head.php"); ?>
   <title><?=$ProName // food name?> - LBM</title>
   <style>
-    /* Position the image cont (needed to position the left and right arrows) */
-    .cont
-    {
-      position: relative;
-    }
+ 
   </style>
 </head>
 
@@ -144,37 +149,26 @@ if($pro_query->num_rows > 0)
 
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
-        <div class="row" style="margin-bottom:10px">
+        <div class="row product-info-row" style="margin-bottom:10px">
           <div class="col-md-6">
             <?=$img_lay; ?>
-            <div class="product-info-desc d-sm-block d-none accordion">
-            <!-- <div class="accor-box accordion-item"> -->
-              <div class="accordion-item">
-              <!-- <h4 class="toggle-arrow enable accordion-header">Descriptions</h4> -->
-                <h4 class="toggle-arrow enable accordion-header">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Specifications
-                  </button>
-                </h4>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                  <div class="accor-content toggle-result accordion-body">
-                      <?php
-                        // echo (!empty($ProDesc) ? $ProDesc : "");
-                        echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
-                        echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
-                        echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
-                      ?>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="col-md-6">
             <div class="product-info-side">
               <aside>
                 <h3><?=$ProName?></h3>
-                <div class="product-info-price"><?=(!empty($ProDesc) ? $ProDesc : "")?></div>
+                  <?php
+                    if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
+                        echo '<div class="star-rating-container">';
+                        echo $func->displayStars($avg_rating_row['avg_rate']);
+                        echo '</div>';
+                    } else {
+                        echo '<span>No rating available</span>';
+                    }
+                  ?>
+
                 <div class="product-info-price">RM <?=$ProPrice?></div>
+
                 <!--This is the form to cart-->
                 <form action="cart_process.php" name="cart" id="cart" method="POST">
                   <div class="row">
@@ -190,16 +184,100 @@ if($pro_query->num_rows > 0)
                           <input type="hidden" name="ProID" id="ProID" value="<?=$ProID?>">
                           <input type="hidden" name="ProName" value="<?=$ProName?>">
                           <input type="hidden" name="ProUrl" value="<?=$ProUrl?>">
-                          <button type="submit" name="BtnAdd" class="btn-secondary BtnSubmit">
-                              <i class="fa fa-plus"></i>Add to Cart
+                          <button type="submit" name="BtnAdd" class="btn-secondary BtnSubmit orderButton" style="margin: 0px">
+                              <i class="fa fa-plus"></i>  Add to Cart
                           </button>
                       </div>
                     </div>
                     <div id="BtnOutStock" class="col-12 product-info-button<?=($ProStock > 0 ? ' hide' : '')?>">
-                        <button type="button" class="btn-out-of-stock"><i class="fa fa-times"></i>Out of Stock</button>
+                        <button type="button" class="btn-out-of-stock orderButton"><i class="fa fa-times"></i>  Out of Stock</button>
                     </div>
                   </div>
                 </form>
+
+              <!-- ACCORDION -->
+                <div class="accor-box">
+                  <div class="accordion setacc">
+                    <div class="tab">
+                      <input type="checkbox" name="accordion-1" id="cb1" checked>
+                      <label for="cb1" class="tab_label">Details</label>
+                      <div class="tab_content">
+                        <?php
+                          echo (!empty($ProDesc) ? "<p><strong>Description</strong><br>".$ProDesc."</p>" : "");
+                          echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
+                          echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
+                          echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
+                        ?>
+                      </div>
+                    </div>
+
+                    <!-- FOR MULTIPLE ACCORDION-->
+                    <!-- <div class="tab">
+                      <input type="checkbox" name="accordion-1" id="cb2">
+                      <label for="cb2" class="tab_label">Open multiple</label>
+                      <div class="tab_content">
+                        <p>Using <code>&lt;input type="checkbox"&gt;</code> allows to have several tabs open at the same time.</p>
+                      </div>
+                    </div>-->
+                  </div>
+                </div>
+              <!-- END ACCORDION -->
+
+                <!---- For Rating   ---->
+<?php
+    # rating
+    $RateInfo = $func->CalcReviewRate($ProID);
+    $rate = $RateInfo["rate"];
+    $TotalReview = $RateInfo["TotalReview"];
+    $RateAvg = $RateInfo["RateAvg"];
+    $RateAvgWidth = $RateInfo["RateAvgWidth"];
+    # END rating
+
+    # reviews
+    echo "<div id=\"review-section\" class=\"col-12 mb-10 review-section px-0\">
+            <h3>Ratings and Reviews</h3>";
+
+        if($TotalReview > 0)
+        {
+          echo "<div class=\"row review-summary-box\">
+                  <div class=\"col-md-6\">
+                      <div class=\"rate-box\">
+                          <div class=\"rate-star-box\">
+                              <div class=\"rate-star-empty\"></div>
+                              <div class=\"rate-star-avg\" style=\"width:".$RateAvgWidth."%\"></div>
+                          </div>
+                          <span class=\"rate-review\">".$RateAvg." / 5</span>
+                      </div>
+                      <p>Average rating from ".$TotalReview." review".($TotalReview <= 1 ? "" : "s")."</p>
+                  </div>
+                  <div class=\"col-md-6\">";
+
+          for($star=5; $star>=1; $star--)
+          {
+            $review = empty($rate[$star]) ? 0 : $rate[$star];
+
+            echo "<div class=\"rate-single-box".($review == 0 ? " inactive" : "")."\" data-rate=\"".$star."\" data-review=\"".$review."\">
+                      <div class=\"rate-single-text-box\">
+                          <div class=\"rate-single-star\">".$star." star".($star <= 1 ? "" : "s")."</div>
+                          <div class=\"rate-single-review\">".$review." review".($review <= 1 ? "" : "s")."</div>
+                      </div>
+                      <div class=\"rate-single-bar\">
+                          <div class=\"rate-single-bar-filled\" style=\"width:".round((($review/$TotalReview)*100),2)."%\"></div>
+                      </div>
+                  </div>";
+          }
+
+          echo "</div>
+              </div>";
+
+        }
+        else
+            echo "<p>Do not have any review for this product.</p>";
+
+    echo "</div>";
+    # END reviews
+?>
+
               </aside>
             </div>
           </div>
