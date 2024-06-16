@@ -192,8 +192,7 @@ else
                           //payment options	
 
                 echo '</div>
-                    </div>
-                  ';
+                    </div>';
 
             echo '<div class="col-lg-7 checkout-summary-form-box">
                     <div class="row checkout-row">
