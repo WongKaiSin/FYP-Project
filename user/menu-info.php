@@ -235,7 +235,7 @@ if($pro_query->num_rows > 0)
 
     # reviews
     echo "<div id=\"review-section\" class=\"col-12 mb-10 review-section px-0\">
-            <h3>Ratings and Reviews</h3>";
+            <h3>Ratings</h3>";
 
         if($TotalReview > 0)
         {
@@ -272,7 +272,7 @@ if($pro_query->num_rows > 0)
 
         }
         else
-            echo "<p>Do not have any review for this product.</p>";
+            echo "<p>Do not have any rating for this product.</p>";
 
     echo "</div>";
     # END reviews
