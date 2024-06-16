@@ -79,16 +79,16 @@ $cart_num = mysqli_num_rows($cart_query);
                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Type</h1>
                     </div>
                     <div class='modal-footer' id='popOutMenu'>
-                        <button type="button" class='btn btn-secondary orderButton' data-order-type='Delivery' data-bs-dismiss="modal">Delivery</button>
-                        <button type="button" class='btn btn-primary orderButton' data-order-type='Takeaway' data-bs-dismiss="modal">Takeaway</button>
+                        <button type="button" class='btn btn-secondary orderButton Type' data-order-type='Delivery' data-bs-dismiss="modal">Delivery</button>
+                        <button type="button" class='btn btn-primary orderButton Type' data-order-type='Takeaway' data-bs-dismiss="modal">Takeaway</button>
                     </div>
                 </div>
             </div>
         </div>
         <!--  END Set the ordertype button  -->
-
+        <?=$func->checkoutStep(1);?>
         <!--  Form to cart-process  -->
-        <form action="cart_process.php" method="post">
+        <form action="cart_process.php" method="post" class="cart-form">
             <table class="table-listing table-item-delete">
                 <thead>
                     <tr>
@@ -96,7 +96,7 @@ $cart_num = mysqli_num_rows($cart_query);
                         <th class='text-right'>Price (RM)</th>
                         <th class='text-right'>Quantity</th>
                         <th class='text-right'>Total (RM)</th>
-                        <th>&nbsp;</th>
+                        <th class='text-right'>Remove</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +110,7 @@ $cart_num = mysqli_num_rows($cart_query);
                     else
                     {
                         $cart_row = mysqli_fetch_array($cart_query);
-                        
+
                         $CartID = $cart_row["CartID"];
                         $CartSubtotal = $cart_row["CartSubTotal"];
                         $CartTotal = $cart_row["CartTotal"];
@@ -125,8 +125,6 @@ $cart_num = mysqli_num_rows($cart_query);
                         }
                         else
                         {
-                            echo $func->checkoutStep(1);
-
                             if(!empty($msg))
                             {
                                 switch($msg)
@@ -161,7 +159,7 @@ $cart_num = mysqli_num_rows($cart_query);
                                 echo "<tr>
                                     <td><img src='".$func->productPic($ProID)."' class='img-fluid'></td>
                                     <td>
-                                        <a style='cursor:default'><strong><?=$ProName?></strong></a><br>
+                                        <a style='cursor:default'><strong>".$ProName."</strong></a><br>
                                         <span class='text-small'></span>
                                     </td>
                                     <td class='text-right'>
@@ -182,56 +180,55 @@ $cart_num = mysqli_num_rows($cart_query);
                                         ".$ProTotal."
                                     </td>
                                     <td class='text-right'>
-                                        <span class='d-lg-none'>Delete</span>
-                                        <a href='$SiteUrl/user/cart_process.php?action=Delete&CartProID=$CartProID' class='tooltip' data-title='Remove'>
-                                        <i class='fa fa-trash-o'></i>
+                                        <a href='".$SiteUrl."/user/cart_process.php?action=Delete&CartProID=".$CartProID."' class='trash' data-title='Remove'>
+                                            <i class='fas fa-trash-alt'></i>
                                         </a>
                                     </td>
                                 </tr>";
                                 $no++;
                             }
                         }
-                echo '
+                echo "
                 </tbody>
             </table>
-            <div class="row button-box">
-                <div class="col small-12 medium-6 large-6">
-                    <a href="<?=$SiteUrl?>/user/menu.php">
-                        <button type="button" name="BtnCont" class="button is-outline pull-left"><i class="fa fa-arrow-left"></i>Continue Shopping</button>
+            <div class='row button-box'>
+                <div class='col small-12 medium-6 large-6'>
+                    <a href='".$SiteUrl."/user/menu.php'>
+                        <button type='button' name='BtnCont' class='button is-outline float-start orderButton'><i class='fa fa-arrow-left'></i>Continue Shopping</button>
                     </a>
                 </div>
-                <div class="col small-12 medium-6 large-6">
-                    <button type="submit" name="BtnUpdate" class="button pull-right">Update Cart</button>
+                <div class='col small-12 medium-6 large-6'>
+                    <button type='submit' name='BtnUpdate' class='button float-end orderButton'>Update Cart</button>
                 </div>
             </div>
         </form>
-        <div class="row">
-            <div class="col large-12">
-                <div class="pull-right total-box">
-                    <table class="table-totals">
+        <div class='row'>
+            <div class='col large-12'>
+                <div class='float-end total-box'>
+                    <table class='table-totals'>
                         <thead>
                             <tr>
-                                <th colspan="2">Cart Totals (RM)</th>
+                                <th colspan='2'>Cart Totals (RM)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td><?=$CartSubtotal?></td>
+                                <td>".$CartSubtotal."</td>
                             </tr>
                             <tr>
                                 <td><strong>Total</strong></td>
-                                <td><?=$CartTotal?></td>
+                                <td>".$CartTotal."</td>
                             </tr>
                         </tbody>
-                    </table>';
+                    </table>";
                 }
                     ?>
                     <?php
                     if($NoStock == 0)			  
-                        echo "<form action='checkout.php' method='post'>
+                        echo "<form action='checkout.php' method='POST'>
                                 <input type='hidden' name='orderType' id='orderTypeInput'>
-                                <button type='submit' name='BtnCheck' class='button width-100'>Proceed to Checkout</button>
+                                <button type='submit' name='BtnCheck' value='submit' class='button width-100 orderButton'>Proceed to Checkout</button>
                             </form>";
                     else
                         echo "<strong style='color:red'>One or more product is out of stock, please remove the product to proceed.</strong>";
@@ -254,12 +251,8 @@ $cart_num = mysqli_num_rows($cart_query);
 </body>
 
 <script>
-    $(document).ready(function() {
-        // Automatically show the modal when the page loads
-        $('#staticBackdrop').modal('show');
-    });
 
-    document.querySelectorAll('.orderButton').forEach(function(button) {
+    document.querySelectorAll('.Type').forEach(function(button) {
         button.addEventListener('click', function() {
             var orderType = this.getAttribute('data-order-type');
             // Hide the pop-out menu
@@ -269,11 +262,16 @@ $cart_num = mysqli_num_rows($cart_query);
         });
     });
 
-    $(document).ready(function(){
-        $('[data-title]').tooltip(); 
-    });
-    
     $(document).ready(function() {
+        // Automatically show the modal when the page loads
+        $('#staticBackdrop').modal('show');
+
+        $('[data-title]').tooltip(); 
+    // });
+
+
+    
+    // $(document).ready(function() {
     $('.minus').click(function () {
         var $input = $(this).siblings('input');
         var count = parseInt($input.val()) - 1;

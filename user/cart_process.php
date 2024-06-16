@@ -19,7 +19,10 @@ if(isset($_POST["BtnAdd"]))
 	$qty_query = mysqli_query($db_conn, "SELECT `ProQty` FROM cart_product WHERE `ProID`='$ProID'");
 	$qty_row = mysqli_fetch_array($qty_query);
 
-	$OldQty = $qty_row["ProQty"];
+	if($qty_row == 1)
+		$OldQty = $qty_row["ProQty"];
+	else
+		$OldQty = 0;
 
 	// Get product info
 	$info_query = mysqli_query($db_conn, "SELECT `ProPrice`, `ProStock` FROM product WHERE `ProID`='$ProID'");

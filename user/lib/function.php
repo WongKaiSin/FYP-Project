@@ -271,20 +271,53 @@ class Functions
     {
         global $db_conn, $SiteUrl;
         
-        $img_query = mysqli_query($db_conn, "SELECT ImageName,ImageExt FROM product_image WHERE ProID='$ProID'");
-        $img_row = mysqli_fetch_array($img_query);
-        $img_num = mysqli_num_rows($img_query);
+        $stmt = $db_conn->prepare("SELECT ImageName, ImageExt FROM product_image WHERE ProID = ?");
+        $stmt->bind_param("i", $ProID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $img = "$SiteUrl/images/no-image.jpg";
-        if($img_num > 0)
+        $img = "";
+        if($img_row = $result->fetch_assoc())
         {
-            $img_row = mysqli_fetch_array($img_query);
-            
+            // Access the data in $img_row
             $ImageName = $img_row["ImageName"];
             $ImageExt = $img_row["ImageExt"];
             
+            // Use $ImageName and $ImageExt as needed
+            // echo "Image Name: $ImageName\n";
+            // echo "Image Extension: $ImageExt\n";
             $img = $SiteUrl."/upload/product/".$ProID."/".$ImageName.".".$ImageExt;
         }
+        
+        else
+        {
+            $img = "$SiteUrl/images/no-image.jpg";
+            // Handle the case where no rows were returned
+            // echo "No image found for the given ProID.\n";
+        }
+        $stmt->close();
+
+
+        // $img_query = mysqli_query($db_conn, "SELECT ImageName,ImageExt FROM product_image WHERE ProID='$ProID'");
+        // $img_row = mysqli_fetch_array($img_query);
+        // $img_num = mysqli_num_rows($img_query);
+
+        // $img = "$SiteUrl/images/no-image.jpg";
+
+        // if($img_num > 1)
+        // {
+        //     $img_row = mysqli_fetch_array($img_query);
+            
+        //     $ImageName = $img_row["ImageName"];
+        //     $ImageExt = $img_row["ImageExt"];
+            
+        //     $img = $SiteUrl."/upload/product/".$ProID."/".$ImageName.".".$ImageExt;
+        // }
+
+        // else if($img_num == 1)
+        // {
+
+        // }
         
         return $img;
     }
@@ -404,43 +437,42 @@ class Functions
     }
     // END Cart
 
-    function CalcReviewRate($ProID, $type='')
+    // Rating
+    function displayStars($rating)
     {
-        global $db_conn;
+        $output = '';
+        if ($rating !== null && $rating >= 0) {
+            $fullStars = intval($rating); // Full stars
+            $halfStar = $rating - $fullStars; // Half star
 
-        $ExtraSql = $type == "host" ? "HostID='".$ProID."'" : "ProID='".$ProID."'";
-        $rate_sql = "SELECT ReviewsRate FROM js_store_reviews WHERE ".$ExtraSql." AND ReviewsStatus='1' AND isUp='1'";
-        $rate_query = mysqli_query($db_conn, $rate_sql);
-        $rate_row = mysqli_fetch_assoc($rate_query);
-        $rate_num = count($rate_row);
-
-        $RateAvg = 0;
-        $RateAvgWidth = 0;
-        $TotalReview = $rate_num;
-        if($rate_num > 0)
-        {
-            $rate = [];
-            foreach($rate_row as $index=>$each)
+            // Full stars
+            for ($i = 0; $i < $fullStars; $i++)
             {
-                extract($each);
-
-                $rate[$ReviewsRate] = $rate[$ReviewsRate]+1;
+                $output .= '<span class="fa fa-star checked"></span>';
             }
 
-            if(!empty($rate))
+            // Half star
+            if ($halfStar >= 0.5)
             {
-                $TotalRate = 0;
-                foreach($rate as $rating => $num)
+                $output .= '<span class="fa fa-star-half-o checked"></span>';
+            }
+
+            // Empty stars
+            $emptyStars = 5 - ceil($rating);
+            if ($emptyStars > 0)
+            {
+                for ($i = 0; $i < $emptyStars; $i++)
                 {
-                    $TotalRate += ($rating*$num);
+                    $output .= '<span class="fa fa-star"></span>';
                 }
-
-                $RateAvg = round($TotalRate / $TotalReview, 1);
-                $RateAvgWidth = round((($TotalRate / $TotalReview) * pow(100,2))/500, 2);
             }
+        } 
+        else
+        {
+            $output .= '<span>No rating available</span>';
         }
-        
-        return ["rate" => $rate, "TotalReview" => $TotalReview, "RateAvg" => $RateAvg, "RateAvgWidth" => $RateAvgWidth];
+
+        return $output;
     }
 }
 ?>

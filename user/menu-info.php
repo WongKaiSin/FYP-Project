@@ -38,11 +38,12 @@ if($pro_query->num_rows > 0)
 
   $img_num = $img_query->num_rows;
 
+  $img_lay ="<div class='cont'>";
+
   if($img_num > 0)
   {
     if($img_num > 1)
     {
-      $img_lay ="<div class='cont'>";
       $j=1;
       while($img_row = $img_query->fetch_assoc())
       {
@@ -85,14 +86,14 @@ if($pro_query->num_rows > 0)
         $ImageExt = $img_row["ImageExt"];
 
         $img_lay .= " <a href='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt'>
-                        <img src='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt'>
+                        <img src='$SiteUrl/upload/product/$ProID/$ImageName.$ImageExt' style='width:100%'>
                       </a>";
       }
     }
   }
   else
   {
-    $img_lay .="<img src='$SiteUrl/user/assets/img/no-image.png'>";
+    $img_lay .="<img src='$SiteUrl/user/assets/img/no-image.png' style='width:100%'>";
   }
   $img_lay .="</div>";
   // End Image
@@ -155,16 +156,16 @@ if($pro_query->num_rows > 0)
                   Specifications
                   </button>
                 </h4>
-                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accor-content toggle-result accordion-body">
-                        <?php
-                          // echo (!empty($ProDesc) ? $ProDesc : "");
-                          echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
-                          echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
-                          echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
-                        ?>
-                    </div>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accor-content toggle-result accordion-body">
+                      <?php
+                        // echo (!empty($ProDesc) ? $ProDesc : "");
+                        echo (!empty($Ingre) ? "<p><strong>Ingredients</strong><br>".$Ingre."</p>" : "");
+                        echo (!empty($store) ? "<p><strong>Storage Instructions</strong><br>".$store."</p>" : "");
+                        echo (!empty($life) ? "<p><strong>Shelf Life</strong><br>".$life."</p>" : "");
+                      ?>
                   </div>
+                </div>
               </div>
             </div>
           </div>

@@ -107,11 +107,13 @@ $cart_num = mysqli_num_rows($cart_query);
                 if($orderType == 0)
                     $ShippingFee = 10.00;
 
+                // calculate total with shipping fee
+                $NewTotal = $CartTotal + $ShippingFee;
+
                 $stapost = explode(" - ",$_POST["StateAndPostcode"]); // $stapost[0] = city, $stapost[1] = postcode
                 $AddPostcode = $stapost[1];
                 $AddCity = $stapost[0];
                 
-                // $OrderRemarks = stripslashes($_POST["OrderRemarks"]);
                 $PaymentMethod = $_POST["PaymentMethod"];
                 // END address field
                 
@@ -175,19 +177,18 @@ $cart_num = mysqli_num_rows($cart_query);
                         $no++;
                     }
         
-                        echo "<tr class='total-row'>
-                                        <td colspan='4' class='text-right'>Subtotal</td>
-                                        <td class='text-right'><strong><span class='d-lg-none'>RM </span>".$CartSubtotal."</strong></td>
-                                    </tr>
-                                    <tr class='total-row'>
-                                        <td colspan='4' class='text-right'>Shipping Fee</td>
-                                        <td class='text-right'><span class='d-lg-none'>RM </span>".$ShippingFee."</td>
-                                    </tr>
-                                    
-                                <tr class='total-row'>
-                                        <td colspan='4' class='text-right'><strong>Total</strong></td>
-                                        <td class='text-right'><strong><span class='d-lg-none'>RM </span>".$CartTotal."</strong></td>
-                                    </tr>
+                        echo "    <tr class='total-row'>
+                                    <td colspan='4' class='text-right'>Subtotal</td>
+                                    <td class='text-right'><strong><span class='d-lg-none'>RM </span>".$CartSubtotal."</strong></td>
+                                  </tr>
+                                  <tr class='total-row'>
+                                      <td colspan='4' class='text-right'>Shipping Fee</td>
+                                      <td class='text-right'><span class='d-lg-none'>RM </span>".$ShippingFee."</td>
+                                  </tr>
+                                  <tr class='total-row'>
+                                      <td colspan='4' class='text-right'><strong>Total</strong></td>
+                                      <td class='text-right'><strong><span class='d-lg-none'>RM </span>".$NewTotal."</strong></td>
+                                  </tr>
                                 </tbody>
                             </table>
                             <div class=\"row mt-40 mb-10\">
@@ -217,19 +218,9 @@ $cart_num = mysqli_num_rows($cart_query);
                                         
                     echo "</div>
                             </div>";
-            
-                if(!empty($OrderRemarks))
-                {				  
-                    echo "<div class=\"row mb-20\">
-                                    <div class=\"col large-12 medium-12 small-12\">
-                                        <h6 class=\"cart-title\">Order's Remarks</h6>
-                                        <div class='payment-desc-box' style='margin-left:0px'>".nl2br($OrderRemarks)."</div>
-                                    </div>
-                                </div>";
-                }
                 
                 $BtnText = "Proceed";
-                if($CartTotal > 0)
+                if($NewTotal > 0)
                     $BtnText = "Proceed with Payment";
                     
                     echo "<form id=\"checkoutForm\" method=\"post\" action=\"checkout-process.php\">

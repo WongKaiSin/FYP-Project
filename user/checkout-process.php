@@ -84,25 +84,51 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 		$OrderNo = date("Ymd")."-".str_pad($OrderID, 5, "0", STR_PAD_LEFT); 
 		mysqli_query($db_conn, "UPDATE `order` SET `OrderNo`='$OrderNo' WHERE `OrderID`='$OrderID'");
 		
-		$item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE CartID='$CartID'") ;
-		while($item_row = mysqli_fetch_array($item_query)) 
+		// $item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE CartID='$CartID'") ;
+		$stmt = $db_conn->prepare("SELECT * FROM cart_product WHERE CartID = ?");
+		$stmt->bind_param("i", $CartID);
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		// while($item_row = mysqli_fetch_array($item_query)) 
+		while($item_row = $result->fetch_assoc())
 		{	
 			$CartProID = $item_row["CartProID"];
 			$ProID = $item_row["ProID"];
-			$ProName = addslashes($item_row["ProName"]);
 			$ProPrice = $item_row["ProPrice"];
 			$ProQty = $item_row["ProQty"];
 			$ProTotal = $item_row["ProTotal"];
 
-			$pro_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE CartID='$CartID'");
-			$pro_row = mysqli_fetch_array($pro_query);
-			$ProUrl = $pro_row["ProUrl"];
+			// $pro_query = mysqli_query($db_conn, "SELECT `ProStock`, `ProUrl`, `ProName` FROM `product` WHERE `ProID`=`$ProID`");
+			// $pro_row = mysqli_fetch_array($pro_query);
+			// $ProUrl = $pro_row["ProUrl"];
+			// $ProName = addslashes($pro_row["ProName"]);
+			// $OldStock = $pro_row["ProStock"];
+
+			$stmt = $db_conn->prepare("SELECT ProStock, ProUrl, ProName FROM product WHERE ProID = ?");
+			$stmt->bind_param("i", $ProID);
+			$stmt->execute();
+			$stmt->bind_result($OldStock, $ProUrl, $ProName);
+			$stmt->fetch();
+			$stmt->close();
 			
-			mysqli_query($db_conn, "INSERT INTO order_product (OrderID, ProID, ProName, ProUrl, ProPrice, ProQty, ProTotal) VALUES ('$OrderID', '$ProID', '$ProName','$ProUrl', '$ProPrice', '$ProQty', '$ProTotal')");
+			// mysqli_query($db_conn, "INSERT INTO order_product (OrderID, ProID, ProName, ProUrl, ProPrice, ProQty, ProTotal) VALUES ('$OrderID', '$ProID', '$ProName','$ProUrl', '$ProPrice', '$ProQty', '$ProTotal')");
+			
+			$stmt = $db_conn->prepare("INSERT INTO order_product (OrderID, ProID, ProName, ProUrl, ProPrice, ProQty, ProTotal) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("iissdid", $OrderID, $ProID, $ProName, $ProUrl, $ProPrice, $ProQty, $ProTotal);
+			$stmt->execute();
+			$stmt->close();
+
+			// Update stock
+			$NewStock = $OldStock-$ProQty;
+
+			$stmt = $db_conn->prepare("UPDATE product SET ProStock = ? WHERE ProID = ?");
+			$stmt->bind_param("ii", $NewStock, $ProID);
+			$stmt->execute();
+			$stmt->close();
 		}
 		
 		// address
-		// mysqli_query($db_conn, "INSERT INTO js_store_order_address (OrderID, BillName, BillPhone, BillEmail, BillAdd, BillAdd2, BillPostcode, BillCity, BillState, BillCountry, ShipName, ShipPhone, ShipEmail, ShipAdd, ShipAdd2, ShipPostcode, ShipCity, ShipState, ShipCountry) VALUES ('$OrderID', '$BillName', '$BillPhone', '$BillEmail', '$BillAdd', '$BillAdd2', '$BillPostcode', '$BillCity', '$BillStateName', '$BillCountryName', '$ShipName', '$ShipPhone', '$ShipEmail', '$ShipAdd', '$ShipAdd2', '$ShipPostcode', '$ShipCity', '$ShipStateName', '$ShipCountryName')");
 		$ship_query = mysqli_query($db_conn, "SELECT * FROM member_address WHERE MemberID='$MemberID' AND AddAddress!='' ORDER BY AddressAddDate DESC");
 		$ship_num = mysqli_num_rows($ship_query);
 
@@ -114,8 +140,19 @@ if(isset($_POST["Checkout"]) && $_POST["Checkout"] == "1")
 			
 				
 		// delete from cart
-		mysqli_query($db_conn, "DELETE FROM cart_product WHERE CartID='$CartID'");
-		mysqli_query($db_conn, "DELETE FROM cart WHERE CartID='$CartID'");
+		// mysqli_query($db_conn, "DELETE FROM cart_product WHERE CartID='$CartID'");
+		// mysqli_query($db_conn, "DELETE FROM cart WHERE CartID='$CartID'");
+
+		$stmt1 = $db_conn->prepare("DELETE FROM cart_product WHERE CartID = ?");
+		$stmt1->bind_param("i", $CartID);
+		$stmt1->execute();
+		$stmt1->close();
+
+		// Prepare and execute delete statement for cart
+		$stmt2 = $db_conn->prepare("DELETE FROM cart WHERE CartID = ?");
+		$stmt2->bind_param("i", $CartID);
+		$stmt2->execute();
+		$stmt2->close();
 		// END delete from cart
 		
 

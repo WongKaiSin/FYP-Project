@@ -1,136 +1,94 @@
 <?php
-include("lib/db.php");
-$SiteUrl = "http://localhost:80/FYP-Project";
+session_start();
 
-<option value="<?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?>"><?php echo htmlspecialchars($AddCity . '-' . $AddPostcode); ?></option>
-
-// Define the displayStars() function
-function displayStars($rating) {
-    $output = '';
-    if ($rating > 0) {
-        // Calculate stars only if the rating is available
-        $fullStars = intval($rating); // Full stars
-        $halfStar = $rating - $fullStars; // Half star
-
-        // Full stars
-        for ($i = 0; $i < $fullStars; $i++) {
-            $output .= '<span class="fa fa-star checked"></span>';
-        }
-
-        // Half star
-        if ($halfStar >= 0.5) {
-            $output .= '<span class="fa fa-star-half-o checked"></span>';
-        }
-
-        // Empty stars
-        $emptyStars = 5 - ceil($rating);
-        if ($emptyStars > 0) {
-            for ($i = 0; $i < $emptyStars; $i++) {
-                $output .= '<span class="fa fa-star"></span>';
-            }
-        }
-    } else {
-        // Display no rating if the average rating is not available
-        $output .= '<span>No rating available</span>';
-    }
-
-    return $output;
+if(!isset($_SESSION['MemberID'])) {
+  header("Location: registration.php");
+  exit();
 }
 
-if (isset($_GET['CatID'])) {
-    $category = $_GET['CatID'];
-    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID, p.ProUrl
-                                FROM product_cat pc
-                                JOIN product p ON pc.ProID = p.ProID 
-                                WHERE pc.CatID = '$category' AND p.isUp = 1");
-} else {
-    $pro_query = $db_conn->query("SELECT pc.ProName, p.ProPrice, p.ProID , p.ProUrl
-                                FROM product_cat pc
-                                JOIN product p ON pc.ProID = p.ProID 
-                                WHERE p.isUp = 1");
+require_once("./lib/db.php");
+require_once("./lib/function.php");
+
+$SiteUrl = "http://localhost:80/FYP-Project";
+$func = new Functions;
+$Select = "";
+
+$MemberID = $_SESSION["MemberID"];
+$CurrCart = $_SESSION["Cart"];
+$MemEmail = $_SESSION['MemberEmail'];
+
+$cart_query = mysqli_query($db_conn, "SELECT * FROM cart WHERE MemberID='$MemberID' AND CartAddDate=(SELECT MAX(CartAddDate) FROM cart WHERE MemberID='$MemberID')");
+$cart_num = mysqli_num_rows($cart_query);
+
+$ship_query = mysqli_query($db_conn, "SELECT * FROM member_address WHERE MemberID='$MemberID' AND AddAddress!='' ORDER BY AddressAddDate DESC");
+$ship_num = mysqli_num_rows($ship_query);
+
+if($ship_num > 0)
+{
+  while($ship_row = $ship_query -> fetch_array())
+  {
+    $AddName = $func->checkInput($ship_row["AddName"]);
+    $AddPhone = $func->checkInput($ship_row["AddPhone"]);
+    $AddAddress = $func->checkInput($ship_row["AddAddress"]);
+    $AddCity = $func->checkInput($ship_row["AddCity"]);
+    $AddPostcode = $func->checkInput($ship_row["AddPostcode"]);
+    $AddCountry = $func->checkInput($ship_row["AddCountry"]);
+    $AddState = $func->checkInput($ship_row["AddState"]);
+    $Select = " selected";
+  }
+}
+else
+{
+  $AddName = "";
+  $AddPhone = "";
+  $AddAddress = "";
+  $AddCity = "";
+  $AddPostcode = "";
+  $AddCountry = "Malaysia";
+  $AddState = "Melaka";
+}
+
+if(isset($_POST["BtnCheck"]))
+{
+  $OrderType = $_POST["orderType"];  // 0 = delivery, 1 = take away
+
+  if($OrderType == "Delivery")
+    $OrderType = 0;
+
+  else
+    $OrderType = 1;
+}
+
+else if(isset($_POST["BtnModifyAdd"]))
+{
+  $OrderType = $_POST["orderType"];
+  $AddName = $func->checkInput($_POST["ShipName"]);
+  $MemEmail = $func->checkInput($_POST["ShipEmail"]);
+  $AddPhone = $func->checkInput($_POST["ShipPhone"]);
+  $AddAddress = $func->checkInput($_POST["ShipAdd"]);
+  $AddCity = $func->checkInput($_POST["ShipCity"]);
+  $AddPostcode = $func->checkInput($_POST["ShipPostcode"]);
+  $AddCountry = $func->checkInput($_POST["ShipCountry"]);
+  $AddState = $func->checkInput($_POST["ShipState"]);
+  
+  $ShippingFee = $_POST["ShippingFee"];
+  $PaymentMethod = $_POST["PaymentMethod"];
+}
+
+else
+{
+  header("Location: cart.php");
+  exit;
 }
 ?>
-
-<script>
-function search() {
-    // Declare variables
-    var input, filter, productDisplay, productItems, productName, i, txtValue;
-    input = document.getElementById('myInput');
-    filter = input.value.toUpperCase();
-    productDisplay = document.getElementById("product-display");
-    productItems = productDisplay.getElementsByClassName("product-item");
-
-    // Loop through all product items, and hide those who don't match the search query
-    for (i = 0; i < productItems.length; i++) {
-        productName = productItems[i].getElementsByTagName("p")[0]; // Assuming the first <p> tag contains the product name
-        if (productName) {
-            txtValue = productName.textContent || productName.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                productItems[i].style.display = "";
-            } else {
-                productItems[i].style.display = "none";
-            }
-        }
-    }
-}
-</script>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <?php include("lib/head.php"); ?>
-  <title>Menu | London Bagel Museum</title>
-  <style>
-     .search-container {
-        position: relative;
-        display: flex;
-        justify-content: end;
-        margin-bottom: 20px;
-    }
-    .search-input {
-        width: 50%;
-        padding: 10px 15px;
-        border-radius: 25px;
-        border: 2px solid #ccc;
-        transition: all 0.3s ease;
-    }
-    .search-input:focus {
-        border-color: #ec2727;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-        outline: none;
-    }
-    .search-icon {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #999;
-        font-size: 1.2em;
-        transition: color 0.3s ease;
-    }
-    .search-input:focus + .search-icon {
-        color: #000000;
-        
-    }
+  <title>Checkout</title>
 
-    .star-rating-container {
-        display: flex;
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically */
-        width: 100%;
-    }
-
-    .star-rating-container .checked {
-        color: orange;
-    }
-
-    .star-rating-container span {
-        color: #c5c5c5;
-        font-size: 16px;
-    }
-
-  </style>
 </head>
 
 <body>
@@ -150,133 +108,121 @@ function search() {
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs">
       <div class="container">
-
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Menu</h2>
-          <ol>
-            <li><a href="index.php">Home</a></li>
-            <li>Menu</li>
-          </ol>
+          <h2>Checkout</h2>
         </div>
-
       </div>
     </div><!-- End Breadcrumbs -->
 
     <section class="sample-page">
-      <div class="section-header">
-        <h2>London Bagel Museum Menu</h2>
-        <p>Check Our <span>Menu</span></p>
-      </div>
-      <div class="container" data-aos="fade-up">
-        <div class="row"> <!-- Wrap the sidebar and product display in a row -->
-          <!-- Sidebar -->
-          <div class="col-lg-3">
-            <!-- Sidebar content -->
-            <aside class="product_list">
-              <ul class='menu'>
-                <li class="dropdown">
-                  <a href="?">All Products</a>
-                </li>
-              </ul>
-            </aside>
+      <div class="checkout_container container" data-aos="fade-up">
+        <?php
+        if($cart_num == 0)
+        {
+          echo "Your shopping cart is empty.<br><br>
+                <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+        }
+        else
+        {
+          $cart_row = mysqli_fetch_array($cart_query);
+          
+          $CartID = $cart_row["CartID"];
+          $CartSubtotal = $cart_row["CartSubTotal"];
+          $CartTotal = $cart_row["CartTotal"];
+        
+          $item_query = mysqli_query($db_conn, "SELECT * FROM cart_product WHERE CartID='$CartID'");
+          $item_num = mysqli_num_rows($item_query);
 
-            <?php
-            // Fetch and display catalogue names
-            $catalogue_query = $db_conn->query("SELECT CatCataID, cataName FROM category_cata");
-            if ($catalogue_query->num_rows > 0) {
-                while ($catalogue_row = $catalogue_query->fetch_assoc()) {
-                    echo '<aside class="product_list">';
-                    echo '<ul class="menu">';
-                    
-                    $CatCataID = $catalogue_row['CatCataID'];
-                    $cataName = $catalogue_row['cataName'];
-                    
-                    echo '<li class="dropdown">';
-                    echo '<a href="?CatCataID='.$CatCataID.'">'.$cataName.'<i class="bi bi-chevron-down dropdown-indicator"></i></a>';
-                    
-                    // Fetch and display category names for the current catalogue
-                    $category_query = $db_conn->query("SELECT CatID, catName FROM category_cata WHERE CatCataID = '$CatCataID'");
-                    if ($category_query->num_rows > 0) {
-                        echo '<ul class="dropdown-menu">';
-                        while ($category_row = $category_query->fetch_assoc()) {
-                            $CatID = $category_row['CatID'];
-                            $catName = $category_row['catName'];
-                            echo '<li><a href="?CatID='.$CatID.'">'.$catName.'</a></li>';
-                        }
-                        echo '</ul>';
-                    }
-                    echo '</li>';
-                    
-                    echo '</ul>';
-                    echo '</aside>';
-                }
+          if($item_num == 0)
+          {
+            echo "Your shopping cart is empty.<br><br>
+                  <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+          }
+          else
+          {
+            $CheckStock = $func->CheckStock($CartID);
+            
+            if($CheckStock == 0)
+            {
+              echo "<script>
+                      alert('One or more product is out of stock.');
+                      self.location='$SiteUrl/user/cart.php'
+                    </script>";
             }
-            ?>
-        </div>
 
-          <!-- Product Display -->
-          <div class="col-lg-9">
-            <div class="search-container">
-              <input type="text" class="form-control search-input" id="myInput" onkeyup="search()" placeholder="Search..">
-              <i class="bi bi-search search-icon"></i>
-            </div>
-            <div id="product-display" class="product-display">
-            <?php
-              if ($pro_query->num_rows > 0) {
-                  // Output data of each row
-                  while ($row = $pro_query->fetch_assoc()) {
-                      // Fetching Product ID
-                      $ProID = $row['ProID'];
+        echo $func->checkoutStep(2);
+        echo '<form method="post" action="checkout-review.php" class="cart-form">
+                <div class="row checkout-row">
+                  <div class="col large-6 medium-6 small-12">
+                    <h6 class="cart-title">Recipient Information</h6>';
 
-                      // Fetching Product URL
-                      $ProUrl = $row['ProUrl'];
+              echo "<label>Name</label>
+                    <input type=\"text\" name=\"Name\" placeholder=\"Enter Name\" required value=".$AddName." >
+                    <br>
+                    <label>Email</label>
+                    <input type=\"email\" name=\"Email\" placeholder=\"Enter Email\" value=\"$MemEmail\" required>
+                    <br>
+                    <label>Phone</label>
+                    <input type=\"text\" name=\"Phone\" placeholder=\"Enter Phone\" value=\"$AddPhone\" required>
+                    <br>
+                    <label>Address</label>
+                    <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
+                    <br>
+                    <label>City and Postcode</label>
+                    <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddCity - $AddPostcode\" required>
+                        <option>Select Postcode</option>
+                    </select>
+                    <br>
+                    <label>State</label>
+                    <input type=\"text\" name=\"State\" value=\"$AddState\" placeholder=\"Melaka\" required>
+                    <br>
+                    <label>Country</label>
+                    <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
+                  </div>
 
-                      // Fetching Product Name
-                      $ProName = $row['ProName'];
+                  <div class=\"col large-12 medium-12 small-12 mt-10\">
+                  <h6 class=\"cart-title\">Payment Method</h6>";
+              
+        //payment options
+        $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
+        $payment_num = mysqli_num_rows($payment_query);
+        
+        if($payment_num > 0)
+        {
+          $no_payment = 1;
+          while($payment_row = mysqli_fetch_array($payment_query))
+          {
+            $PaymentID = $payment_row["PaymentID"];
+            $PaymentName = stripslashes($payment_row["PaymentName"]);
+            $PaymentDesc = stripslashes($payment_row["PaymentDesc"]);
+            
+            if(empty($PaymentMethod) && $no_payment == 1)
+              $PaymentMethod = $PaymentID;
+            
+            echo "<div class=\"col-sm-12 mb-20\">
+                    <input type=\"radio\" name=\"PaymentMethod\" id='radio_$PaymentID' value=\"$PaymentID\"".$func->displayChecked($PaymentID, $PaymentMethod)." class=\"payment-choice\" />
+                    <label for='radio_$PaymentID'>$PaymentName</label>";
+        
+            if($PaymentDesc)
+              echo "<div id=\"payment-".$PaymentID."\" class='payment-desc-box".((empty($PaymentMethod) && $no_payment == 1) || (!empty($PaymentMethod) && $PaymentMethod == $PaymentID) ? '' : ' hide')."'>".$PaymentDesc."</div>";
+                      
+            echo "</div>";
+          
+            $no_payment++;
+          }
+        }
+        //payment options	
+                      
+          echo "</div>
+              </div>
+              <input type='hidden' name='orderType' value='".$OrderType."'>
+              <button type=\"submit\" name=\"BtnCheckout\" class=\"button float-end orderButton\">Continue</button>
+            </form>";
+              
+        }
+      }
+      ?>
 
-                      // Fetching the first image associated with the product
-                      $img_sql = $db_conn->query("SELECT * FROM product_image WHERE `ProID` = $ProID AND `ImageName`=1");
-                      $image_url = ''; // Initialize image URL variable
-                      while ($img_row = $img_sql->fetch_assoc()) {
-                          $ImageName = $img_row['ImageName'];
-                          $ImageExt = $img_row['ImageExt'];
-                          $image_url = $ImageName . "." . $ImageExt;
-                      }
-
-                      echo '<div class="product-item mb-3">
-                          <a href="'.$SiteUrl.'/user/menu-info.php?ProUrl='.$ProUrl.'">';
-
-                      if (!empty($image_url)) {
-                          // Show the fetched image
-                          echo "<img class='img-fluid' style='height:180px; width: 1000px;' src='../upload/product/$ProID/$image_url' alt='Card image cap'>";
-                      } else {
-                          // Provide a default image path if no image found
-                          echo "<img class='img-fluid' style='height: 180px; width: 1000px;' src='path_to_default_image' alt='Default Image'>";
-                      }
-
-                      echo "<p class='mt-2'>$ProName</p>";
-                      echo "<p><span><b>RM " . $row["ProPrice"] . "</b></span></p>";
-
-                      // Fetch and display average rating for this product
-                      $avg_rating_query = "SELECT AVG(RevRate) AS avg_rate FROM review_rate WHERE ProID = $ProID";
-                      $avg_rating_result = $db_conn->query($avg_rating_query);
-                      if ($avg_rating_result && $avg_rating_row = $avg_rating_result->fetch_assoc()) {
-                          echo '<div class="star-rating-container">';
-                          echo displayStars($avg_rating_row['avg_rate']);
-                          echo '</div>';
-                      } else {
-                          echo '<span>No rating available</span>';
-                      }
-
-                      echo '</a></div>';
-                  }
-              } else {
-                  echo "0 results";
-              }
-            ?>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -287,9 +233,11 @@ function search() {
 
   <div id="preloader"></div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <script>
+    loadLocation(<?php echo $AddPostcode;?>);
+  </script>
 </body>
+
 </html>
+
+<?php $db_conn->close();?>

@@ -48,9 +48,16 @@ else
   $AddState = "Melaka";
 }
 
-
 if(isset($_POST["BtnCheck"]))
+{
   $OrderType = $_POST["orderType"];  // 0 = delivery, 1 = take away
+
+  if($OrderType == "Delivery")
+    $OrderType = 0;
+
+  else
+    $OrderType = 1;
+}
 
 else if(isset($_POST["BtnModifyAdd"]))
 {
@@ -108,7 +115,7 @@ else
     </div><!-- End Breadcrumbs -->
 
     <section class="sample-page">
-      <div class="container" data-aos="fade-up">
+      <div class="checkout_container container" data-aos="fade-up">
         <?php
         if($cart_num == 0)
         {
@@ -144,73 +151,127 @@ else
             }
 
         echo $func->checkoutStep(2);
-        echo '<form method="post" action="checkout-review.php">
-                <div class="row">
-                  <div class="col large-6 medium-6 small-12">
-                    <h6 class="cart-title">Delivery Address</h6>';
-
-              echo "<label>Name</label>
-                    <input type=\"text\" name=\"Name\" placeholder=\"Enter Name\" required value=".$AddName." >
-                    <br>
-                    <label>Email</label>
-                    <input type=\"email\" name=\"Email\" placeholder=\"Enter Email\" value=\"$MemEmail\" required>
-                    <br>
-                    <label>Phone</label>
-                    <input type=\"text\" name=\"Phone\" placeholder=\"Enter Phone\" value=\"$AddPhone\" required>
-                    <br>
-                    <label>Address</label>
-                    <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
-                    <br>
-                    <label>City and Postcode</label>
-                    <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddCity - $AddPostcode\" required>
-                        <option>Select Postcode</option>
-                    </select>
-                    <br>
-                    <label>State</label>
-                    <input type=\"text\" name=\"State\" value=\"$AddState\" placeholder=\"Melaka\" required>
-                    <br>
-                    <label>Country</label>
-                    <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
+        echo '<div class="row checkout-box">
+                <div class="col-lg-5 checkout-summary-info-box">
+                  <div class="checkout-summary-detail-box">
+                    <h6 class=\"cart-title\">Payment Method</h6>
+                    <table class=\"item-box\">
+                      <tbody>
+                      </tbody>
+                    </table>
+                    <div class=\"total-main-box\">
+                      <table class=\"total-box\">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-
-                  <div class=\"col large-12 medium-12 small-12 mt-10\">
-                  <h6 class=\"cart-title\">Payment Method</h6>";
-              
-        //payment options
-        $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
-        $payment_num = mysqli_num_rows($payment_query);
-        
-        if($payment_num > 0)
-        {
-          $no_payment = 1;
-          while($payment_row = mysqli_fetch_array($payment_query))
-          {
-            $PaymentID = $payment_row["PaymentID"];
-            $PaymentName = stripslashes($payment_row["PaymentName"]);
-            $PaymentDesc = stripslashes($payment_row["PaymentDesc"]);
-            
-            if(empty($PaymentMethod) && $no_payment == 1)
-              $PaymentMethod = $PaymentID;
-            
-            echo "<div class=\"col-sm-12 mb-20\">
-                    <input type=\"radio\" name=\"PaymentMethod\" id='radio_$PaymentID' value=\"$PaymentID\"".$func->displayChecked($PaymentID, $PaymentMethod)." class=\"payment-choice\" />
-                    <label for='radio_$PaymentID'>$PaymentName</label>";
-        
-            if($PaymentDesc)
-              echo "<div id=\"payment-".$PaymentID."\" class='payment-desc-box".((empty($PaymentMethod) && $no_payment == 1) || (!empty($PaymentMethod) && $PaymentMethod == $PaymentID) ? '' : ' hide')."'>".$PaymentDesc."</div>";
-                      
-            echo "</div>";
-          
-            $no_payment++;
-          }
-        }
-        //payment options	
-                      
-          echo "</div>
+                <div class="row checkout-summary-mobile">
+                  <div class="col-7>
+                    <i class="fa fa-file-text"></i>Show order summary
+                    <i class="fa fa-angle-down"></i>
+                  </div>
+                  <div class="col-5 text-right"><span id="mobile-final-total"></span></div>
+                </div>
               </div>
-              <input type='hidden' name='orderType' value='".$OrderType."'>
-              <button type=\"submit\" name=\"BtnCheckout\" class=\"button pull-right\">Continue</button>
-            </form>";
+              <div class="col-lg-7 checkout-summary-form-box">
+
+                  <form method="post" action="checkout-review.php" class="cart-form">
+                    <div class="row checkout-row">
+                      <div class="col-12">
+                        <h6 class="cart-title">Recipient Information</h6>';
+
+                  echo "<div class=\"row\">
+                          <div class=\"col-md-12\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">Name</label>
+                              <input type=\"text\" name=\"Name\" placeholder=\"Enter Name\" required value=".$AddName." >
+                            </div>
+                          </div>
+                          <div class=\"col-md-6\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">Email</label>
+                              <input type=\"email\" name=\"Email\" placeholder=\"Enter Email\" value=\"$MemEmail\" required>
+                          </div>
+                          </div>
+                          <div class=\"col-12\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">Phone</label>
+                              <input type=\"text\" name=\"Phone\" placeholder=\"Enter Phone\" value=\"$AddPhone\" required>
+                            </div>
+                          </div>
+                          <div class=\"col-12\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">Address</label>
+                              <input type=\"text\" name=\"Address\" placeholder=\"Enter Address\" value=\"$AddAddress\" required>
+                            </div>
+                          </div>
+                          <div class=\"col-12\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">City and Postcode</label>
+                              <select id=\"Postcode\" name=\"StateAndPostcode\" value=\"$AddCity - $AddPostcode\" required>
+                                  <option>Select Postcode</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class=\"col-sm-6\">
+                            <div class=\"form-group input-row\">
+                              <label class=\"input\">State</label>
+                              <input type=\"text\" name=\"State\" value=\"$AddState\" placeholder=\"Melaka\" required>
+                            </div>
+                          </div>
+                            <div class=\"col-sm-6\">
+                              <div class=\"form-group input-row\">
+                                <label class=\"input \">Country</label>
+                                <input type=\"text\" name=\"Country\" value=\"$AddCountry\" placeholder=\"Malaysia\" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class=\"col-lg-12 col-md-12 col-sm-12 mt-10\">
+                    <h6 class=\"cart-title\">Payment Method</h6>";
+                  
+            //payment options
+            $payment_query = mysqli_query($db_conn, "SELECT PaymentID, PaymentName, PaymentDesc FROM payment WHERE isUp='1' ORDER BY PaymentID");
+            $payment_num = mysqli_num_rows($payment_query);
+            
+            if($payment_num > 0)
+            {
+              $no_payment = 1;
+              while($payment_row = mysqli_fetch_array($payment_query))
+              {
+                $PaymentID = $payment_row["PaymentID"];
+                $PaymentName = stripslashes($payment_row["PaymentName"]);
+                $PaymentDesc = stripslashes($payment_row["PaymentDesc"]);
+                
+                if(empty($PaymentMethod) && $no_payment == 1)
+                  $PaymentMethod = $PaymentID;
+                
+                echo "<div class=\"col-sm-12 mb-20\">
+                        <input type=\"radio\" name=\"PaymentMethod\" id='radio_$PaymentID' value=\"$PaymentID\"".$func->displayChecked($PaymentID, $PaymentMethod)." class=\"payment-choice\" />
+                        <label for='radio_$PaymentID'>$PaymentName</label>";
+            
+                if($PaymentDesc)
+                  echo "<div id=\"payment-".$PaymentID."\" class='payment-desc-box".((empty($PaymentMethod) && $no_payment == 1) || (!empty($PaymentMethod) && $PaymentMethod == $PaymentID) ? '' : ' hide')."'>".$PaymentDesc."</div>";
+                          
+                echo "</div>";
+              
+                $no_payment++;
+              }
+            }
+            //payment options	
+                          
+              echo "</div>
+                  </div>
+                  <input type='hidden' name='orderType' value='".$OrderType."'>
+                  <button type=\"submit\" name=\"BtnCheckout\" class=\"button float-end orderButton\">Continue</button>
+                </form>
+              </div>";
               
         }
       }

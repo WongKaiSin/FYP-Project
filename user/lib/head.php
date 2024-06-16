@@ -5,7 +5,9 @@
 <meta content="" name="keywords">
 
 <!-- Font awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 <!-- Favicons -->
 <link href="assets/img/logo.png" rel="icon">
@@ -27,16 +29,7 @@
 <link href="assets/css/main.css" rel="stylesheet">
 
 <!-- Custom CSS File -->
-<link href="assets/css/custom.css?v=51" rel="stylesheet">
-
-
-<!-- =======================================================
-* Template Name: Yummy
-* Updated: Jan 30 2024 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-======================================================== -->
+<link href="assets/css/custom.css?v=121" rel="stylesheet">
 
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -51,6 +44,5 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/script.js?v=54"></script>
 
 
