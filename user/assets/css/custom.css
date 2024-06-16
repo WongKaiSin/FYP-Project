@@ -662,28 +662,6 @@ a.icon-save img
 	line-height: 1.4;
 }
 
-.table-listing .listing-remarks-box
-{
-	display: inline-block;
-	width: 100%;
-	margin-top: 10px;
-	font-size: 13px;
-}
-
-.table-listing .listing-remarks-box-border
-{
-	padding: 3px 7px;
-	background: #EEE;
-}
-
-.table-listing .listing-remarks-box textarea
-{
-	margin-top: 5px;
-	min-height: 70px;
-	resize:vertical;
-	margin-bottom:0px;
-}
-
 .table-listing tr.total-row td
 {
 	padding: 10px;
