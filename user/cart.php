@@ -86,20 +86,7 @@ $cart_num = mysqli_num_rows($cart_query);
             </div>
         </div>
         <!--  END Set the ordertype button  -->
-        <?=$func->checkoutStep(1);?>
-        <!--  Form to cart-process  -->
-        <form action="cart_process.php" method="post" class="cart-form">
-            <table class="table-listing table-item-delete">
-                <thead>
-                    <tr>
-                        <th colspan='2'>Product</th>
-                        <th class='text-right'>Price (RM)</th>
-                        <th class='text-right'>Quantity</th>
-                        <th class='text-right'>Total (RM)</th>
-                        <th class='text-right'>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
+       
                 <?php
                     if($cart_num == 0)
                     {
@@ -109,7 +96,21 @@ $cart_num = mysqli_num_rows($cart_query);
                     }
                     else
                     {
-                        $cart_row = mysqli_fetch_array($cart_query);
+                        echo $func->checkoutStep(1)."
+                                <!--  Form to cart-process  -->
+                                <form action=\"cart_process.php\" method=\"post\" class=\"cart-form\">
+                                    <table class=\"table-listing table-item-delete\">
+                                        <thead>
+                                            <tr>
+                                                <th colspan='2'>Product</th>
+                                                <th class='text-right'>Price (RM)</th>
+                                                <th class='text-right'>Quantity</th>
+                                                <th class='text-right'>Total (RM)</th>
+                                                <th class='text-right'>Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>";
+                                                $cart_row = mysqli_fetch_array($cart_query);
 
                         $CartID = $cart_row["CartID"];
                         $CartSubtotal = $cart_row["CartSubTotal"];
@@ -222,9 +223,7 @@ $cart_num = mysqli_num_rows($cart_query);
                             </tr>
                         </tbody>
                     </table>";
-                }
-                    ?>
-                    <?php
+
                     if($NoStock == 0)			  
                         echo "<form action='checkout.php' method='POST'>
                                 <input type='hidden' name='orderType' id='orderTypeInput'>
@@ -232,6 +231,7 @@ $cart_num = mysqli_num_rows($cart_query);
                             </form>";
                     else
                         echo "<strong style='color:red'>One or more product is out of stock, please remove the product to proceed.</strong>";
+                }
                     ?>
 				</div>
             </div>
