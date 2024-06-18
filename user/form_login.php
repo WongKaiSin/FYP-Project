@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include("lib/db.php"); // Assuming this file contains database connection
-include("lib/function.php");
+include("lib/function.php"); 
 
 $function = new Functions;
 
