@@ -3,7 +3,7 @@ session_start();
 include("lib/db.php"); // Assuming this file contains database connection
 include("lib/function.php"); 
 
-$function = new Functions;
+$function = new Functions; 
 
 if(isset($_POST["loginbtn"])) {
     $MemberEmail = $_POST['MemberEmail'];
