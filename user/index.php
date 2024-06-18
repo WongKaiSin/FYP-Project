@@ -122,7 +122,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-clipboard-data"></i>
                   <h4>Reservation</h4>
-                  <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                  <p>The first service we provide</p>
                 </div>
               </div><!-- End Icon Box -->
 
@@ -130,7 +130,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-gem"></i>
                   <h4>Delivery</h4>
-                  <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                  <p>The second service we provide</p>
                 </div>
               </div><!-- End Icon Box -->
 
@@ -138,7 +138,7 @@ if (!isset($_SESSION['MemberEmail'])) {
                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-inboxes"></i>
                   <h4>Pick-Up</h4>
-                  <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                  <p>The third service we provide</p>
                 </div>
               </div><!-- End Icon Box -->
 
@@ -311,7 +311,7 @@ if (!isset($_SESSION['MemberEmail'])) {
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt="">
+                <img src="assets/img/menu/drink/1.jpeg" class="menu-img img-fluid" alt="">
                 <h4>Americcano</h4>
                 <p class="ingredients">
                 water and espresso
@@ -322,7 +322,7 @@ if (!isset($_SESSION['MemberEmail'])) {
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt="">
+                <img src="assets/img/menu/drink/Cappuccino.jpg" class="menu-img img-fluid" alt="">
                 <h4>Cappuccino</h4>
                 <p class="ingredients">
                 espresso, steamed milk, steamed milk foam
@@ -333,7 +333,7 @@ if (!isset($_SESSION['MemberEmail'])) {
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt="">
+                <img src="assets/img/menu/drink/Espresso.jpg" class="menu-img img-fluid" alt="">
                 <h4>Espresso</h4>
                 <p class="ingredients">
                 espresso, water

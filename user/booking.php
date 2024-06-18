@@ -85,6 +85,7 @@ if (!isset($_SESSION['MemberEmail'])) {
               <h3>Reservation Details</h3>
               <p class="fst-italic"> We offer <span>five tables</span> available for reservation every hour, each comfortably seating up to <span>4 people</span>. 
             Our maximum capacity per hour is <span>20 individuals</span>. If the number of people exceeds this limit, unfortunately, reservations for that time slot cannot be accommodated.
+            The time available for booking is <span>within one month</span>.
               </p>
               <form action="form_book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="row">
