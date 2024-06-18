@@ -1,3 +1,3 @@
-<script>
+<!-- <script>
     location.href = '/user';
-</script>
+</script> -->
