@@ -70,32 +70,32 @@ $cart_num = mysqli_num_rows($cart_query);
 
     <section class="sample-page <?=$none?>">
       <div class="container" data-aos="fade-up">
-            
-        <!--  Set the ordertype button  -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Type</h1>
-                    </div>
-                    <div class='modal-footer' id='popOutMenu'>
-                        <button type="button" class='btn btn-secondary orderButton Type' data-order-type='Delivery' data-bs-dismiss="modal">Delivery</button>
-                        <button type="button" class='btn btn-primary orderButton Type' data-order-type='Takeaway' data-bs-dismiss="modal">Takeaway</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--  END Set the ordertype button  -->
        
                 <?php
                     if($cart_num == 0)
                     {
                         $none = "d-lg-none";
                         echo "Your shopping cart is empty.<br><br>
-                                <button type='button' class=\"button is-outline\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>Continue Shopping</button><br><br>";
+                                <button type='button' class=\"button is-outline orderButton\" onclick=\"document.location='$SiteUrl/user/menu.php'\"><i class=\"fa fa-arrow-left\"></i>  Continue Shopping</button><br><br>";
                     }
                     else
                     {
+echo '
+                        <!--  Set the ordertype button  -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Type</h1>
+                                    </div>
+                                    <div class="modal-footer" id="popOutMenu">
+                                        <button type="button" class="btn btn-secondary orderButton Type" data-order-type="Delivery" data-bs-dismiss="modal">Delivery</button>
+                                        <button type="button" class="btn btn-primary orderButton Type" data-order-type="Takeaway" data-bs-dismiss="modal">Takeaway</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  END Set the ordertype button  -->';
                         echo $func->checkoutStep(1)."
                                 <!--  Form to cart-process  -->
                                 <form action=\"cart_process.php\" method=\"post\" class=\"cart-form\">
@@ -188,8 +188,7 @@ $cart_num = mysqli_num_rows($cart_query);
                                 </tr>";
                                 $no++;
                             }
-                        }
-                echo "
+                            echo "
                 </tbody>
             </table>
             <div class='row button-box'>
@@ -231,6 +230,8 @@ $cart_num = mysqli_num_rows($cart_query);
                             </form>";
                     else
                         echo "<strong style='color:red'>One or more product is out of stock, please remove the product to proceed.</strong>";
+                        }
+                
                 }
                     ?>
 				</div>
