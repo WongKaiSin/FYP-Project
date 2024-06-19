@@ -111,7 +111,7 @@ function displayStars($rating) {
 
                             $query = $db_conn->query($sql);
                             if ($query && $row = $query->fetch_assoc()) {
-                                $profit = $row["profit"];
+                                $profit = $row["profit"] !== null ? (float)$row["profit"] : 0.00;
                             } else {
                                 $profit = 0;
                             }
